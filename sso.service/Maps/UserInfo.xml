@@ -1,0 +1,311 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+
+<sqlMap
+	namespace="sso.service"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="UserInfo" assembly="sso.service.dll" type="sso.service.UserInfo, sso.service" />
+  </alias>
+
+  <resultMaps>
+
+    <resultMap id="UserInfoResult" class="UserInfo">
+      <result property="Id" column="Id" />
+      <result property="Name" column="Name" />
+      <result property="NickName" column="NickName" />
+      <result property="Tel" column="Tel" />
+      <result property="Mail" column="Mail" />
+      <result property="Psw" column="Psw" />
+      <result property="Status" column="Status" />
+      <result property="CreateTime" column="CreateTime" />
+    </resultMap>
+  </resultMaps>
+
+  <parameterMaps>
+
+    <parameterMap id="UserInfoParams" class="UserInfo">
+      <parameter property="Id" column="Id" />
+      <parameter property="Name" column="Name" />
+      <parameter property="NickName" column="NickName" />
+      <parameter property="Tel" column="Tel" />
+      <parameter property="Mail" column="Mail" />
+      <parameter property="Psw" column="Psw" />
+      <parameter property="Status" column="Status" />
+      <parameter property="CreateTime" column="CreateTime" />
+    </parameterMap>
+
+    <parameterMap id="UpdateUserInfoParams" extends="UserInfoParams" class="UserInfo">
+      <parameter property="Id" column="Id" />
+    </parameterMap>
+
+  </parameterMaps>
+
+  <statements>
+
+    <select id="GetUserInfoCount"  resultClass="int">
+      SELECT count(*)
+      FROM UserInfo;
+    </select>
+
+    <select id="GetUserInfo"  parameterClass="UserInfo" resultMap="UserInfoResult">
+      SELECT *
+      FROM UserInfo
+      WHERE (Id = #Id#) ;
+    </select>
+
+    <select id="GetUserInfoByPara"  parameterClass="UserInfo" resultMap="UserInfoResult">
+      SELECT *
+      FROM UserInfo
+      <dynamic prepend="WHERE" >
+        <isNotEmpty prepend="AND" property="Id" >
+          Id = #Id#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="Name" >
+          ( Name = #Name# or Id = #Name# )
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="NickName" >
+          NickName =  #NickName#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="Tel" >
+          Tel =  #Tel#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="Mail" >
+          Mail =  #Mail#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="Psw" >
+          Psw =  #Psw#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="Status" >
+          Status =  #Status#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="CreateTime_S" >
+          CreateTime between #CreateTime_S# and #CreateTime_D#
+        </isNotEmpty>
+      </dynamic>
+
+    </select>
+
+    <select id="GetUserInfoList" parameterClass="string" resultMap="UserInfoResult">
+      SELECT *
+      FROM UserInfo
+      <dynamic prepend="Order By" >
+        <isNotEmpty prepend="Order By" property="_OrderBy">
+          <isEqual compareValue="CreateTime" property="_OrderBy">
+            CreateTime
+          </isEqual>
+          <isEqual compareValue="CreateTime_D" property="_OrderBy">
+            CreateTime desc
+          </isEqual>
+        </isNotEmpty>
+      </dynamic>
+    </select>
+    <select id="QueryUserInfoCount" parameterClass="Hashtable" resultClass="int">
+      SELECT count(*)
+      FROM UserInfo
+      <dynamic prepend="WHERE" >
+        <isNotEmpty prepend="AND" property="Id" >
+          Id = #Id#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="Name" >
+          Name = #Name# 
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="NickName" >
+          NickName =  #NickName#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="Tel" >
+          Tel =  #Tel#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="Mail" >
+          Mail =  #Mail#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="Psw" >
+          Psw =  #Psw#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="Status" >
+          Status =  #Status#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="CreateTime_S" >
+          CreateTime between #CreateTime_S# and #CreateTime_D#
+        </isNotEmpty>
+      </dynamic>
+    </select>
+    
+    <select id="CheckUser" parameterClass="Hashtable" resultClass="int">
+      SELECT count(*)
+      FROM UserInfo
+      <dynamic prepend="WHERE" >
+        <isNotEmpty prepend="AND" property="Name" >
+          Name = #Name# or Id = #Name#
+        </isNotEmpty>
+      </dynamic>
+    </select>
+
+    <select id="QueryUserInfoList" parameterClass="Hashtable" resultMap="UserInfoResult">
+      SELECT *
+      FROM UserInfo
+      <dynamic prepend="WHERE" >
+        <isNotEmpty prepend="AND" property="Id" >
+          Id = #Id#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="Name" >
+          Name = #Name#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="NickName" >
+          NickName =  #NickName#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="Tel" >
+          Tel =  #Tel#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="Mail" >
+          Mail =  #Mail#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="Psw" >
+          Psw =  #Psw#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="Status" >
+          Status =  #Status#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="CreateTime_S" >
+          CreateTime between #CreateTime_S# and #CreateTime_D#
+        </isNotEmpty>
+      </dynamic>
+      <dynamic prepend="Order By" >
+        <isNotEmpty prepend="Order By" property="_OrderBy" >
+          <isEqual compareValue="CreateTime" property="_OrderBy">
+            CreateTime
+          </isEqual>
+          <isEqual compareValue="CreateTime_D" property="_OrderBy">
+            CreateTime desc
+          </isEqual>
+        </isNotEmpty>
+      </dynamic>
+    </select>
+
+    <insert id="InsertUserInfo" parameterMap="UserInfoParams">
+      <generate table="UserInfo" />
+    </insert>
+
+    <delete id="DeleteUserInfo" parameterClass="UserInfo">
+      DELETE FROM UserInfo WHERE (Id = #Id#) ;
+    </delete>
+
+    <select id="DeleteUserInfoByPara" parameterClass="UserInfo">
+      DELETE FROM UserInfo
+      <dynamic prepend="WHERE" >
+        <isNotEmpty prepend="AND" property="Id" >
+          Id = #Id#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="Name" >
+          Name = #Name#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="NickName" >
+          NickName =  #NickName#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="Tel" >
+          Tel =  #Tel#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="Mail" >
+          Mail =  #Mail#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="Psw" >
+          Psw =  #Psw#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="Status" >
+          Status =  #Status#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="CreateTime_S" >
+          CreateTime between #CreateTime_S# and #CreateTime_D#
+        </isNotEmpty>
+      </dynamic>
+    </select>
+
+    <update id="UpdateUserInfo" parameterMap="UpdateUserInfoParams">
+      UPDATE UserInfo SET
+      Id = ?,
+      Name = ?,
+      NickName = ?,
+      Tel = ?,
+      Mail = ?,
+      Psw = ?,
+      Status = ?,
+      CreateTime = ?
+      WHERE Id = ?;
+    </update>
+
+    <select id="UpdateUserInfoByPara" parameterClass="UserInfo">
+      UPDATE UserInfo
+      <dynamic prepend="Set" >
+
+        <isNotEmpty prepend="," property="Id" >
+          Id = #Id#
+        </isNotEmpty>
+
+        <isNotEmpty prepend="," property="Name" >
+          Name = #Name#
+        </isNotEmpty>
+
+        <isNotEmpty prepend="," property="NickName" >
+          NickName = #NickName#
+        </isNotEmpty>
+
+        <isNotEmpty prepend="," property="Tel" >
+          Tel = #Tel#
+        </isNotEmpty>
+
+        <isNotEmpty prepend="," property="Mail" >
+          Mail = #Mail#
+        </isNotEmpty>
+
+        <isNotEmpty prepend="," property="Psw" >
+          Psw = #Psw#
+        </isNotEmpty>
+
+        <isNotEmpty prepend="," property="Status" >
+          Status = #Status#
+        </isNotEmpty>
+
+        <isNotEmpty prepend="," property="CreateTime" >
+          CreateTime = #CreateTime#
+        </isNotEmpty>
+      </dynamic>
+      <dynamic prepend="Where" >
+
+        <isNotEmpty prepend="AND" property="Id" >
+          Id = #Id#
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="Name" >
+          Name = #Name#
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="NickName" >
+          NickName = #NickName#
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="Tel" >
+          Tel = #Tel#
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="Mail" >
+          Mail = #Mail#
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="Psw" >
+          Psw = #Psw#
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="Status" >
+          Status = #Status#
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="CreateTime" >
+          CreateTime = #CreateTime#
+        </isNotEmpty>
+      </dynamic>
+    </select>
+
+  </statements>
+
+</sqlMap>

@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Maps\UserInfo.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Maps\UserInfo.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MySql.Data" Version="8.0.18" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\service.core\service.core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="IBatisNet.Common">
+      <HintPath>..\pubLib\IBatisNet.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="IBatisNet.DataAccess">
+      <HintPath>..\pubLib\IBatisNet.DataAccess.dll</HintPath>
+    </Reference>
+    <Reference Include="IBatisNet.DataMapper">
+      <HintPath>..\pubLib\IBatisNet.DataMapper.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

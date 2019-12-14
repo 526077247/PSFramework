@@ -1,0 +1,14 @@
+[Unit]
+Description=sso Service
+
+[Service]
+WorkingDirectory=/dotnet
+ExecStart=/usr/bin/dotnet /home/sso/sso.dll
+Restart=always
+# Restart service after 10 seconds if the dotnet service crashes:
+RestartSec=10
+SyslogIdentifier=sso.Service
+User=root
+Environment=ASPNETCORE_ENVIRONMENT=Production
+Environment=DOTNET_PRINT_TELEMETRY_MESSAGE=false
+

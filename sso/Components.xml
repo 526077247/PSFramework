@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <components>
+    <component type="service.core.DaoManager, service.core" service="service.core.IDaoManager, service.core"/>
+    <component type="service.core.CacheManager, service.core" service="service.core.ICacheManager, service.core"/>
+    
+    <!--用户管理-->
+    <component id="UserInfoMgeSvr"  type="sso.service.UserInfoMgeSvr, sso.service" service="sso.service.IUserInfoMgeSvr, sso.service"/>
+    <!--登录管理-->
+    <component id="LoginMgeSvr"  type="sso.service.LoginMgeSvr, sso.service" service="sso.service.ILoginMgeSvr, sso.service"/>
+  </components>
+</configuration>
