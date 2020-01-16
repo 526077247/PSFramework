@@ -1,0 +1,315 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>sso.service</name>
+    </assembly>
+    <members>
+        <member name="M:sso.service.UserInfoDao.CheckUser(System.String)">
+            <summary>
+            检测Id和Name相同的用户个数
+            </summary>
+            <param name="para"></param>
+            <returns></returns>
+        </member>
+        <member name="M:sso.service.UserInfoDao.Delete(System.Object)">
+            <summary>
+            删除
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:sso.service.UserInfoDao.Get(System.Object)">
+            <summary>
+            取
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:sso.service.UserInfoDao.GetByPara(System.Collections.Hashtable)">
+            <summary>
+            条件取
+            </summary>
+            <param name="para"></param>
+            <returns></returns>
+        </member>
+        <member name="M:sso.service.UserInfoDao.Insert(System.Object)">
+            <summary>
+            插入
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:sso.service.UserInfoDao.QueryCount(System.Collections.Hashtable)">
+            <summary>
+            条件查数量
+            </summary>
+            <param name="map"></param>
+            <returns></returns>
+        </member>
+        <member name="M:sso.service.UserInfoDao.QueryList(System.Collections.Hashtable,System.Int32,System.Int32)">
+            <summary>
+            条件查列表
+            </summary>
+            <param name="map"></param>
+            <param name="start"></param>
+            <param name="paseSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:sso.service.UserInfoDao.Update(System.Object)">
+            <summary>
+            更新
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="P:sso.service.BasicUserInfo.NickName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:sso.service.BasicUserInfo.CreateTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:sso.service.LoginResult.Token">
+            <summary>
+            会话标识
+            </summary>
+        </member>
+        <member name="P:sso.service.LoginResult.NickName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:sso.service.LoginResult.Name">
+            <summary>
+            账号名
+            </summary>
+        </member>
+        <member name="P:sso.service.LoginResult.LoginTime">
+            <summary>
+            上线时间
+            </summary>
+        </member>
+        <member name="P:sso.service.LoginResult.Effective">
+            <summary>
+            有效时间
+            </summary>
+        </member>
+        <member name="P:sso.service.UserDetails.Name">
+            <summary>
+            用户登录名
+            </summary>
+        </member>
+        <member name="P:sso.service.UserDetails.Tel">
+            <summary>
+            电话号码
+            </summary>
+        </member>
+        <member name="P:sso.service.UserDetails.Mail">
+            <summary>
+            邮箱
+            </summary>
+        </member>
+        <member name="P:sso.service.UserInfo.Id">
+            <summary>
+            用户ID
+            </summary>
+        </member>
+        <member name="P:sso.service.UserInfo.Psw">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="P:sso.service.UserInfo.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="M:sso.service.LoginMgeSvr.Login(System.String,System.String)">
+            <summary>
+            登录
+            </summary>
+            <param name="user"></param>
+            <param name="psw"></param>
+            <returns></returns>
+        </member>
+        <member name="M:sso.service.LoginMgeSvr.Refresh(System.String)">
+            <summary>
+            刷新会话
+            </summary>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:sso.service.LoginMgeSvr.Logout(System.String)">
+            <summary>
+            下线
+            </summary>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:sso.service.LoginMgeSvr.GetAuthorizationCode(System.String,System.String)">
+            <summary>
+            获取一次性授权码
+            </summary>
+            <param name="user"></param>
+            <param name="psw"></param>
+            <returns></returns>
+        </member>
+        <member name="M:sso.service.LoginMgeSvr.LoginByCode(System.String)">
+            <summary>
+            通过授权码登录
+            </summary>
+            <param name="code"></param>
+            <returns></returns>
+        </member>
+        <member name="M:sso.service.LoginMgeSvr.GetLoginInfo(System.String)">
+            <summary>
+            获取登录信息
+            </summary>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:sso.service.UserInfoMgeSvr.CheckUserName(System.String)">
+            <summary>
+            检测用户名是否存在
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:sso.service.UserInfoMgeSvr.RegisterUser(System.String,System.String,System.String)">
+            <summary>
+            注册用户
+            </summary>
+            <param name="name"></param>
+            <param name="nickName"></param>
+            <param name="psw"></param>
+            <returns></returns>
+        </member>
+        <member name="M:sso.service.UserInfoMgeSvr.RegisterUserDetails(sso.service.UserInfo)">
+            <summary>
+            注册用户
+            </summary>
+            <param name="userInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:sso.service.UserInfoMgeSvr.ChangePsw(System.String,System.String,System.String)">
+            <summary>
+            修改密码
+            </summary>
+            <param name="user"></param>
+            <param name="oldPsw"></param>
+            <param name="newPsw"></param>
+            <returns></returns>
+        </member>
+        <member name="M:sso.service.UserInfoMgeSvr.GetUser(System.String)">
+            <summary>
+            获取用户信息
+            </summary>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:sso.service.UserInfoMgeSvr.UpdateUser(System.String,System.String,System.String,System.String)">
+            <summary>
+            修改昵称电话邮箱信息
+            </summary>
+            <param name="token"></param>
+            <param name="tel"></param>
+            <param name="mail"></param>
+            <returns></returns>
+        </member>
+        <member name="M:sso.service.ILoginMgeSvr.Login(System.String,System.String)">
+            <summary>
+            登录
+            </summary>
+            <param name="user"></param>
+            <param name="psw"></param>
+            <returns></returns>
+        </member>
+        <member name="M:sso.service.ILoginMgeSvr.Refresh(System.String)">
+            <summary>
+            刷新会话
+            </summary>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:sso.service.ILoginMgeSvr.Logout(System.String)">
+            <summary>
+            下线
+            </summary>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:sso.service.ILoginMgeSvr.GetAuthorizationCode(System.String,System.String)">
+            <summary>
+            获取一次性授权码
+            </summary>
+            <param name="user"></param>
+            <param name="psw"></param>
+            <returns></returns>
+        </member>
+        <member name="M:sso.service.ILoginMgeSvr.LoginByCode(System.String)">
+            <summary>
+            通过授权码登录
+            </summary>
+            <param name="code"></param>
+            <returns></returns>
+        </member>
+        <member name="M:sso.service.ILoginMgeSvr.GetLoginInfo(System.String)">
+            <summary>
+            获取登录信息
+            </summary>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:sso.service.IUserInfoMgeSvr.RegisterUser(System.String,System.String,System.String)">
+            <summary>
+            注册用户
+            </summary>
+            <param name="name"></param>
+            <param name="nickName"></param>
+            <param name="psw"></param>
+            <returns></returns>
+        </member>
+        <member name="M:sso.service.IUserInfoMgeSvr.CheckUserName(System.String)">
+            <summary>
+            检测用户名是否存在
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:sso.service.IUserInfoMgeSvr.RegisterUserDetails(sso.service.UserInfo)">
+            <summary>
+            注册用户
+            </summary>
+            <param name="userInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:sso.service.IUserInfoMgeSvr.ChangePsw(System.String,System.String,System.String)">
+            <summary>
+            修改密码
+            </summary>
+            <param name="user"></param>
+            <param name="oldPsw"></param>
+            <param name="newPsw"></param>
+            <returns></returns>
+        </member>
+        <member name="M:sso.service.IUserInfoMgeSvr.GetUser(System.String)">
+            <summary>
+            获取用户信息
+            </summary>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:sso.service.IUserInfoMgeSvr.UpdateUser(System.String,System.String,System.String,System.String)">
+            <summary>
+            修改昵称电话邮箱信息
+            </summary>
+            <param name="token"></param>
+            <param name="tel"></param>
+            <param name="mail"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

@@ -4,6 +4,20 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>.\sso.service\sso.service.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>.\sso.service\sso.service.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="sso.service\**" />
+    <EmbeddedResource Remove="sso.service\**" />
+    <None Remove="sso.service\**" />
+  </ItemGroup>
+
   <ItemGroup>
     <None Remove="Maps\UserInfo.xml" />
   </ItemGroup>

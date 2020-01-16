@@ -4,6 +4,13 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DocumentationFile>.\sso\sso.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <Reference Include="IBatisNet.Common">
       <HintPath>..\pubLib\IBatisNet.Common.dll</HintPath>

@@ -1,0 +1,512 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>service.core</name>
+    </assembly>
+    <members>
+        <member name="M:service.core.ICacheManager.GetCache(System.String)">
+            <summary>
+            取缓存
+            </summary>
+            <param name="CacheName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.CacheManager.GetCache(System.String)">
+            <summary>
+            取缓存
+            </summary>
+            <param name="CacheName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.ICacheMgeSvr.Put(System.String,System.Object,System.Int32)">
+            <summary>
+            增加/修改
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.ICacheMgeSvr.Get``1(System.String)">
+            <summary>
+            查询
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.ICacheMgeSvr.Delete(System.String)">
+            <summary>
+            删除
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.ICacheMgeSvr.Exists(System.String)">
+            <summary>
+            是否存在key
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.ICacheMgeSvr.HPut(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            批量存
+            </summary>
+            <param name="dic"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.ICacheMgeSvr.HGet(System.Collections.Generic.Dictionary{System.String,System.Object}@)">
+            <summary>
+            批量取
+            </summary>
+            <param name="dic"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.ICacheMgeSvr.Keys(System.String)">
+            <summary>
+            查询匹配所有Key
+            </summary>
+            <param name="pattern"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.RedisMgeSvr.Put(System.String,System.Object,System.Int32)">
+            <summary>
+            增加/修改
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.RedisMgeSvr.Get``1(System.String)">
+            <summary>
+            查询
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.RedisMgeSvr.Delete(System.String)">
+            <summary>
+            删除
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.RedisMgeSvr.Exists(System.String)">
+            <summary>
+            是否存在key
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.RedisMgeSvr.HPut(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            批量存
+            </summary>
+            <param name="dic"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.RedisMgeSvr.HGet(System.Collections.Generic.Dictionary{System.String,System.Object}@)">
+            <summary>
+            批量取
+            </summary>
+            <param name="dic"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.RedisMgeSvr.Keys(System.String)">
+            <summary>
+            查询匹配所有Key
+            </summary>
+            <param name="pattern"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.AssxHelper.GetSvrIntfInfo(System.String)">
+            <summary>
+            取服务列表
+            </summary>
+            <param name="SvrID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.AssxHelper.GetSvrStr(System.Type,System.Collections.Generic.List{System.Xml.Linq.XElement})">
+            <summary>
+            取服务接口列表
+            </summary>
+            <param name="intf"></param>
+            <param name="notes"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.AssxHelper.GetSvrMethodStr(System.Reflection.MethodInfo,System.Collections.Generic.List{System.Xml.Linq.XElement})">
+            <summary>
+            取方法
+            </summary>
+            <param name="method"></param>
+            <param name="notes"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.AssxHelper.GetSvrMethodNotes(System.Reflection.MethodInfo,System.Collections.Generic.List{System.Xml.Linq.XElement})">
+            <summary>
+            取注释
+            </summary>
+            <param name="svrID"></param>
+            <param name="method"></param>
+            <param name="notes"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.HttpResultHelper.GetRestfulHttpResult(Microsoft.AspNetCore.Http.HttpContext,System.String,System.String)">
+            <summary>
+            调用接口
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.HttpResultHelper.GetHttpResult(Microsoft.AspNetCore.Http.HttpContext,System.String,System.String)">
+            <summary>
+            调用接口
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.HttpResultHelper.CreateFailResult(System.String)">
+            <summary>
+            创建错误返回值
+            </summary>
+            <param name="Reason"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.HttpResultHelper.CreateFailResult2(System.String)">
+            <summary>
+            创建错误返回值
+            </summary>
+            <param name="Reason"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.HttpResultHelper.CreateOffLineResult(System.String)">
+            <summary>
+            创建未登录返回值
+            </summary>
+            <param name="Reason"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.HttpResultHelper.CreateOffLineResult2(System.String)">
+            <summary>
+            创建未登录返回值
+            </summary>
+            <param name="Reason"></param>
+            <returns></returns>
+        </member>
+        <member name="T:service.core.HttpManagerMiddleware">
+            <summary>
+            通过反射调用服务
+            </summary>
+        </member>
+        <member name="T:service.core.Jump404Middleware">
+            <summary>
+            当页面为404时跳到主页
+            </summary>
+        </member>
+        <member name="M:service.core.TsHelper.GeTsScriptsClient(Microsoft.AspNetCore.Http.HttpContext,System.String)">
+            <summary>
+            获取ts工具服务
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.TsHelper.CreateTsServer(System.Type,System.String,System.String,System.String)">
+            <summary>
+            创建指定服务的ts类
+            </summary>
+            <param name="def">服务</param>
+            <param name="ServerPath">服务路径或id</param>
+            <param name="response">返回类型json或text</param>
+            <returns>js类</returns>
+        </member>
+        <member name="M:service.core.TsHelper.CreateJsMethodParamObj(System.Reflection.MethodInfo,System.Collections.Generic.ICollection{System.String},System.String)">
+            <summary>
+            参数用对象传递
+            </summary>
+            <param name="meth"></param>
+            <param name="objs"></param>
+            <param name="response"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.TsHelper.GetParamObj(System.Collections.Generic.IList{System.Reflection.ParameterInfo},System.Text.StringBuilder,System.Collections.Generic.IList{System.Reflection.ParameterInfo})">
+            <summary>
+            用对象的方式处理参数
+            </summary>
+            <param name="parInfos"></param>
+            <param name="ScriptStr"></param>
+        </member>
+        <member name="M:service.core.TsHelper.dealParam(System.Collections.Generic.ICollection{System.String},System.Text.StringBuilder,System.Text.StringBuilder,System.Boolean,System.Collections.Generic.ICollection{System.Reflection.ParameterInfo},System.Reflection.ParameterInfo)">
+            <summary>
+            处理参数
+            </summary>
+            <param name="objs"></param>
+            <param name="pars"></param>
+            <param name="parsdata"></param>
+            <param name="first"></param>
+            <param name="optionparams"></param>
+            <param name="par"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.TsHelper.getparastr(System.Reflection.ParameterInfo)">
+            <summary>
+            参数拼接
+            </summary>
+            <param name="par"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.TsHelper.TypeIsObject(System.Type)">
+            <summary>
+            判断类是否对象
+            </summary>
+            <param name="ctype"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.TsHelper.IsNoShowType(System.Type)">
+            <summary>
+            判断类是否动态类和HashTable
+            </summary>
+            <param name="ctype"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.TsHelper.IsList(System.Type)">
+            <summary>
+            判断类是否动态类和HashTable
+            </summary>
+            <param name="ctype"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.TsHelper.GetTStype(System.Type)">
+            <summary>
+            对应TS类名
+            </summary>
+            <param name="ctype"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.TsHelper.AppendToStringBuilder(System.Text.StringBuilder,System.String,System.Int32)">
+            <summary>
+            将一行字符串加入到StringBuilder里
+            </summary>
+            <param name="sb">加入到的StringBuilder</param>
+            <param name="appendStr">需要添加的字符串</param>
+            <param name="indentCount">字符串前缩进次数</param>
+        </member>
+        <member name="M:service.core.BaseDao.Delete(System.Object,System.String)">
+            <summary>
+            删除
+            </summary>
+            <param name="obj"></param>
+            <param name="sqlmap"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.BaseDao.Get(System.Object,System.String)">
+            <summary>
+            取
+            </summary>
+            <param name="para"></param>
+            <param name="sqlmap"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.BaseDao.Insert(System.Object,System.String)">
+            <summary>
+            添加
+            </summary>
+            <param name="obj"></param>
+            <param name="sqlmap"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.BaseDao.QueryCount(System.Object,System.String)">
+            <summary>
+            查数量
+            </summary>
+            <param name="para"></param>
+            <param name="sqlmap"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.BaseDao.QueryList(System.Object,System.String,System.Int32,System.Int32)">
+            <summary>
+            查列表
+            </summary>
+            <param name="para"></param>
+            <param name="sqlmap"></param>
+            <param name="start"></param>
+            <param name="pageSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.BaseDao.Update(System.Object,System.String)">
+            <summary>
+            修改
+            </summary>
+            <param name="obj"></param>
+            <param name="sqlmap"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.DaoManager.GetDao``1">
+            <summary>
+            取Dao实例
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.IBaseDao.Insert(System.Object,System.String)">
+            <summary>
+            添加
+            </summary>
+            <param name="obj"></param>
+            <param name="sqlmap"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.IBaseDao.Delete(System.Object,System.String)">
+            <summary>
+            删除
+            </summary>
+            <param name="obj"></param>
+            <param name="sqlmap"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.IBaseDao.Update(System.Object,System.String)">
+            <summary>
+            修改
+            </summary>
+            <param name="obj"></param>
+            <param name="sqlmap"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.IBaseDao.Get(System.Object,System.String)">
+            <summary>
+            取
+            </summary>
+            <param name="para"></param>
+            <param name="sqlmap"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.IBaseDao.QueryCount(System.Object,System.String)">
+            <summary>
+            查数量
+            </summary>
+            <param name="para"></param>
+            <param name="sqlmap"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.IBaseDao.QueryList(System.Object,System.String,System.Int32,System.Int32)">
+            <summary>
+            查列表
+            </summary>
+            <param name="para"></param>
+            <param name="sqlmap"></param>
+            <param name="satrt"></param>
+            <param name="pageSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.IDao.Insert(System.Object)">
+            <summary>
+            添加
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.IDao.Delete(System.Object)">
+            <summary>
+            删除
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.IDao.Update(System.Object)">
+            <summary>
+            修改
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.IDao.Get(System.Object)">
+            <summary>
+            取
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.IDao.GetByPara(System.Collections.Hashtable)">
+            <summary>
+            条件取
+            </summary>
+            <param name="para"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.IDao.QueryList(System.Collections.Hashtable,System.Int32,System.Int32)">
+            <summary>
+            查列表
+            </summary>
+            <param name="map"></param>
+            <param name="start"></param>
+            <param name="paseSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.IDao.QueryCount(System.Collections.Hashtable)">
+            <summary>
+            查数量
+            </summary>
+            <param name="map"></param>
+            <returns></returns>
+        </member>
+        <member name="P:service.core.Result.code">
+            <summary>
+            代码
+            </summary>
+        </member>
+        <member name="P:service.core.Result.msg">
+            <summary>
+            信息
+            </summary>
+        </member>
+        <member name="P:service.core.Result.data">
+            <summary>
+            数据
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:service.core.Utils.GuidToString(System.Int32)" -->
+        <member name="M:service.core.AppServiceBase.GetVersion">
+            <summary>
+            取版本号
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.IAppServiceBase.GetVersion">
+            <summary>
+            取版本号
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.ServiceManager.GetService``1(System.String)">
+            <summary>
+            取Service实例
+            </summary>
+            <typeparam name="TService"></typeparam>
+            <param name="SvrID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.ServiceManager.GetService(System.String,System.Type)">
+            <summary>
+            取Service实例
+            </summary>
+            <param name="SvrID"></param>
+            <param name="serviceType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.ServiceManager.GetService(System.Type)">
+            <summary>
+            取Service实例
+            </summary>
+            <typeparam name="TService"></typeparam>
+            <param name="SvrID"></param>
+            <param name="serviceType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.ServiceManager.GetTypeFromAssembly(System.String,System.Reflection.Assembly)">
+            <summary>
+            根据类名取类
+            </summary>
+            <param name="typeName"></param>
+            <param name="assembly"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

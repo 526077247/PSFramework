@@ -4,6 +4,10 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>.\service.core\service.core.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Castle.Core" Version="4.4.0" />
     <PackageReference Include="Castle.Windsor" Version="5.0.1" />
@@ -15,6 +19,7 @@
     <PackageReference Include="MySql.Data" Version="8.0.18" />
     <PackageReference Include="ServiceStack.Redis" Version="5.7.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.0-preview3.19551.4" />
+    <PackageReference Include="System.Xml.XmlDocument" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
