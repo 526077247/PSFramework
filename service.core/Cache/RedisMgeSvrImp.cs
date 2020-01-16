@@ -76,13 +76,10 @@ namespace service.core
             }
             catch (Exception ex)
             {
-                return false;
+                throw new Exception(string.Format("{0}:{1}发生异常!{2}", "cache", "增加/修改", key));
             }
             return true;
         }
-
-
-
         /// <summary>
         /// 查询
         /// </summary>
@@ -111,7 +108,7 @@ namespace service.core
             }
             catch
             {
-
+                throw new Exception(string.Format("{0}:{1}发生异常!{2}", "cache", "查询", key));
             }
             return obj;
         }
@@ -137,7 +134,7 @@ namespace service.core
             }
             catch
             {
-                return false;
+                throw new Exception(string.Format("{0}:{1}发生异常!{2}", "cache", "删除", key));
             }
             return true;
         }
@@ -170,7 +167,6 @@ namespace service.core
         /// <summary>
         /// 批量存
         /// </summary>
-        /// <param name="groupID"></param>
         /// <param name="dic"></param>
         /// <returns></returns>
         public bool HPut(Dictionary<string, object> dic)
@@ -193,7 +189,7 @@ namespace service.core
             }
             catch
             {
-                return false;
+                throw new Exception(string.Format("{0}:{1}发生异常!{2}", "cache", "批量存", dic.Count));
             }
             return true;
         }
@@ -201,7 +197,6 @@ namespace service.core
         /// 批量取
         /// </summary>
         /// <param name="dic"></param>
-        /// <param name="pattern"></param>
         /// <returns></returns>
         public bool HGet(out Dictionary<string, object> dic)
         {
@@ -221,10 +216,36 @@ namespace service.core
             }
             catch
             {
-                return false;
+                throw new Exception(string.Format("{0}:{1}发生异常!{2}", "cache", "批量取", dic.Count));
             }
             return true;
 
+        }
+        /// <summary>
+        /// 查询匹配所有Key
+        /// </summary>
+        /// <param name="pattern"></param>
+        /// <returns></returns>
+        public List<string> Keys(string pattern)
+        {
+            List<string> result = new List<string>();
+            try
+            {
+                if (pool != null)
+                {
+                    using var r = pool.GetClient();
+                    if (r != null)
+                    {
+                        r.SendTimeout = 1000;
+                        result = r.SearchKeys(pattern);
+                    }
+                }
+            }
+            catch
+            {
+                throw new Exception(string.Format("{0}:{1}发生异常!{2}", "cache", "查询匹配", pattern));
+            }
+            return result;
         }
         #endregion
 

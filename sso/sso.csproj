@@ -36,4 +36,6 @@
     </None>
   </ItemGroup>
 
+  <ProjectExtensions><VisualStudio><UserProperties hosting_1json__JsonSchema="http://json.schemastore.org/babelrc" /></VisualStudio></ProjectExtensions>
+
 </Project>

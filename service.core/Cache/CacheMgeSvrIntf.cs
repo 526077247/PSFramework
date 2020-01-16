@@ -36,7 +36,6 @@ namespace service.core
         /// <summary>
         /// 批量存
         /// </summary>
-        /// <param name="groupID"></param>
         /// <param name="dic"></param>
         /// <returns></returns>
         bool HPut(Dictionary<string, object> dic);
@@ -44,10 +43,14 @@ namespace service.core
         /// 批量取
         /// </summary>
         /// <param name="dic"></param>
-        /// <param name="pattern"></param>
         /// <returns></returns>
         bool HGet(out Dictionary<string, object> dic);
-        
+        /// <summary>
+        /// 查询匹配所有Key
+        /// </summary>
+        /// <param name="pattern"></param>
+        /// <returns></returns>
+        List<string> Keys(string pattern);
     }
 
 

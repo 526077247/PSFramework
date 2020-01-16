@@ -48,9 +48,10 @@ namespace sso.service
                     Token = Utils.GuidToString(),
                     LoginTime = DateTime.Now,
                     Name = userInfo.Name,
-                    NickName = userInfo.NickName
+                    NickName = userInfo.NickName,
+                    Effective = 3600 * 12
                 };
-                if(!_CacheMgeSvr.Put(result.Token, result))
+                if(!_CacheMgeSvr.Put(result.Token, result, 3600 * 12))
                     throw new Exception("服务器繁忙请稍后再试");
             }
             else
@@ -70,7 +71,8 @@ namespace sso.service
             result = _CacheMgeSvr.Get<LoginResult>(token);
             if (result != null)
             {
-                if(!_CacheMgeSvr.Put(token, result))
+                result.LoginTime = DateTime.Now;
+                if (!_CacheMgeSvr.Put(token, result, 3600 * 12))
                     throw new Exception("服务器繁忙请稍后再试");
             }
             else

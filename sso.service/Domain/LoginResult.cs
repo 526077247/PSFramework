@@ -22,5 +22,9 @@ namespace sso.service
         /// 上线时间
         /// </summary>
         public DateTime LoginTime { get; set; }
+        /// <summary>
+        /// 有效时间
+        /// </summary>
+        public int Effective { get; set; }
     }
 }

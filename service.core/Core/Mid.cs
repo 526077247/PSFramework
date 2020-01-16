@@ -36,19 +36,35 @@ namespace service.core
             string path = context.Request.Path;
             path = path.EndsWith("/") ? path.Substring(0, path.Length - 1) : path;
             string[] paths = path.Split("/");
-            if (paths.Length == 3&& paths[1]=="api"&& paths[2].EndsWith(".assx"))
+            if (paths.Length == 3&& paths[1]=="api"&& paths[2].EndsWith(".rsfs"))
             {
-                string SvrID = paths[2].Replace(".assx","");
+                string SvrID = paths[2].Replace(".rsfs", "");
 
                 string result = AssxHelper.GetSvrIntfInfo(SvrID);
                 context.Response.ContentType = "text/plain; charset=utf-8";
                 await context.Response.WriteAsync(result);
             }
+            else if (paths.Length == 3 && paths[1] == "api" && paths[2].EndsWith(".assx"))
+            {
+                string SvrID = paths[2].Replace(".assx", "");
+
+                string result = AssxHelper.GetSvrIntfInfo(SvrID);
+                context.Response.ContentType = "text/plain; charset=utf-8";
+                await context.Response.WriteAsync(result);
+            }
+            else if (paths.Length == 4 && paths[1] == "api" && paths[2].EndsWith(".rsfs"))
+            {
+                string SvrID = paths[2].Replace(".rsfs", "");
+                string method = paths[3];
+                Result result = HttpResultHelper.GetRestfulHttpResult(context, SvrID, method);
+                context.Response.ContentType = "text/plain; charset=utf-8";
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(result));
+            }
             else if(paths.Length == 4 && paths[1] == "api" && paths[2].EndsWith(".assx"))
             {
                 string SvrID = paths[2].Replace(".assx", "");
                 string method = paths[3];
-                Result result = HttpResultHelper.GetHttpResult(context,SvrID, method);
+                object result = HttpResultHelper.GetHttpResult(context,SvrID, method);
                 context.Response.ContentType = "text/plain; charset=utf-8";
                 await context.Response.WriteAsync(JsonConvert.SerializeObject(result));
             }
