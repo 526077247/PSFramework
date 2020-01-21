@@ -87,22 +87,40 @@ namespace service.core
                                     {
                                         if (values.Files.Count > 0)
                                             objs[i] = values.Files[0];
+                                        else
+                                            throw new Exception($"参数{infos[i]}未找到");
                                     }
                                     else if (infos[i].ParameterType == typeof(IFormCollection))
                                     {
                                         if (values.Files.Count > 0)
                                             objs[i] = values.Files;
+                                        else
+                                            throw new Exception($"参数{infos[i]}未找到");
                                     }
                                     else
                                     {
-                                        if (values != null && values.ContainsKey(infos[i].Name))
+                                        var items = context.Request.Query[infos[i].Name];
+                                        if (!infos[i].HasDefaultValue)
                                         {
-
-                                            objs[i] = ChangeValueToType(values[infos[i].Name].ToString(), infos[i].ParameterType);
+                                            if (items.Count == 0)
+                                            {
+                                                throw new Exception($"参数{infos[i]}未找到");
+                                            }
+                                            else
+                                            {
+                                                objs[i] = ChangeValueToType(items[0].ToString(), infos[i].ParameterType);
+                                            }
                                         }
                                         else
                                         {
-                                            objs[i] = ChangeValueToType(context.Request.Query[infos[i].Name].ToString(), infos[i].ParameterType); 
+                                            if (items.Count == 0)
+                                            {
+                                                objs[i] = infos[i].DefaultValue;
+                                            }
+                                            else
+                                            {
+                                                objs[i] = ChangeValueToType(items[0].ToString(), infos[i].ParameterType);
+                                            }
                                         }
                                     }
                                 }
@@ -209,11 +227,15 @@ namespace service.core
                                     {
                                         if (values.Files.Count > 0)
                                             objs[i] = values.Files[0];
+                                        else
+                                            throw new Exception($"参数{infos[i]}未找到");
                                     }
                                     else if (infos[i].ParameterType == typeof(IFormCollection))
                                     {
                                         if (values.Files.Count > 0)
                                             objs[i] = values.Files;
+                                        else
+                                            throw new Exception($"参数{infos[i]}未找到");
                                     }
                                     else
                                     {
@@ -224,9 +246,33 @@ namespace service.core
                                         }
                                         else
                                         {
-                                            objs[i] = ChangeValueToType(context.Request.Query[infos[i].Name].ToString(), infos[i].ParameterType);
+                                            var items = context.Request.Query[infos[i].Name];
+                                            if (!infos[i].HasDefaultValue)
+                                            {
+                                                if (items.Count == 0)
+                                                {
+                                                    throw new Exception($"参数{infos[i]}未找到");
+                                                }
+                                                else
+                                                {
+                                                    objs[i] = ChangeValueToType(items[0].ToString(), infos[i].ParameterType);
+                                                }
+                                            }
+                                            else
+                                            {
+                                                if (items.Count == 0)
+                                                {
+                                                    objs[i] = infos[i].DefaultValue;
+                                                }
+                                                else
+                                                {
+                                                    objs[i] = ChangeValueToType(items[0].ToString(), infos[i].ParameterType);
+                                                }
+                                            }
                                         }
                                     }
+
+
                                 }
                                 return realmethod.Invoke(obj, objs);
                             }
@@ -244,12 +290,12 @@ namespace service.core
                 if (ex.Message.StartsWith("CUSTOMRESULT"))
                 {
                     string jsonStr = ex.Message["CUSTOMRESULT:".Length..];
-                    Result  res= JsonConvert.DeserializeObject<Result>(jsonStr);
+                    Result res = JsonConvert.DeserializeObject<Result>(jsonStr);
                     result.errCode = res.code;
                     result.errMsg = res.msg;
                 }
                 else
-                    result = CreateFailResult2(ex.ToString());
+                    result = CreateFailResult2(ex.Message.ToString());
             }
             return result;
         }
