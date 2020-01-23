@@ -55,5 +55,17 @@ namespace service.core
             }
             return obj;
         }
+        /// <summary>
+        /// 将byte数组转换成对象
+        /// </summary>
+        /// <param name="stream">被转换byte数组</param>
+        /// <returns>转换完成后的对象</returns>
+        public static object Stream2Object(Stream stream)
+        {
+            object obj;
+            IFormatter iFormatter = new BinaryFormatter();
+            obj = iFormatter.Deserialize(stream);
+            return obj;
+        }
     }
 }

@@ -8,5 +8,7 @@
     <component id="UserInfoMgeSvr"  type="sso.service.UserInfoMgeSvr, sso.service" service="sso.service.IUserInfoMgeSvr, sso.service"/>
     <!--登录管理-->
     <component id="LoginMgeSvr"  type="sso.service.LoginMgeSvr, sso.service" service="sso.service.ILoginMgeSvr, sso.service"/>
+    <!--测试服务-->
+    <component id="TestSvr"  type="sso.service.TestSvr, sso.service" service="sso.service.ITestSvr, sso.service"/>
   </components>
 </configuration>

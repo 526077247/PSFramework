@@ -520,6 +520,22 @@
             <param name="buff">被转换byte数组</param>
             <returns>转换完成后的对象</returns>
         </member>
+        <member name="M:service.core.ByteConvertHelper.Stream2Object(System.IO.Stream)">
+            <summary>
+            将byte数组转换成对象
+            </summary>
+            <param name="stream">被转换byte数组</param>
+            <returns>转换完成后的对象</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:service.core.HttpPostHelper.doHttpPost(System.String,System.String)" -->
+        <member name="M:service.core.HttpPostHelper.HttpPostForTimeOut(System.String,System.String)">
+            <summary>
+            偶发性超时时试看看
+            </summary>
+            <param name="url"></param>
+            <param name="postData"></param>
+            <returns></returns>
+        </member>
         <!-- Badly formed XML comment ignored for member "M:service.core.Utils.GuidToString(System.Int32)" -->
         <member name="M:service.core.AppServiceBase.GetVersion">
             <summary>
