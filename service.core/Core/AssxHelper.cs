@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,21 +16,25 @@ namespace service.core
         /// <summary>
         /// 取服务列表
         /// </summary>
+        /// <param name="context"></param>
         /// <param name="SvrID"></param>
         /// <returns></returns>
-        public static string GetSvrIntfInfo(string SvrID)
+        public static string GetSvrIntfInfo(HttpContext context, string SvrID)
         {
             string result;
-            if (string.IsNullOrEmpty(ConfigurationManager.Configuration["Services:" + SvrID + ":SvrID"]))
+            var path = Path.GetFullPath("wwwroot" + context.Request.Path.ToString().Replace(".rsfs", ".json").Replace(".assx", ".json").Replace(".proxy",".json")).ToString();
+            if (path.EndsWith('/')|| path.EndsWith('\\'))
+                path = path[0..^1];
+            if (!File.Exists(path))
             {
                 return "服务未定义" + SvrID;
             }
             else
             {
-                string IntfAss = ConfigurationManager.Configuration["Services:" + SvrID + ":IntfAssembly"];
-                string IntfName = ConfigurationManager.Configuration["Services:" + SvrID + ":IntfName"];
-                Type intf = ServiceManager.GetTypeFromAssembly(IntfName, Assembly.Load(IntfAss));
-                string notePath = AppDomain.CurrentDomain.BaseDirectory + "/" + IntfAss + ".xml";
+                string jstr = File.ReadAllText(path);
+                ServiceDefine serviceDefine = JsonConvert.DeserializeObject<ServiceDefine>(jstr);
+                Type intf = ServiceManager.GetTypeFromAssembly(serviceDefine.IntfName, Assembly.Load(serviceDefine.IntfAssembly));
+                string notePath = AppDomain.CurrentDomain.BaseDirectory + "/" + serviceDefine.IntfAssembly + ".xml";
                 List<XElement> elements = new List<XElement>();
                 if (File.Exists(notePath))
                 {
@@ -52,7 +57,7 @@ namespace service.core
                 }
                 else
                 {
-                    return "未找到接口定义" + IntfAss + "." + IntfName;
+                    return "未找到接口定义" + serviceDefine.IntfName;
                 }
             }
             return result;
@@ -109,7 +114,6 @@ namespace service.core
         /// <summary>
         /// 取注释
         /// </summary>
-        /// <param name="svrID"></param>
         /// <param name="method"></param>
         /// <param name="notes"></param>
         /// <returns></returns>
@@ -117,6 +121,10 @@ namespace service.core
         {
             foreach(var item in notes)
             {
+                if (!item.Attribute("name").ToString().Contains("M:"))
+                {
+                    continue;
+                }
                 if(item.Attribute("name").ToString().Contains(method.Name)&&item.Attribute("name").ToString().Contains(method.Module.Assembly.GetName().Name))
                 {
                     StringBuilder SB = new StringBuilder();

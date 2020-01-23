@@ -2,3 +2,5 @@
 publish
 bin
 obj
+sso/config/SqlMap.config
+sso/config/SqlMap.config

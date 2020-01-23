@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -21,19 +22,23 @@ namespace service.core
         /// 获取ts工具服务
         /// </summary>
         /// <param name="context"></param>
+        /// <param name="SvrID"></param>
         /// <returns></returns>
         public static string GeTsScriptsClient(HttpContext context, string SvrID)
         {
-            if (string.IsNullOrEmpty(ConfigurationManager.Configuration["Services:" + SvrID + ":SvrID"]))
+            var path = Path.GetFullPath("wwwroot" + context.Request.Path.ToString().Replace(".sts", ".json").ToString());
+            if (path.EndsWith('/') || path.EndsWith('\\'))
+                path = path[0..^1];
+            if (!File.Exists(path))
             {
                 return "服务未定义" + SvrID;
             }
             else
             {
-                string IntfAss = ConfigurationManager.Configuration["Services:" + SvrID + ":IntfAssembly"];
-                string IntfName = ConfigurationManager.Configuration["Services:" + SvrID + ":IntfName"];
-                Type serviceDefine = ServiceManager.GetTypeFromAssembly(IntfName, Assembly.Load(IntfAss));
-                if (serviceDefine != null)
+                string jstr = File.ReadAllText(path);
+                ServiceDefine serviceDefine = JsonConvert.DeserializeObject<ServiceDefine>(jstr);
+                Type intf = ServiceManager.GetTypeFromAssembly(serviceDefine.IntfName, Assembly.Load(serviceDefine.IntfAssembly));
+                if (intf != null)
                 {
 
                     string text = "";
@@ -56,7 +61,7 @@ namespace service.core
                     if (Uri.TryCreate(context.Request.GetDisplayUrl(), UriKind.Absolute, out Uri uri))
                     {
                         string serverPath = uri.AbsolutePath;
-                        string text2 = CreateTsServer(serviceDefine, serverPath, responsetype, svrName);
+                        string text2 = CreateTsServer(intf, serverPath, responsetype, svrName);
                         if (!string.IsNullOrEmpty(text))
                         {
                             text2 = text + "(" + JsonConvert.SerializeObject(text2) + ");";
@@ -68,7 +73,7 @@ namespace service.core
                 }
                 else
                 {
-                    return "未找到接口定义" + IntfAss + "." + IntfName;
+                    return "未找到接口定义" + serviceDefine.IntfName;
                 }
             }
 

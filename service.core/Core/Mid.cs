@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -36,23 +37,41 @@ namespace service.core
             string path = context.Request.Path;
             path = path.EndsWith("/") ? path.Substring(0, path.Length - 1) : path;
             string[] paths = path.Split("/");
-            if (paths.Length == 3&& paths[1]=="api"&& paths[2].EndsWith(".rsfs"))
+            if (paths.Length == 3 && paths[2].EndsWith(".rsfs"))
             {
                 string SvrID = paths[2].Replace(".rsfs", "");
 
-                string result = AssxHelper.GetSvrIntfInfo(SvrID);
+                string result = AssxHelper.GetSvrIntfInfo(context, SvrID);
                 context.Response.ContentType = "text/plain; charset=utf-8";
                 await context.Response.WriteAsync(result);
             }
-            else if (paths.Length == 3 && paths[1] == "api" && paths[2].EndsWith(".assx"))
+            else if (paths.Length == 3 && paths[2].EndsWith(".proxy"))
+            {
+                string SvrID = paths[2].Replace(".proxy", "");
+
+                string result = AssxHelper.GetSvrIntfInfo(context, SvrID);
+                context.Response.ContentType = "text/plain; charset=utf-8";
+                await context.Response.WriteAsync(result);
+            }
+            else if (paths.Length == 3 && paths[2].EndsWith(".assx"))
             {
                 string SvrID = paths[2].Replace(".assx", "");
 
-                string result = AssxHelper.GetSvrIntfInfo(SvrID);
+                string result = AssxHelper.GetSvrIntfInfo(context, SvrID);
                 context.Response.ContentType = "text/plain; charset=utf-8";
                 await context.Response.WriteAsync(result);
             }
-            else if (paths.Length == 4 && paths[1] == "api" && paths[2].EndsWith(".rsfs"))
+            else if (paths.Length == 4 && paths[2].EndsWith(".proxy"))
+            {
+                string SvrID = paths[2].Replace(".proxy", "");
+                string method = paths[3];
+                object result = HttpResultHelper.GetProxyHttpResult(context, SvrID, method);
+                var stream = ByteConvertHelper.Object2Bytes(result);
+                context.Response.ContentType = "application/octet-stream";
+                context.Response.ContentLength = stream.Length;
+                await context.Response.Body.WriteAsync(stream);
+            }
+            else if (paths.Length == 4 && paths[2].EndsWith(".rsfs"))
             {
                 string SvrID = paths[2].Replace(".rsfs", "");
                 string method = paths[3];
@@ -60,15 +79,15 @@ namespace service.core
                 context.Response.ContentType = "text/plain; charset=utf-8";
                 await context.Response.WriteAsync(JsonConvert.SerializeObject(result));
             }
-            else if(paths.Length == 4 && paths[1] == "api" && paths[2].EndsWith(".assx"))
+            else if (paths.Length == 4 && paths[2].EndsWith(".assx"))
             {
                 string SvrID = paths[2].Replace(".assx", "");
                 string method = paths[3];
-                object result = HttpResultHelper.GetHttpResult(context,SvrID, method);
+                object result = HttpResultHelper.GetHttpResult(context, SvrID, method);
                 context.Response.ContentType = "text/plain; charset=utf-8";
                 await context.Response.WriteAsync(JsonConvert.SerializeObject(result));
             }
-            else if (paths.Length == 3 && paths[1] == "api" && paths[2].EndsWith(".sts"))
+            else if (paths.Length == 3 && paths[2].EndsWith(".sts"))
             {
                 string SvrID = paths[2].Replace(".sts", "");
                 string result = TsHelper.GeTsScriptsClient(context, SvrID);
@@ -79,7 +98,7 @@ namespace service.core
             {
                 await next.Invoke(context);
             }
-            
+
         }
 
     }

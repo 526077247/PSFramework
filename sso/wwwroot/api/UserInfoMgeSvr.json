@@ -1,0 +1,5 @@
+{
+  "SvrID": "UserInfoMgeSvr",
+  "IntfName": "sso.service.IUserInfoMgeSvr",
+  "IntfAssembly": "sso.service"
+}

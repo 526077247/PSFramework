@@ -37,8 +37,6 @@ namespace service.core
         /// <summary>
         /// 取Service实例
         /// </summary>
-        /// <typeparam name="TService"></typeparam>
-        /// <param name="SvrID"></param>
         /// <param name="serviceType"></param>
         /// <returns></returns>
         public static object GetService(Type serviceType)
@@ -56,7 +54,7 @@ namespace service.core
             Type[] types = assembly.GetTypes();
             foreach (var t in types)
             {
-                if (t.Name == typeName)
+                if (t.FullName == typeName)
                 {
                     return t;
                 }

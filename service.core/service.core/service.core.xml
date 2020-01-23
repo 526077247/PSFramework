@@ -118,10 +118,11 @@
             <param name="pattern"></param>
             <returns></returns>
         </member>
-        <member name="M:service.core.AssxHelper.GetSvrIntfInfo(System.String)">
+        <member name="M:service.core.AssxHelper.GetSvrIntfInfo(Microsoft.AspNetCore.Http.HttpContext,System.String)">
             <summary>
             取服务列表
             </summary>
+            <param name="context"></param>
             <param name="SvrID"></param>
             <returns></returns>
         </member>
@@ -145,23 +146,53 @@
             <summary>
             取注释
             </summary>
-            <param name="svrID"></param>
             <param name="method"></param>
             <param name="notes"></param>
             <returns></returns>
         </member>
         <member name="M:service.core.HttpResultHelper.GetRestfulHttpResult(Microsoft.AspNetCore.Http.HttpContext,System.String,System.String)">
             <summary>
-            调用接口
+            调用接口(restful封装)
             </summary>
             <param name="context"></param>
+            <param name="SvrID"></param>
+            <param name="method"></param>
             <returns></returns>
         </member>
         <member name="M:service.core.HttpResultHelper.GetHttpResult(Microsoft.AspNetCore.Http.HttpContext,System.String,System.String)">
             <summary>
-            调用接口
+            调用接口(结果)
             </summary>
             <param name="context"></param>
+            <param name="SvrID"></param>
+            <param name="method"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.HttpResultHelper.GetProxyHttpResult(Microsoft.AspNetCore.Http.HttpContext,System.String,System.String)">
+            <summary>
+            调用接口(比特流)
+            </summary>
+            <param name="context"></param>
+            <param name="SvrID"></param>
+            <param name="method"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.HttpResultHelper.GetServiceResult(Microsoft.AspNetCore.Http.HttpContext,System.Type,service.core.ServiceDefine,System.String)">
+            <summary>
+            反射调用方法获取执行结果
+            </summary>
+            <param name="context"></param>
+            <param name="intf"></param>
+            <param name="serviceDefine"></param>
+            <param name="method"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.HttpResultHelper.ChangeValueToType(System.String,System.Type)">
+            <summary>
+            转换类型
+            </summary>
+            <param name="value"></param>
+            <param name="type"></param>
             <returns></returns>
         </member>
         <member name="M:service.core.HttpResultHelper.CreateFailResult(System.String)">
@@ -207,6 +238,7 @@
             获取ts工具服务
             </summary>
             <param name="context"></param>
+            <param name="SvrID"></param>
             <returns></returns>
         </member>
         <member name="M:service.core.TsHelper.CreateTsServer(System.Type,System.String,System.String,System.String)">
@@ -462,6 +494,32 @@
             数据
             </summary>
         </member>
+        <member name="T:service.core.ByteConvertHelper">
+            <summary>
+            工具类：对象与二进制流间的转换
+            </summary>
+        </member>
+        <member name="M:service.core.ByteConvertHelper.Object2Bytes(System.Object)">
+            <summary>
+            将对象转换为byte数组
+            </summary>
+            <param name="obj">被转换对象</param>
+            <returns>转换后byte数组</returns>
+        </member>
+        <member name="M:service.core.ByteConvertHelper.Object2Stream(System.Object)">
+            <summary>
+            将对象转换为byte数组
+            </summary>
+            <param name="obj">被转换对象</param>
+            <returns>转换后byte数组</returns>
+        </member>
+        <member name="M:service.core.ByteConvertHelper.Bytes2Object(System.Byte[])">
+            <summary>
+            将byte数组转换成对象
+            </summary>
+            <param name="buff">被转换byte数组</param>
+            <returns>转换完成后的对象</returns>
+        </member>
         <!-- Badly formed XML comment ignored for member "M:service.core.Utils.GuidToString(System.Int32)" -->
         <member name="M:service.core.AppServiceBase.GetVersion">
             <summary>
@@ -495,8 +553,6 @@
             <summary>
             取Service实例
             </summary>
-            <typeparam name="TService"></typeparam>
-            <param name="SvrID"></param>
             <param name="serviceType"></param>
             <returns></returns>
         </member>
