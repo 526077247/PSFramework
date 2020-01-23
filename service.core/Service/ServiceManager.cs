@@ -1,4 +1,5 @@
-﻿using Castle.Windsor;
+﻿using Castle.MicroKernel.Registration;
+using Castle.Windsor;
 using Castle.Windsor.Configuration.Interpreters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -61,6 +62,8 @@ namespace service.core
             }
             return null;
         }
+
+        
     }
-  
+
 }

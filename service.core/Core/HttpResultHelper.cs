@@ -38,6 +38,7 @@ namespace service.core
                     string jstr = File.ReadAllText(path);
                     ServiceDefine serviceDefine = JsonConvert.DeserializeObject<ServiceDefine>(jstr);
                     Type intf = ServiceManager.GetTypeFromAssembly(serviceDefine.IntfName, Assembly.Load(serviceDefine.IntfAssembly));
+                    
                     if (intf != null)
                     {
                         result.data = GetServiceResult(context,intf,serviceDefine,method);

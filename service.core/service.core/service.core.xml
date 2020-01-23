@@ -537,6 +537,21 @@
             <returns></returns>
         </member>
         <!-- Badly formed XML comment ignored for member "M:service.core.Utils.GuidToString(System.Int32)" -->
+        <member name="M:service.core.DynamicProxySvrInvocation.Intercept(Castle.DynamicProxy.IInvocation)">
+            <summary>
+            拦截器
+            </summary>
+            <param name="invocation"></param>
+        </member>
+        <member name="M:service.core.DynServerFactory.CreateServer``1(System.String,System.String)">
+            <summary>
+            创建代理服务
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="url"></param>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
         <member name="M:service.core.AppServiceBase.GetVersion">
             <summary>
             取版本号
