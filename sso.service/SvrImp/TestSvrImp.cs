@@ -21,7 +21,7 @@ namespace sso.service
         [PublishMethod]
         public string Post()
         {
-            IUserInfoMgeSvr p = DynServerFactory.CreateServer<IUserInfoMgeSvr>("http://127.0.0.1:8081/api/UserInfoMgeSvr.proxy/GetVersion", "stream");
+            IUserInfoMgeSvr p = DynServerFactory.CreateServer<IUserInfoMgeSvr>("http://127.0.0.1:8081/api/UserInfoMgeSvr.proxy", "stream");
 
             //执行方法看效果   
 
