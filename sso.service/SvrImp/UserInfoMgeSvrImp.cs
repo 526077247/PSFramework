@@ -7,12 +7,15 @@ using System.Text;
 
 namespace sso.service
 {
+    /// <summary>
+    /// 用户信息管理服务
+    /// </summary>
     public class UserInfoMgeSvr : AppServiceBase, IUserInfoMgeSvr
     {
         #region 服务描述
-        private IDaoManager daoManager = null;
-        private IUserInfoDao _UserInfoDao = null;
-        private ILoginMgeSvr _LoginMgeSvr = null;
+        private readonly IDaoManager daoManager = null;
+        private readonly IUserInfoDao _UserInfoDao = null;
+        private readonly ILoginMgeSvr _LoginMgeSvr = null;
         public UserInfoMgeSvr() : base()
         {
             daoManager = (IDaoManager)ServiceManager.GetService(typeof(IDaoManager));
@@ -157,6 +160,7 @@ namespace sso.service
         /// 修改昵称电话邮箱信息
         /// </summary>
         /// <param name="token"></param>
+        /// <param name="nickName"></param>
         /// <param name="tel"></param>
         /// <param name="mail"></param>
         /// <returns></returns>

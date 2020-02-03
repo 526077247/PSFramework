@@ -552,6 +552,15 @@
             <param name="type"></param>
             <returns></returns>
         </member>
+        <member name="M:service.core.DynServerFactory.CreateServer(System.String,System.Type,System.String)">
+            <summary>
+            创建代理服务
+            </summary>
+            <param name="url"></param>
+            <param name="intftype"></param>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
         <member name="M:service.core.AppServiceBase.GetVersion">
             <summary>
             取版本号

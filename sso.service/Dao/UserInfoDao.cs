@@ -10,6 +10,11 @@ namespace sso.service
 
     public interface IUserInfoDao : IBaseDao, IDao
     {
+        /// <summary>
+        /// 检测Id和Name相同的用户个数
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         int CheckUser(string name);
     }
 
@@ -19,7 +24,7 @@ namespace sso.service
         /// <summary>
         /// 检测Id和Name相同的用户个数
         /// </summary>
-        /// <param name="para"></param>
+        /// <param name="name"></param>
         /// <returns></returns>
         public int CheckUser(string name)
         {
@@ -99,3 +104,4 @@ namespace sso.service
         #endregion
     }
 }
+

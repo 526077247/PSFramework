@@ -9,10 +9,10 @@ namespace sso.service
     {
         #region 服务描述
 
-        private IDaoManager daoManager = null;
-        private IUserInfoDao _UserInfoDao = null;
-        private ICacheManager cacheManager = null;
-        private ICacheMgeSvr _CacheMgeSvr = null;
+        private readonly IDaoManager daoManager = null;
+        private readonly IUserInfoDao _UserInfoDao = null;
+        private readonly ICacheManager cacheManager = null;
+        private readonly ICacheMgeSvr _CacheMgeSvr = null;
         public LoginMgeSvr() : base()
         {
             daoManager = (IDaoManager)ServiceManager.GetService(typeof(IDaoManager));

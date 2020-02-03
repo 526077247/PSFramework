@@ -7,6 +7,7 @@ namespace service.core
 {
     public class DynServerFactory
     {
+        private static readonly ProxyGenerator Generator = new ProxyGenerator();
         /// <summary>
         /// 创建代理服务
         /// </summary>
@@ -17,7 +18,6 @@ namespace service.core
         public static T CreateServer<T>(string url,string type="json")
         {
             DynamicProxySvrInvocation Interceptor = new DynamicProxySvrInvocation(url, type);   
-            ProxyGenerator Generator = new ProxyGenerator();
             T p = (T)Generator.CreateInterfaceProxyWithoutTarget(typeof(T),Interceptor);
             return p;
         }
@@ -31,7 +31,6 @@ namespace service.core
         public static object CreateServer(string url, Type intftype, string type = "json")
         {
             DynamicProxySvrInvocation Interceptor = new DynamicProxySvrInvocation(url, type);
-            ProxyGenerator Generator = new ProxyGenerator();
             object p = Generator.CreateInterfaceProxyWithoutTarget(intftype, Interceptor);
             return p;
         }
