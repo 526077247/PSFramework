@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
-
 using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
 using System;
@@ -197,13 +196,13 @@ namespace service.core
             else
                 AppendToStringBuilder(ScriptStr, $"resolve(res.data as {retunrtype});", 5);
             AppendToStringBuilder(ScriptStr, "}", 4);
-            AppendToStringBuilder(ScriptStr, "}, err =>{", 3);
-            AppendToStringBuilder(ScriptStr, "reject(err)", 4);
+            AppendToStringBuilder(ScriptStr, "}, err => {", 3);
+            AppendToStringBuilder(ScriptStr, "reject(err);", 4);
             AppendToStringBuilder(ScriptStr, "});", 3);
             AppendToStringBuilder(ScriptStr, "});", 2);
             AppendToStringBuilder(ScriptStr, "}", 1);
 
-            return ScriptStr.ToString();
+            return ScriptStr.ToString().Replace("`1", "");
         }
         /// <summary>
         /// 用对象的方式处理参数

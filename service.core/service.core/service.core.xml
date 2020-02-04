@@ -479,6 +479,32 @@
             <param name="map"></param>
             <returns></returns>
         </member>
+        <member name="T:service.core.DataList`1">
+            <summary>
+            数据列表
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:service.core.DataList`1.total">
+            <summary>
+            总数
+            </summary>
+        </member>
+        <member name="P:service.core.DataList`1.start">
+            <summary>
+            当前起始位置
+            </summary>
+        </member>
+        <member name="P:service.core.DataList`1.pageSize">
+            <summary>
+            分页大小
+            </summary>
+        </member>
+        <member name="P:service.core.DataList`1.list">
+            <summary>
+            列表
+            </summary>
+        </member>
         <member name="P:service.core.Result.code">
             <summary>
             代码

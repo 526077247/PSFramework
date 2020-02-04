@@ -22,7 +22,7 @@ namespace service.core
             Result result = CreateFailResult("");
             try
             {
-                var path = Directory.GetParent("wwwroot"+context.Request.Path.ToString().Replace(".rsfs", ".json")).ToString();
+                var path = Directory.GetParent("wwwroot" + context.Request.Path.ToString().Replace(".rsfs", ".json")).ToString();
                 if (!File.Exists(path))
                 {
                     result = CreateFailResult("服务未定义" + SvrID);
@@ -38,16 +38,16 @@ namespace service.core
                     string jstr = File.ReadAllText(path);
                     ServiceDefine serviceDefine = JsonConvert.DeserializeObject<ServiceDefine>(jstr);
                     Type intf = ServiceManager.GetTypeFromAssembly(serviceDefine.IntfName, Assembly.Load(serviceDefine.IntfAssembly));
-                    
+
                     if (intf != null)
                     {
-                        result.data = GetServiceResult(context,intf,serviceDefine,method);
+                        result.data = GetServiceResult(context, intf, serviceDefine, method);
                         result.code = (int)TYPE_OF_RESULT_TYPE.success;
                         result.msg = "Success";
                     }
                     else
                     {
-                        result = CreateFailResult("未找到接口定义" +  serviceDefine.IntfName + "  ;");
+                        result = CreateFailResult("未找到接口定义" + serviceDefine.IntfName + "  ;");
                     }
                 }
 
@@ -166,7 +166,7 @@ namespace service.core
         /// <param name="serviceDefine"></param>
         /// <param name="method"></param>
         /// <returns></returns>
-        private static object GetServiceResult(HttpContext context,Type intf, ServiceDefine serviceDefine, string method)
+        private static object GetServiceResult(HttpContext context, Type intf, ServiceDefine serviceDefine, string method)
         {
             IFormCollection values = null;
             try
@@ -205,11 +205,11 @@ namespace service.core
                         ICheckLoginMgeSvr checkLoginMgeSvr = (ICheckLoginMgeSvr)ServiceManager.GetService(typeof(ICheckLoginMgeSvr));
                         if (checkLoginMgeSvr == null)
                         {
-                            HttpHander.ReturnCustomResult((int)TYPE_OF_RESULT_TYPE.failure,"服务ICheckLoginMgeSvr未实现或未添加");
+                            HttpHander.ReturnCustomResult((int)TYPE_OF_RESULT_TYPE.failure, "服务ICheckLoginMgeSvr未实现或未添加");
                         }
                         if (!checkLoginMgeSvr.CheckLogin(token))
                         {
-                            HttpHander.ReturnCustomResult((int)TYPE_OF_RESULT_TYPE.offline,"用户未登录");
+                            HttpHander.ReturnCustomResult((int)TYPE_OF_RESULT_TYPE.offline, "用户未登录");
                         }
                     }
                     ParameterInfo[] infos = realmethod.GetParameters();
@@ -233,6 +233,10 @@ namespace service.core
                         else
                         {
                             var items = context.Request.Query[infos[i].Name];
+                            if (items.Count == 0)
+                            {
+                                items = context.Request.Form[infos[i].Name];
+                            }
                             if (!infos[i].HasDefaultValue)
                             {
                                 if (items.Count == 0)
@@ -270,9 +274,14 @@ namespace service.core
         /// <returns></returns>
         private static object ChangeValueToType(string value, Type type)
         {
-            object result = Convert.ChangeType(value, type);
+            object result = null;
+            try
+            {
+                result = Convert.ChangeType(value, type);
+            }
+            catch { }
             if (result == null)
-                result = JsonConvert.DeserializeObject(value);
+                result = JsonConvert.DeserializeObject(value, type);
             return result;
 
         }

@@ -13,8 +13,16 @@ namespace service.core
 {
     public static class ServiceManager
     {
-        private static IWindsorContainer container = new WindsorContainer(new XmlInterpreter(ConfigurationManager.Configuration.GetSection("servicesfile").Value));
-        
+        private static IWindsorContainer container = null;
+        public static void UseHttpManager(this IServiceCollection app)
+        {
+            if (!string.IsNullOrEmpty(ConfigurationManager.Configuration.GetSection("servicesfile").Value))
+            {
+                container = new WindsorContainer(new XmlInterpreter(ConfigurationManager.Configuration.GetSection("servicesfile").Value));
+            }
+        }
+
+
         /// <summary>
         /// 取Service实例
         /// </summary>
@@ -23,6 +31,10 @@ namespace service.core
         /// <returns></returns>
         public static TService GetService<TService>(string SvrID) where TService : class
         {
+            if (container == null)
+            {
+                throw new Exception("servicesfile未配置");
+            }
             return container.Resolve<TService>(SvrID);
         }
         /// <summary>
@@ -33,7 +45,11 @@ namespace service.core
         /// <returns></returns>
         public static object GetService(string SvrID, Type serviceType)
         {
-            return container.Resolve(SvrID,serviceType);
+            if (container == null)
+            {
+                throw new Exception("servicesfile未配置");
+            }
+            return container.Resolve(SvrID, serviceType);
         }
         /// <summary>
         /// 取Service实例
@@ -42,6 +58,10 @@ namespace service.core
         /// <returns></returns>
         public static object GetService(Type serviceType)
         {
+            if (container == null)
+            {
+                throw new Exception("servicesfile未配置");
+            }
             return container.Resolve(serviceType);
         }
         /// <summary>
@@ -63,7 +83,7 @@ namespace service.core
             return null;
         }
 
-        
+
     }
 
 }

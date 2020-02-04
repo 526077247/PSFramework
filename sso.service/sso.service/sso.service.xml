@@ -4,11 +4,18 @@
         <name>sso.service</name>
     </assembly>
     <members>
+        <member name="M:sso.service.IUserInfoDao.CheckUser(System.String)">
+            <summary>
+            检测Id和Name相同的用户个数
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
         <member name="M:sso.service.UserInfoDao.CheckUser(System.String)">
             <summary>
             检测Id和Name相同的用户个数
             </summary>
-            <param name="para"></param>
+            <param name="name"></param>
             <returns></returns>
         </member>
         <member name="M:sso.service.UserInfoDao.Delete(System.Object)">
@@ -171,6 +178,11 @@
             <param name="token"></param>
             <returns></returns>
         </member>
+        <member name="T:sso.service.UserInfoMgeSvr">
+            <summary>
+            用户信息管理服务
+            </summary>
+        </member>
         <member name="M:sso.service.UserInfoMgeSvr.CheckUserName(System.String)">
             <summary>
             检测用户名是否存在
@@ -215,6 +227,7 @@
             修改昵称电话邮箱信息
             </summary>
             <param name="token"></param>
+            <param name="nickName"></param>
             <param name="tel"></param>
             <param name="mail"></param>
             <returns></returns>
