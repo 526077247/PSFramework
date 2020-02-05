@@ -505,6 +505,11 @@
             列表
             </summary>
         </member>
+        <member name="M:service.core.DataList`1.#ctor">
+            <summary>
+            构造函数
+            </summary>
+        </member>
         <member name="P:service.core.Result.code">
             <summary>
             代码

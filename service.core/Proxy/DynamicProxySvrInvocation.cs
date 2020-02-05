@@ -13,6 +13,8 @@ namespace service.core
         public DynamicProxySvrInvocation(string url, string type)
         {
             _url = url;
+            if (_url.EndsWith("/"))
+                _url = _url[0..^1];
             _type = type;
 
         }
@@ -24,17 +26,16 @@ namespace service.core
         {
             if (_type == "stream")
             {
-                invocation.ReturnValue = HttpPostHelper.PostStream(_url, GetpstData(invocation));
+                invocation.ReturnValue = HttpPostHelper.PostStream(_url + "/" + invocation.Method.Name, GetpstData(invocation));
             }
             else if (_type == "json")
             {
-                invocation.ReturnValue = HttpPostHelper.PostJson(_url, GetpstData(invocation));
+                invocation.ReturnValue = HttpPostHelper.PostJson(_url + "/" + invocation.Method.Name, GetpstData(invocation), invocation.Method.ReturnType);
             }
             else
             {
                 invocation.ReturnValue = "type定义出错";
             }
-
         }
 
 

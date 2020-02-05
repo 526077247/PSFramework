@@ -1,8 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <configuration>
-  <facilities>
-    <facility id="wcf" type="Castle.Facilities.WcfIntegration.WcfFacility,Castle.Facilities.WcfIntegration" />
-  </facilities>
   <components>
     <component type="service.core.DaoManager, service.core" service="service.core.IDaoManager, service.core"/>
     <component type="service.core.CacheManager, service.core" service="service.core.ICacheManager, service.core"/>
