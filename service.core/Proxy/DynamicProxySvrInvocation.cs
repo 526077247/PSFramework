@@ -45,7 +45,10 @@ namespace service.core
             var Parameters = invocation.Method.GetParameters();
             for (int i = 0; i < Parameters.Length; i++)
             {
-                builder.Append(Parameters[i].Name + "=" + JsonConvert.SerializeObject(invocation.Arguments[i]) + "&");
+                if (invocation.Arguments[i].ToString().StartsWith("{"))
+                    builder.Append(Parameters[i].Name + "=" + JsonConvert.SerializeObject(invocation.Arguments[i]) + "&");
+                else
+                    builder.Append(Parameters[i].Name + "=" + invocation.Arguments[i].ToString() + "&");
             }
             string result = builder.ToString();
             if (result.EndsWith("&"))

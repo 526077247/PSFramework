@@ -60,7 +60,7 @@ namespace service.core
                     result = JsonConvert.DeserializeObject<Result>(jsonStr);
                 }
                 else
-                    result = CreateFailResult(ex.ToString());
+                    result = CreateFailResult(ex.Message.ToString());
             }
             return result;
         }
@@ -202,6 +202,14 @@ namespace service.core
                     if (realmethod.GetCustomAttribute(typeof(CheckLoginAttribute)) != null)
                     {
                         string token = context.Request.Query["token"].ToString();
+                        if (string.IsNullOrEmpty(token))
+                        {
+                            try
+                            {
+                                token = context.Request.Form["token"];
+                            }
+                            catch { }
+                        }
                         ICheckLoginMgeSvr checkLoginMgeSvr = (ICheckLoginMgeSvr)ServiceManager.GetService(typeof(ICheckLoginMgeSvr));
                         if (checkLoginMgeSvr == null)
                         {
@@ -235,7 +243,11 @@ namespace service.core
                             var items = context.Request.Query[infos[i].Name];
                             if (items.Count == 0)
                             {
-                                items = context.Request.Form[infos[i].Name];
+                                try
+                                {
+                                    items = context.Request.Form[infos[i].Name];
+                                }
+                                catch { }
                             }
                             if (!infos[i].HasDefaultValue)
                             {
