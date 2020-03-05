@@ -150,6 +150,11 @@
             <param name="notes"></param>
             <returns></returns>
         </member>
+        <member name="T:service.core.HttpResultHelper">
+            <summary>
+            http服务核心
+            </summary>
+        </member>
         <member name="M:service.core.HttpResultHelper.GetRestfulHttpResult(Microsoft.AspNetCore.Http.HttpContext,System.String,System.String)">
             <summary>
             调用接口(restful封装)
@@ -222,6 +227,11 @@
             </summary>
             <param name="Reason"></param>
             <returns></returns>
+        </member>
+        <member name="M:service.core.HttpResultHelper.GetFormData(System.String,System.Text.Encoding)">
+            <summary>
+            将获取的formData存入字典数组
+            </summary>
         </member>
         <member name="T:service.core.HttpManagerMiddleware">
             <summary>
