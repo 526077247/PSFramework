@@ -202,7 +202,7 @@ namespace service.core
             AppendToStringBuilder(ScriptStr, "});", 2);
             AppendToStringBuilder(ScriptStr, "}", 1);
 
-            return ScriptStr.ToString().Replace("`1", "");
+            return ScriptStr.ToString().Replace("`1","");
         }
         /// <summary>
         /// 用对象的方式处理参数

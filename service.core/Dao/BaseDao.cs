@@ -1,79 +1,150 @@
-﻿using IBatisNet.DataMapper;
+﻿using IBatisNet.DataAccess;
+using IBatisNet.DataAccess.DaoSessionHandlers;
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Text;
+using IBatisNet.Common.Exceptions;
+using IBatisNet.Common.Pagination;
+using IBatisNet.DataAccess.Interfaces;
+using IBatisNet.DataMapper;
 
 namespace service.core
 {
-    public class BaseDao : IBaseDao
+    public class BaseDao : IDao
     {
         #region 服务描述
-        public ISqlMapper mapper;
+        protected SqlMapper sqlMapper;
+        protected SqlMapper GetLocalSqlMap()
+        {
+            if (sqlMapper == null)
+            {
+                IDaoManager daoManager = DaoManager.GetInstance("SqlMapDao");
+                SqlMapDaoSession sqlMapDaoSession = (SqlMapDaoSession)daoManager.LocalDaoSession;
+                sqlMapper = (SqlMapper)sqlMapDaoSession.SqlMap;
+            }
+            return sqlMapper;
+        }
         #endregion
         #region IBaseDao函数
-        /// <summary>
-        /// 删除
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="sqlmap"></param>
-        /// <returns></returns>
-        public int Delete(object obj, string sqlmap)
-        {
-            return mapper.Delete(sqlmap, obj);
-        }
-        /// <summary>
-        /// 取
-        /// </summary>
-        /// <param name="para"></param>
-        /// <param name="sqlmap"></param>
-        /// <returns></returns>
-        public object Get(object para, string sqlmap)
-        {
-            return mapper.QueryForObject(sqlmap, para);
-        }
+
         /// <summary>
         /// 添加
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="sqlmap"></param>
         /// <returns></returns>
-        public object Insert(object obj, string sqlmap)
+        protected object Insert(object obj, string sqlmap)
         {
-            return mapper.Insert(sqlmap, obj);
+            ISqlMapper localSqlMap = GetLocalSqlMap();
+            object result;
+            try
+            {
+                result = localSqlMap.Insert(sqlmap, obj);
+            }
+            catch (Exception ex)
+            {
+                throw new IBatisNetException("Error executing query '" + sqlmap + "' for insert.  Cause: " + ex.Message, ex);
+            }
+            return result;
         }
         /// <summary>
-        /// 查数量
+        /// 删除
         /// </summary>
-        /// <param name="para"></param>
+        /// <param name="obj"></param>
         /// <param name="sqlmap"></param>
         /// <returns></returns>
-        public int QueryCount(object para, string sqlmap)
+        protected int Delete(object obj, string sqlmap)
         {
-            return (int)mapper.QueryForObject(sqlmap, para);
+            ISqlMapper localSqlMap = GetLocalSqlMap();
+            int result;
+            try
+            {
+                result = localSqlMap.Delete(sqlmap, obj);
+            }
+            catch (Exception ex)
+            {
+                throw new IBatisNetException("Error executing query '" + sqlmap + "' for delete.  Cause: " + ex.Message, ex);
+            }
+            return result;
         }
-        /// <summary>
-        /// 查列表
-        /// </summary>
-        /// <param name="para"></param>
-        /// <param name="sqlmap"></param>
-        /// <param name="start"></param>
-        /// <param name="pageSize"></param>
-        /// <returns></returns>
-        public IList QueryList(object para, string sqlmap, int start, int pageSize)
-        {
-            return mapper.QueryForList(sqlmap, para, start, pageSize);
-        }
+
         /// <summary>
         /// 修改
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="sqlmap"></param>
         /// <returns></returns>
-        public object Update(object obj, string sqlmap)
+        protected object Update(object obj, string sqlmap)
         {
-            return mapper.Update(sqlmap, obj);
+            ISqlMapper localSqlMap = GetLocalSqlMap();
+            int result;
+            try
+            {
+                result = localSqlMap.Update(sqlmap, obj);
+            }
+            catch (Exception ex)
+            {
+                throw new IBatisNetException("Error executing query '" + sqlmap + "' for update.  Cause: " + ex.Message, ex);
+            }
+            return result;
         }
+
+        /// <summary>
+        /// 取
+        /// </summary>
+        /// <param name="para"></param>
+        /// <param name="sqlmap"></param>
+        /// <returns></returns>
+        protected object Get(object para, string sqlmap)
+        {
+            ISqlMapper localSqlMap = GetLocalSqlMap();
+            object result;
+            try
+            {
+                result = localSqlMap.QueryForObject(sqlmap, para);
+            }
+            catch (Exception ex)
+            {
+                throw new IBatisNetException("Error executing query '" + sqlmap + "' for object.  Cause: " + ex.Message, ex);
+            }
+            return result;
+        }
+
+
+        /// <summary>
+        /// 查数量
+        /// </summary>
+        /// <param name="para"></param>
+        /// <param name="sqlmap"></param>
+        /// <returns></returns>
+        protected int QueryCount(object para, string sqlmap)
+        {
+            return (int)Get(para,sqlmap);
+        }
+
+        /// <summary>
+        /// 查列表
+        /// </summary>
+        /// <param name="para"></param>
+        /// <param name="sqlmap"></param>
+        /// <param name="satrt"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        protected IList QueryList(object para, string sqlmap, int satrt, int pageSize)
+        {
+            ISqlMapper localSqlMap = GetLocalSqlMap();
+            IList result;
+            try
+            {
+                result = localSqlMap.QueryForList(sqlmap, para, satrt, pageSize);
+            }
+            catch (Exception ex)
+            {
+                throw new IBatisNetException("Error executing query '" + sqlmap + "' for list.  Cause: " + ex.Message, ex);
+            }
+            return result;
+        }
+
+
         #endregion
     }
 }

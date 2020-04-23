@@ -49,7 +49,7 @@ namespace service.core
             {
                 throw new Exception("servicesfile未配置");
             }
-            return container.Resolve(SvrID, serviceType);
+            return container.Resolve(SvrID,serviceType);
         }
         /// <summary>
         /// 取Service实例
@@ -83,7 +83,7 @@ namespace service.core
             return null;
         }
 
-
+        
     }
 
 }

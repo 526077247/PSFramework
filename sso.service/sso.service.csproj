@@ -36,15 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="IBatisNet.Common">
-      <HintPath>..\pubLib\IBatisNet.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="IBatisNet.DataAccess">
-      <HintPath>..\pubLib\IBatisNet.DataAccess.dll</HintPath>
-    </Reference>
-    <Reference Include="IBatisNet.DataMapper">
-      <HintPath>..\pubLib\IBatisNet.DataMapper.dll</HintPath>
-    </Reference>
+   
   </ItemGroup>
 
 </Project>

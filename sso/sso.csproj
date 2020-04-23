@@ -12,15 +12,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="IBatisNet.Common">
-      <HintPath>..\pubLib\IBatisNet.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="IBatisNet.DataAccess">
-      <HintPath>..\pubLib\IBatisNet.DataAccess.dll</HintPath>
-    </Reference>
-    <Reference Include="IBatisNet.DataMapper">
-      <HintPath>..\pubLib\IBatisNet.DataMapper.dll</HintPath>
-    </Reference>
+    <Compile Remove="publish\**" />
+    <Content Remove="publish\**" />
+    <EmbeddedResource Remove="publish\**" />
+    <None Remove="publish\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    
   </ItemGroup>
 
   <ItemGroup>
@@ -29,7 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\service.core\service.core.csproj" />
     <ProjectReference Include="..\sso.service\sso.service.csproj" />
   </ItemGroup>
 
@@ -39,6 +37,6 @@
     </None>
   </ItemGroup>
 
-  <ProjectExtensions><VisualStudio><UserProperties hosting_1json__JsonSchema="http://json.schemastore.org/babelrc" appsettings_1json__JsonSchema="http://json.schemastore.org/bungee-plugin" /></VisualStudio></ProjectExtensions>
+  <ProjectExtensions><VisualStudio><UserProperties hosting_1json__JsonSchema="http://json.schemastore.org/babelrc" appsettings_1json__JsonSchema="http://json.schemastore.org/chrome-manifest" /></VisualStudio></ProjectExtensions>
 
 </Project>

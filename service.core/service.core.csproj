@@ -2,6 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
+    <Authors>mayuntao</Authors>
+    <Product>Service.Core-PsFramework</Product>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>Service.Core-PsFramework</PackageId>
+    <Version>1.0.6</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -15,6 +20,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="IBatisNet.Common.dll" />
+    <None Remove="IBatisNet.DataAccess.dll" />
+    <None Remove="IBatisNet.DataMapper.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Castle.Core" Version="4.4.0" />
     <PackageReference Include="Castle.Windsor" Version="5.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
@@ -22,23 +33,16 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.0-preview3.19553.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.0.1" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.0" />
     <PackageReference Include="MySql.Data" Version="8.0.18" />
     <PackageReference Include="ServiceStack.Redis" Version="5.7.0" />
+    <PackageReference Include="SqlBatis.DataAccess" Version="3.0.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.0-preview3.19551.4" />
     <PackageReference Include="System.Xml.XmlDocument" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="IBatisNet.Common">
-      <HintPath>..\pubLib\IBatisNet.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="IBatisNet.DataAccess">
-      <HintPath>..\pubLib\IBatisNet.DataAccess.dll</HintPath>
-    </Reference>
-    <Reference Include="IBatisNet.DataMapper">
-      <HintPath>..\pubLib\IBatisNet.DataMapper.dll</HintPath>
-    </Reference>
+    
   </ItemGroup>
 
 </Project>

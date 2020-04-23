@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using IBatisNet.DataAccess;
 using service.core;
 namespace sso.service
 {
@@ -15,9 +16,9 @@ namespace sso.service
         private readonly ICacheMgeSvr _CacheMgeSvr = null;
         public LoginMgeSvr() : base()
         {
-            daoManager = (IDaoManager)ServiceManager.GetService(typeof(IDaoManager));
+            daoManager = ServiceConfig.GetInstance().DaoManager;
             cacheManager = (ICacheManager)ServiceManager.GetService(typeof(ICacheManager));
-            _UserInfoDao = (IUserInfoDao)daoManager.GetDao<IUserInfoDao>();
+            _UserInfoDao = (IUserInfoDao)daoManager.GetDao(typeof(IUserInfoDao));
             _CacheMgeSvr = cacheManager.GetCache("LoginResult");
         }
 

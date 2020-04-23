@@ -11,46 +11,46 @@ namespace service.core
         /// 添加
         /// </summary>
         /// <param name="obj"></param>
-        /// <param name="sqlmap"></param>
         /// <returns></returns>
-        object Insert(object obj, string sqlmap);
+        object Insert(object obj);
         /// <summary>
         /// 删除
         /// </summary>
         /// <param name="obj"></param>
-        /// <param name="sqlmap"></param>
         /// <returns></returns>
-        int Delete(object obj, string sqlmap);
+        int Delete(object obj);
         /// <summary>
         /// 修改
         /// </summary>
         /// <param name="obj"></param>
-        /// <param name="sqlmap"></param>
         /// <returns></returns>
-        object Update(object obj, string sqlmap);
+        object Update(object obj);
         /// <summary>
         /// 取
         /// </summary>
-        /// <param name="para"></param>
-        /// <param name="sqlmap"></param>
+        /// <param name="obj"></param>
         /// <returns></returns>
-        object Get(object para, string sqlmap);
+        object Get(object obj);
         /// <summary>
-        /// 查数量
+        /// 条件取
         /// </summary>
         /// <param name="para"></param>
-        /// <param name="sqlmap"></param>
         /// <returns></returns>
-        int QueryCount(object para, string sqlmap);
+        object GetByPara(Hashtable para);
         /// <summary>
         /// 查列表
         /// </summary>
-        /// <param name="para"></param>
-        /// <param name="sqlmap"></param>
-        /// <param name="satrt"></param>
-        /// <param name="pageSize"></param>
+        /// <param name="map"></param>
+        /// <param name="start"></param>
+        /// <param name="paseSize"></param>
         /// <returns></returns>
-        IList QueryList(object para, string sqlmap, int satrt, int pageSize);
+        IList QueryList(Hashtable map, int start, int paseSize);
+        /// <summary>
+        /// 查数量
+        /// </summary>
+        /// <param name="map"></param>
+        /// <returns></returns>
+        int QueryCount(Hashtable map);
 
     }
 }

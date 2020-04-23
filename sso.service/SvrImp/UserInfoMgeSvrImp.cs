@@ -1,4 +1,5 @@
 ﻿
+using IBatisNet.DataAccess;
 using service.core;
 using System;
 using System.Collections;
@@ -18,8 +19,8 @@ namespace sso.service
         private readonly ILoginMgeSvr _LoginMgeSvr = null;
         public UserInfoMgeSvr() : base()
         {
-            daoManager = (IDaoManager)ServiceManager.GetService(typeof(IDaoManager));
-            _UserInfoDao = (IUserInfoDao)daoManager.GetDao<IUserInfoDao>();
+            daoManager = ServiceConfig.GetInstance().DaoManager;
+            _UserInfoDao = (IUserInfoDao)daoManager.GetDao(typeof(IUserInfoDao));
             _LoginMgeSvr = ServiceManager.GetService<ILoginMgeSvr>("LoginMgeSvr");
         }
         #endregion

@@ -10,11 +10,23 @@ namespace service.core
 {
     public class HttpPostHelper
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="postData"></param>
+        /// <returns></returns>
         public static string Post(string url, string postData)
         {
             return Post(url, postData, "application/x-www-form-urlencoded");
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="postData"></param>
+        /// <param name="contentType"></param>
+        /// <returns></returns>
         public static string Post(string url, string postData, string contentType)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
@@ -34,10 +46,16 @@ namespace service.core
             response.Close();
             return result;
         }
-
-        public static object PostStream(string url, string postData, string contentType = "application/x-www-form-urlencoded")
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="postData"></param>
+        /// <param name="contentType"></param>
+        /// <returns></returns>
+        public static object PostStream(string url, string postData, string contentType= "application/x-www-form-urlencoded")
         {
-
+            
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.ContentType = contentType;
             request.Method = "POST";
@@ -56,6 +74,14 @@ namespace service.core
             response.Close();
             return result;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="postData"></param>
+        /// <param name="type"></param>
+        /// <param name="contentType"></param>
+        /// <returns></returns>
         public static object PostJson(string url, string postData, Type type, string contentType = "application/x-www-form-urlencoded")
         {
 
@@ -74,7 +100,7 @@ namespace service.core
             StreamReader reader = new StreamReader(response.GetResponseStream() ?? throw new InvalidOperationException(), Encoding.UTF8);
             string result = reader.ReadToEnd();
             //object result = ByteConvertHelper.Stream2Object(reader.BaseStream);
-
+            
             response.Close();
             object obj = JsonConvert.DeserializeObject(result, type);
             return obj;

@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <configuration>
   <components>
-    <component type="service.core.DaoManager, service.core" service="service.core.IDaoManager, service.core"/>
     <component type="service.core.CacheManager, service.core" service="service.core.ICacheManager, service.core"/>
     
     <!--用户管理-->

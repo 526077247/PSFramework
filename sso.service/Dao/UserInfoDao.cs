@@ -1,4 +1,5 @@
 ﻿
+using IBatisNet.DataAccess.Interfaces;
 using service.core;
 using System;
 using System.Collections;

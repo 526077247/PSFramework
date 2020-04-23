@@ -12,9 +12,6 @@ using System.Threading;
 
 namespace service.core
 {
-    /// <summary>
-    /// http服务核心
-    /// </summary>
     public class HttpResultHelper
     {
         /// <summary>
@@ -54,15 +51,13 @@ namespace service.core
                 }
 
             }
+            catch (ServiceException ex)
+            {
+                result = CreateFailResult(ex.code, ex.msg);
+            }
             catch (Exception ex)
             {
-                if (ex.Message.StartsWith("CUSTOMRESULT"))
-                {
-                    string jsonStr = ex.Message["CUSTOMRESULT:".Length..];
-                    result = JsonConvert.DeserializeObject<Result>(jsonStr);
-                }
-                else
-                    result = CreateFailResult(ex.Message.ToString());
+                result = CreateFailResult(ex.Message + ex.InnerException?.Message != null ? ex.InnerException.Message.ToString() : "");
             }
             return result;
         }
@@ -102,17 +97,13 @@ namespace service.core
                 }
 
             }
+            catch (ServiceException ex)
+            {
+                result = CreateFailResult2(ex.code, ex.msg);
+            }
             catch (Exception ex)
             {
-                if (ex.Message.StartsWith("CUSTOMRESULT"))
-                {
-                    string jsonStr = ex.Message["CUSTOMRESULT:".Length..];
-                    Result res = JsonConvert.DeserializeObject<Result>(jsonStr);
-                    result.errCode = res.code;
-                    result.errMsg = res.msg;
-                }
-                else
-                    result = CreateFailResult2(ex.Message.ToString());
+                result = CreateFailResult2(ex.Message + ex.InnerException?.Message != null ? ex.InnerException.Message.ToString() : "");
             }
             return result;
         }
@@ -149,17 +140,13 @@ namespace service.core
                 }
 
             }
+            catch (ServiceException ex)
+            {
+                result = CreateFailResult2(ex.code, ex.msg);
+            }
             catch (Exception ex)
             {
-                if (ex.Message.StartsWith("CUSTOMRESULT"))
-                {
-                    string jsonStr = ex.Message["CUSTOMRESULT:".Length..];
-                    Result res = JsonConvert.DeserializeObject<Result>(jsonStr);
-                    result.errCode = res.code;
-                    result.errMsg = res.msg;
-                }
-                else
-                    result = CreateFailResult2(ex.Message.ToString());
+                result = CreateFailResult2(ex.Message + ex.InnerException?.Message != null ? ex.InnerException.Message.ToString() : "");
             }
             return result;
         }
@@ -183,7 +170,7 @@ namespace service.core
             object obj = ServiceManager.GetService(serviceDefine.SvrID, intf);
             if (obj == null)
             {
-                HttpHander.ReturnCustomResult((int)TYPE_OF_RESULT_TYPE.failure, "服务未定义" + serviceDefine.SvrID);
+                throw new ServiceException((int)TYPE_OF_RESULT_TYPE.failure, "服务未定义" + serviceDefine.SvrID);
             }
             MethodInfo realmethod = intf.GetMethod(method);
             if (realmethod == null)
@@ -196,12 +183,12 @@ namespace service.core
                 }
             }
             if (realmethod == null)
-                HttpHander.ReturnCustomResult((int)TYPE_OF_RESULT_TYPE.failure, "未找到方法" + method);
+                throw new ServiceException((int)TYPE_OF_RESULT_TYPE.failure, "未找到方法" + method);
             else
             {
                 if (realmethod.GetCustomAttribute(typeof(PublishMethodAttribute)) == null)
                 {
-                    HttpHander.ReturnCustomResult((int)TYPE_OF_RESULT_TYPE.failure, "服务未发布");
+                    throw new ServiceException((int)TYPE_OF_RESULT_TYPE.failure, "服务未发布");
                 }
                 else
                 {
@@ -219,11 +206,11 @@ namespace service.core
                         ICheckLoginMgeSvr checkLoginMgeSvr = (ICheckLoginMgeSvr)ServiceManager.GetService(typeof(ICheckLoginMgeSvr));
                         if (checkLoginMgeSvr == null)
                         {
-                            HttpHander.ReturnCustomResult((int)TYPE_OF_RESULT_TYPE.failure, "服务ICheckLoginMgeSvr未实现或未添加");
+                            throw new ServiceException((int)TYPE_OF_RESULT_TYPE.failure, "服务ICheckLoginMgeSvr未实现或未添加");
                         }
                         if (!checkLoginMgeSvr.CheckLogin(token))
                         {
-                            HttpHander.ReturnCustomResult((int)TYPE_OF_RESULT_TYPE.offline, "用户未登录");
+                            throw new ServiceException((int)TYPE_OF_RESULT_TYPE.offline, "用户未登录");
                         }
                     }
                     ParameterInfo[] infos = realmethod.GetParameters();
@@ -239,14 +226,14 @@ namespace service.core
                             if (values.Files.Count > 0)
                                 objs[i] = values.Files[0];
                             else
-                                HttpHander.ReturnCustomResult((int)TYPE_OF_RESULT_TYPE.failure, $"参数{infos[i]}未找到");
+                                throw new ServiceException((int)TYPE_OF_RESULT_TYPE.failure, $"参数{infos[i]}未找到");
                         }
                         else if (infos[i].ParameterType == typeof(IFormCollection))
                         {
                             if (values.Files.Count > 0)
                                 objs[i] = values.Files;
                             else
-                                HttpHander.ReturnCustomResult((int)TYPE_OF_RESULT_TYPE.failure, $"参数{infos[i]}未找到");
+                                throw new ServiceException((int)TYPE_OF_RESULT_TYPE.failure, $"参数{infos[i]}未找到");
                         }
                         else
                         {
@@ -263,7 +250,7 @@ namespace service.core
                             {
                                 if (items.Count == 0)
                                 {
-                                    HttpHander.ReturnCustomResult((int)TYPE_OF_RESULT_TYPE.failure, $"参数{infos[i]}未找到");
+                                    throw new ServiceException((int)TYPE_OF_RESULT_TYPE.failure, $"参数{infos[i]}未找到");
                                 }
                                 else
                                 {
@@ -376,6 +363,35 @@ namespace service.core
             };
         }
         /// <summary>
+        /// 创建错误返回值
+        /// </summary>
+        /// <param name="code"></param>
+        /// <param name="Reason"></param>
+        /// <returns></returns>
+        private static Result CreateFailResult(int code, string Reason)
+        {
+            return new Result
+            {
+                code = code,
+                msg = Reason,
+                data = null,
+            };
+        }
+        /// <summary>
+        /// 创建错误返回值
+        /// </summary>
+        /// <param name="code"></param>
+        /// <param name="Reason"></param>
+        /// <returns></returns>
+        private static ErrorResponse CreateFailResult2(int code, string Reason)
+        {
+            return new ErrorResponse
+            {
+                errCode = code,
+                errMsg = Reason,
+            };
+        }
+        /// <summary>
         /// 创建未登录返回值
         /// </summary>
         /// <param name="Reason"></param>
@@ -452,39 +468,32 @@ namespace service.core
         /// </summary>
         private static Dictionary<string, string> GetFormData(string formData, Encoding encoding)
         {
-            try
-            {
-                //将参数存入字符数组
-                string[] dataArry = formData.Split('&');
+            //将参数存入字符数组
+            string[] dataArry = formData.Split('&');
 
-                //定义字典,将参数按照键值对存入字典中
-                Dictionary<string, string> dataDic = new Dictionary<string, string>();
-                //遍历字符数组
-                for (int i = 0; i <= dataArry.Length - 1; i++)
+            //定义字典,将参数按照键值对存入字典中
+            Dictionary<string, string> dataDic = new Dictionary<string, string>();
+            //遍历字符数组
+            for (int i = 0; i <= dataArry.Length - 1; i++)
+            {
+                //当前参数值
+                string dataParm = dataArry[i];
+                //"="的索引值
+                int dIndex = dataParm.IndexOf("=");
+                //参数名作为key
+                string key = dataParm.Substring(0, dIndex);
+                //参数值作为Value
+                string value = dataParm.Substring(dIndex + 1, dataParm.Length - dIndex - 1);
+                //将编码后的Value解码
+                string deValue = System.Web.HttpUtility.UrlDecode(value, encoding);
+                if (key != "__VIEWSTATE")
                 {
-                    //当前参数值
-                    string dataParm = dataArry[i];
-                    //"="的索引值
-                    int dIndex = dataParm.IndexOf("=");
-                    //参数名作为key
-                    string key = dataParm.Substring(0, dIndex);
-                    //参数值作为Value
-                    string value = dataParm.Substring(dIndex + 1, dataParm.Length - dIndex - 1);
-                    //将编码后的Value解码
-                    string deValue = System.Web.HttpUtility.UrlDecode(value, encoding);
-                    if (key != "__VIEWSTATE")
-                    {
-                        //将参数以键值对存入字典
-                        dataDic.Add(key, deValue);
-                    }
+                    //将参数以键值对存入字典
+                    dataDic.Add(key, deValue);
                 }
+            }
 
-                return dataDic;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            return dataDic;
         }
 
         private static Dictionary<string, string> GetPara(HttpContext context)
