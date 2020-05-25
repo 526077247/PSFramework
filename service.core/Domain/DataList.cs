@@ -1,38 +1,36 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace service.core
 {
-    /// <summary>
-    /// 数据列表
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class DataList<T>
+    public class DataList<T> : List<T>
     {
-        /// <summary>
-        /// 总数
-        /// </summary>
-        public int total { get; set; }
-        /// <summary>
-        /// 当前起始位置
-        /// </summary>
-        public int start { get; set; }
-        /// <summary>
-        /// 分页大小
-        /// </summary>
-        public int pageSize { get; set; }
-        /// <summary>
-        /// 列表
-        /// </summary>
-        public List<T> list { get; set; }
+        public DataList():base()
+        {
+        
+        }
 
         /// <summary>
-        /// 构造函数
+        /// json序列化与反序列化
         /// </summary>
-        public DataList()
+        [JsonIgnore]
+        public string JsonText
         {
-            list = new List<T>();
+            get
+            {
+                return JsonConvert.SerializeObject(this);
+            }
+            set
+            {
+                Clear();
+                if (value != null)
+                {
+                    var jObject = JsonConvert.DeserializeObject<List<T>>(value);
+                    AddRange(jObject);
+                }
+            }
         }
     }
 }

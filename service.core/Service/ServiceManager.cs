@@ -22,7 +22,6 @@ namespace service.core
             }
         }
 
-
         /// <summary>
         /// 取Service实例
         /// </summary>
@@ -35,6 +34,31 @@ namespace service.core
             {
                 throw new Exception("servicesfile未配置");
             }
+            try
+            {
+                IProxyService proxy = container.Resolve<IProxyService>(SvrID);
+                if (proxy != null)
+                {
+                    try
+                    {
+                        TService service = container.Resolve<TService>(SvrID + "Proxy");
+                        return service;
+                    }
+                    catch
+                    {
+                        TService svr = proxy.GetService<TService>();
+                        container.Register(
+                           Component.For<TService>()
+                           .Instance(svr)
+                           .Named(SvrID + "Proxy")
+                           .LifeStyle.Singleton
+                        );
+                        return svr;
+                    }
+
+                }
+            }
+            catch { }
             return container.Resolve<TService>(SvrID);
         }
         /// <summary>
@@ -49,7 +73,31 @@ namespace service.core
             {
                 throw new Exception("servicesfile未配置");
             }
-            return container.Resolve(SvrID,serviceType);
+            try
+            {
+                IProxyService proxy = container.Resolve<IProxyService>(SvrID);
+                if (proxy != null)
+                {
+                    try
+                    {
+                        var service = container.Resolve(SvrID + "Proxy", serviceType);
+                        return service;
+                    }
+                    catch
+                    {
+                        var svr = proxy.GetService();
+                        container.Register(
+                           Component.For(serviceType)
+                           .Instance(svr)
+                           .Named(SvrID + "Proxy")
+                           .LifeStyle.Singleton
+                        );
+                        return svr;
+                    }
+                }
+            }
+            catch { }
+            return container.Resolve(SvrID, serviceType);
         }
         /// <summary>
         /// 取Service实例

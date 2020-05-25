@@ -479,35 +479,14 @@
              <param name="daoID"></param>
              <returns></returns>
         </member>
-        <member name="T:service.core.DataList`1">
+        <member name="P:service.core.DataBase.JsonText">
             <summary>
-            数据列表
-            </summary>
-            <typeparam name="T"></typeparam>
-        </member>
-        <member name="P:service.core.DataList`1.total">
-            <summary>
-            总数
+            json序列化与反序列化
             </summary>
         </member>
-        <member name="P:service.core.DataList`1.start">
+        <member name="P:service.core.DataList`1.JsonText">
             <summary>
-            当前起始位置
-            </summary>
-        </member>
-        <member name="P:service.core.DataList`1.pageSize">
-            <summary>
-            分页大小
-            </summary>
-        </member>
-        <member name="P:service.core.DataList`1.list">
-            <summary>
-            列表
-            </summary>
-        </member>
-        <member name="M:service.core.DataList`1.#ctor">
-            <summary>
-            构造函数
+            json序列化与反序列化
             </summary>
         </member>
         <member name="P:service.core.Result.code">

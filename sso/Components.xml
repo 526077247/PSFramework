@@ -5,6 +5,13 @@
     
     <!--用户管理-->
     <component id="UserInfoMgeSvr"  type="sso.service.UserInfoMgeSvr, sso.service" service="sso.service.IUserInfoMgeSvr, sso.service"/>
+    <!--用户管理-->
+    <component id="UserInfoMgeSvrProxy" type="service.core.ProxyService, service.core" service="service.core.IProxyService, service.core">
+      <parameters>
+        <service>sso.service.IUserInfoMgeSvr, sso.service</service>
+        <url>http://127.0.0.1:8080/api/UserInfoMgeSvr.assx</url>
+      </parameters>
+    </component>
     <!--登录管理-->
     <component id="LoginMgeSvr"  type="sso.service.LoginMgeSvr, sso.service" service="sso.service.ILoginMgeSvr, sso.service"/>
     <!--测试服务-->
