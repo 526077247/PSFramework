@@ -34,6 +34,7 @@ namespace sso.service
         /// <param name="psw"></param>
         /// <returns></returns>
         [PublishMethod]
+        [AutoLog("ALL")]
         public LoginResult Login(string user, string psw)
         {
             LoginResult result;

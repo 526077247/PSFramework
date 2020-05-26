@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>service.core</name>
+        <name>Service.Core</name>
     </assembly>
     <members>
         <member name="M:service.core.ICacheManager.GetCache(System.String)">
@@ -504,6 +504,12 @@
             数据
             </summary>
         </member>
+        <member name="M:service.core.AutoLogAttribute.#ctor(System.String)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="level">"ALL,INFO,ERROR"</param>
+        </member>
         <member name="T:service.core.ByteConvertHelper">
             <summary>
             工具类：对象与二进制流间的转换
@@ -583,6 +589,12 @@
             <returns></returns>
         </member>
         <!-- Badly formed XML comment ignored for member "M:service.core.Utils.GuidToString(System.Int32)" -->
+        <member name="T:service.core.LogManager">
+            <summary>
+            log4net帮助类
+            AdoNetAppender仅支持到.net framework4.5，不支持在.net core项目中持久化日志到数据库
+            </summary>
+        </member>
         <member name="M:service.core.DynamicProxySvrInvocation.Intercept(Castle.DynamicProxy.IInvocation)">
             <summary>
             拦截器

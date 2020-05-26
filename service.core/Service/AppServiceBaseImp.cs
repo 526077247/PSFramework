@@ -7,6 +7,11 @@ namespace service.core
 {
     public class AppServiceBase
     {
+        protected readonly ILogger _logger;
+        protected AppServiceBase()
+        {
+            _logger = LogManager.GetLog(GetType().Name);
+        }
         /// <summary>
         /// 取版本号
         /// </summary>

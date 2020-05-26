@@ -39,7 +39,7 @@ namespace sso
             {
                 app.UseDeveloperExceptionPage();
             }
-           
+            
             app.UseHttpManager();
             app.UseStaticFiles();
         }

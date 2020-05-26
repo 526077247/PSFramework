@@ -7,6 +7,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>Service.Core-PsFramework</PackageId>
     <Version>1.0.6</Version>
+    <AssemblyName>Service.Core</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -23,11 +24,17 @@
     <None Remove="IBatisNet.Common.dll" />
     <None Remove="IBatisNet.DataAccess.dll" />
     <None Remove="IBatisNet.DataMapper.dll" />
+    <None Remove="Log\log4net.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Log\log4net.config" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Castle.Core" Version="4.4.0" />
     <PackageReference Include="Castle.Windsor" Version="5.0.1" />
+    <PackageReference Include="log4net" Version="2.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
@@ -39,10 +46,6 @@
     <PackageReference Include="SqlBatis.DataAccess" Version="3.0.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.0-preview3.19551.4" />
     <PackageReference Include="System.Xml.XmlDocument" Version="4.3.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    
   </ItemGroup>
 
 </Project>

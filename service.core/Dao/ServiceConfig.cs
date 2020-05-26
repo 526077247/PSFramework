@@ -16,7 +16,7 @@ namespace service.core
 
 		private static ServiceConfig _instance;
 
-		private static readonly ILog _logger = LogManager.GetLogger(typeof(ServiceConfig));
+		private static readonly ILog _logger = IBatisNet.Common.Logging.LogManager.GetLogger(typeof(ServiceConfig));
 
         /// <summary>
         ///

@@ -13,6 +13,7 @@ namespace sso.service
         /// <param name="psw"></param>
         /// <returns></returns>
         [PublishMethod]
+        [AutoLog("ALL")]
         LoginResult Login(string user, string psw);
 
         /// <summary>

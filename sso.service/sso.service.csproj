@@ -35,8 +35,4 @@
     <ProjectReference Include="..\service.core\service.core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-   
-  </ItemGroup>
-
 </Project>

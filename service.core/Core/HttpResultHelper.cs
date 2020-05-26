@@ -14,6 +14,7 @@ namespace service.core
 {
     public class HttpResultHelper
     {
+        private static ILogger logger = LogManager.GetLog("System");
         /// <summary>
         /// 调用接口(restful封装)
         /// </summary>
@@ -270,10 +271,33 @@ namespace service.core
                             }
                         }
                     }
-                    return realmethod.Invoke(obj, objs);
+                    AutoLogAttribute logconfig = realmethod.GetCustomAttribute(typeof(AutoLogAttribute)) as AutoLogAttribute;
+                    if (logconfig  != null && (logconfig.Level=="INFO"|| logconfig.Level =="ALL"))
+                    {
+                        try
+                        {
+                            logger.Info($"Source:{Utils.GetIPAddr()},Path:{context.Request.Path},Para:{JsonConvert.SerializeObject(objs)}");
+                        }
+                        catch
+                        {
+
+                        }
+                    }
+                    try
+                    {
+                        object res = realmethod.Invoke(obj, objs);
+                        return res;
+                    }
+                    catch (Exception ex)
+                    {
+                        if (logconfig != null && (logconfig.Level == "ERROR" || logconfig.Level == "ALL"))
+                        {
+                            logger.Error(ex);
+                        }
+                        throw ex;
+                    }
                 }
             }
-            return null;
         }
         /// <summary>
         /// 转换类型
@@ -506,5 +530,7 @@ namespace service.core
             }
             return null;
         }
+
+        
     }
 }

@@ -14,6 +14,18 @@ namespace service.core
 
     }
 
+    public class AutoLogAttribute : Attribute
+    {
+        public string Level;
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="level">"ALL,INFO,ERROR"</param>
+        public AutoLogAttribute(string level)
+        {
+            Level = level;
+        }
+    }
     public class PublishName: Attribute
     {
         public string SvrId;
