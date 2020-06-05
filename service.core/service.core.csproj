@@ -6,8 +6,10 @@
     <Product>Service.Core-PsFramework</Product>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>Service.Core-PsFramework</PackageId>
-    <Version>1.0.6</Version>
+    <Version>1.0.11</Version>
     <AssemblyName>Service.Core</AssemblyName>
+    <AssemblyVersion>1.0.11.0</AssemblyVersion>
+    <Description>https://github.com/526077247/myt-blog</Description>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

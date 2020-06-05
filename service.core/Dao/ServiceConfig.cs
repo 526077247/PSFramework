@@ -55,7 +55,7 @@ namespace service.core
 					{
 						ConfigureHandler configureHandler = new ConfigureHandler(Reset);
 						DomDaoManagerBuilder domDaoManagerBuilder = new DomDaoManagerBuilder();
-						string text = string.IsNullOrEmpty(daoFilePath) ? ConfigurationManager.Configuration.GetSection("dao:file").Value : daoFilePath;
+						string text = string.IsNullOrEmpty(daoFilePath) ? ConfigurationManager.Configuration.GetSection("serviceCore:daoFile").Value : daoFilePath;
 						if (!Path.IsPathRooted(text))
 						{
 							text = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, text);

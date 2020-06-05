@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sso.service", "sso.service\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sso.test", "sso.test\sso.test.csproj", "{6886CB8B-F910-494B-988D-8BE6F5B4D69D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "service.core", "service.core\service.core.csproj", "{529CE5DD-9D58-415E-A81F-2D28404FD320}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service.Core", "service.core\Service.Core.csproj", "{529CE5DD-9D58-415E-A81F-2D28404FD320}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

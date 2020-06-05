@@ -1,6 +1,7 @@
 ﻿using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Castle.Windsor.Configuration.Interpreters;
+using IBatisNet.Common.Utilities.Objects.Members;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
@@ -8,20 +9,34 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace service.core
 {
     public static class ServiceManager
     {
         private static IWindsorContainer container = null;
-        public static void UseHttpManager(this IServiceCollection app)
+        static ServiceManager()
         {
-            if (!string.IsNullOrEmpty(ConfigurationManager.Configuration.GetSection("servicesfile").Value))
+            string path = ConfigurationManager.Configuration.GetSection("serviceCore:servicesFile").Value;
+            if (!string.IsNullOrEmpty(path))
+                container = new WindsorContainer(new XmlInterpreter(path));
+        }
+        private async static void GetInstance()
+        {
+            await Task.Run(new Action(StandBy));
+        }
+        private static void StandBy()
+        {
+            if (container==null)
             {
-                container = new WindsorContainer(new XmlInterpreter(ConfigurationManager.Configuration.GetSection("servicesfile").Value));
+                string path = ConfigurationManager.Configuration.GetSection("serviceCore:servicesFile").Value;
+                if (!string.IsNullOrEmpty(path))
+                    container = new WindsorContainer(new XmlInterpreter(path));
+                else
+                    throw new Exception("servicesFile未配置");
             }
         }
-
         /// <summary>
         /// 取Service实例
         /// </summary>
@@ -32,7 +47,7 @@ namespace service.core
         {
             if (container == null)
             {
-                throw new Exception("servicesfile未配置");
+                GetInstance();   
             }
             try
             {
@@ -71,7 +86,7 @@ namespace service.core
         {
             if (container == null)
             {
-                throw new Exception("servicesfile未配置");
+                GetInstance();
             }
             try
             {
@@ -108,7 +123,7 @@ namespace service.core
         {
             if (container == null)
             {
-                throw new Exception("servicesfile未配置");
+                GetInstance();
             }
             return container.Resolve(serviceType);
         }

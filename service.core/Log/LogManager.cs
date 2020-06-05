@@ -12,8 +12,7 @@ using System.Text;
 namespace service.core
 {
     /// <summary>
-    /// log4net帮助类
-    /// AdoNetAppender仅支持到.net framework4.5，不支持在.net core项目中持久化日志到数据库
+    /// log
     /// </summary>
     public class LogManager
     {
@@ -34,7 +33,7 @@ namespace service.core
                 {
                     repository = log4net.LogManager.CreateRepository("CoreLogRepository");
                     Assembly assembly = Assembly.GetExecutingAssembly();
-                    using Stream stream = assembly.GetManifestResourceStream("service.core.Log.log4net.config");
+                    using Stream stream = assembly.GetManifestResourceStream("Service.Core.Log.log4net.config");
                     XmlConfigurator.Configure(repository, stream);
 
                 }

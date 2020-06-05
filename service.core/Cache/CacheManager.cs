@@ -18,7 +18,7 @@ namespace service.core
     {
         #region 服务描述
         private Dictionary<string, ICacheMgeSvr> _dic;
-
+        private static object _synRoot = new object();
         public CacheManager()
         {
             _dic = new Dictionary<string, ICacheMgeSvr>();
@@ -34,17 +34,21 @@ namespace service.core
         {
             if (!_dic.TryGetValue(CacheName, out ICacheMgeSvr cacheMgeSvr))
             {
-                if (ConfigurationManager.Configuration["Caches:" + CacheName + ":Type"] == "Redis")
+                object synRoot = _synRoot;
+                lock (synRoot)
                 {
-                    string IP = ConfigurationManager.Configuration["Caches:" + CacheName + ":Host"];
-                    int Port = int.Parse(ConfigurationManager.Configuration["Caches:" + CacheName + ":Port"]);
-                    TimeSpan timeSpan = new TimeSpan(
-                        int.Parse(ConfigurationManager.Configuration["Caches:" + CacheName + ":lifeTime:hours"]),
-                        int.Parse(ConfigurationManager.Configuration["Caches:" + CacheName + ":lifeTime:min"]),
-                        int.Parse(ConfigurationManager.Configuration["Caches:" + CacheName + ":lifeTime:seconds"])
-                        );
-                    cacheMgeSvr = new RedisMgeSvr(IP, Port, timeSpan);
-                    _dic.Add(CacheName, cacheMgeSvr);
+                    if (ConfigurationManager.Configuration["Caches:" + CacheName + ":Type"] == "Redis")
+                    {
+                        string IP = ConfigurationManager.Configuration["Caches:" + CacheName + ":Host"];
+                        int Port = int.Parse(ConfigurationManager.Configuration["Caches:" + CacheName + ":Port"]);
+                        TimeSpan timeSpan = new TimeSpan(
+                            int.Parse(ConfigurationManager.Configuration["Caches:" + CacheName + ":lifeTime:hours"]),
+                            int.Parse(ConfigurationManager.Configuration["Caches:" + CacheName + ":lifeTime:min"]),
+                            int.Parse(ConfigurationManager.Configuration["Caches:" + CacheName + ":lifeTime:seconds"])
+                            );
+                        cacheMgeSvr = new RedisMgeSvr(IP, Port, timeSpan);
+                        _dic.Add(CacheName, cacheMgeSvr);
+                    }
                 }
             }
             return cacheMgeSvr;
