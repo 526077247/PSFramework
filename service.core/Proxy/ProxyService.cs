@@ -5,7 +5,7 @@ using System.Text;
 
 namespace service.core
 {
-    public class ProxyService: IProxyService
+    internal class ProxyService: IProxyService
     {
         private string _service;
         private string _type;

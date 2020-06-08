@@ -4,7 +4,7 @@ using System.Text;
 
 namespace service.core
 {
-    public interface IProxyService
+    internal interface IProxyService
     {
         public object GetService();
         public T GetService<T>();

@@ -13,7 +13,7 @@ using System.Text.RegularExpressions;
 
 namespace service.core
 {
-    public class TsHelper
+    internal class TsHelper
     {
 
 
@@ -23,7 +23,7 @@ namespace service.core
         /// <param name="context"></param>
         /// <param name="SvrID"></param>
         /// <returns></returns>
-        public static string GeTsScriptsClient(HttpContext context, string SvrID)
+        internal static string GeTsScriptsClient(HttpContext context, string SvrID)
         {
             var path = Path.GetFullPath("wwwroot" + context.Request.Path.ToString().Replace(".sts", ".json").ToString());
             if (path.EndsWith('/') || path.EndsWith('\\'))

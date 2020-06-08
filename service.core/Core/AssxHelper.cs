@@ -11,7 +11,7 @@ using System.Xml.Linq;
 
 namespace service.core
 {
-    public class AssxHelper
+    internal class AssxHelper
     {
         /// <summary>
         /// 取服务列表
@@ -19,7 +19,7 @@ namespace service.core
         /// <param name="context"></param>
         /// <param name="SvrID"></param>
         /// <returns></returns>
-        public static string GetSvrIntfInfo(HttpContext context, string SvrID)
+        internal static string GetSvrIntfInfo(HttpContext context, string SvrID)
         {
             string result;
             var path = Path.GetFullPath("wwwroot" + context.Request.Path.ToString().Replace(".rsfs", ".json").Replace(".assx", ".json").Replace(".proxy",".json")).ToString();
@@ -68,7 +68,7 @@ namespace service.core
         /// <param name="intf"></param>
         /// <param name="notes"></param>
         /// <returns></returns>
-        public static StringBuilder GetSvrStr(Type intf, List<XElement> notes)
+        internal static StringBuilder GetSvrStr(Type intf, List<XElement> notes)
         {
             StringBuilder builder = new StringBuilder();
             foreach (Type type in intf.GetInterfaces())
@@ -89,7 +89,7 @@ namespace service.core
         /// <param name="method"></param>
         /// <param name="notes"></param>
         /// <returns></returns>
-        public static string GetSvrMethodStr(MethodInfo method, List<XElement> notes)
+        internal static string GetSvrMethodStr(MethodInfo method, List<XElement> notes)
         {
             if(method.GetCustomAttribute(typeof(PublishMethodAttribute))==null)
             {
@@ -117,7 +117,7 @@ namespace service.core
         /// <param name="method"></param>
         /// <param name="notes"></param>
         /// <returns></returns>
-        public static string GetSvrMethodNotes(MethodInfo method, List<XElement> notes)
+        internal static string GetSvrMethodNotes(MethodInfo method, List<XElement> notes)
         {
             foreach(var item in notes)
             {

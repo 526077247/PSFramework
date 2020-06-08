@@ -29,17 +29,17 @@ namespace sso
 
                 });
             });
+            services.AddHttpContextAccessor();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider svp)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider svp, IHttpContextAccessor accessor)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-            
-            app.UseHttpManager();
+            app.UseHttpManager(accessor);
             app.UseStaticFiles();
         }
     }

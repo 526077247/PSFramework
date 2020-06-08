@@ -591,8 +591,7 @@
         <!-- Badly formed XML comment ignored for member "M:service.core.Utils.GuidToString(System.Int32)" -->
         <member name="T:service.core.LogManager">
             <summary>
-            log4net帮助类
-            AdoNetAppender仅支持到.net framework4.5，不支持在.net core项目中持久化日志到数据库
+            log
             </summary>
         </member>
         <member name="M:service.core.DynamicProxySvrInvocation.Intercept(Castle.DynamicProxy.IInvocation)">

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace service.core
 {
-    public class DynServerFactory
+    public static class DynServerFactory
     {
         private static readonly ProxyGenerator Generator = new ProxyGenerator();
         /// <summary>

@@ -12,7 +12,7 @@ using System.Threading;
 
 namespace service.core
 {
-    public class HttpResultHelper
+    internal class HttpResultHelper
     {
         private static ILogger logger = LogManager.GetLog("System");
         /// <summary>
@@ -22,7 +22,7 @@ namespace service.core
         /// <param name="SvrID"></param>
         /// <param name="method"></param>
         /// <returns></returns>
-        public static Result GetRestfulHttpResult(HttpContext context, string SvrID, string method)
+        internal static Result GetRestfulHttpResult(HttpContext context, string SvrID, string method)
         {
 
             Result result = CreateFailResult("");
@@ -72,7 +72,7 @@ namespace service.core
         /// <param name="SvrID"></param>
         /// <param name="method"></param>
         /// <returns></returns>
-        public static object GetHttpResult(HttpContext context, string SvrID, string method)
+        internal static object GetHttpResult(HttpContext context, string SvrID, string method)
         {
             ErrorResponse result = CreateFailResult2("");
             try
@@ -115,7 +115,7 @@ namespace service.core
         /// <param name="SvrID"></param>
         /// <param name="method"></param>
         /// <returns></returns>
-        public static object GetProxyHttpResult(HttpContext context, string SvrID, string method)
+        internal static object GetProxyHttpResult(HttpContext context, string SvrID, string method)
         {
             ErrorResponse result = CreateFailResult2("");
             try

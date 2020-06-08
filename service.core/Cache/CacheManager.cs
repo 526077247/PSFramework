@@ -32,11 +32,12 @@ namespace service.core
         /// <returns></returns>
         public ICacheMgeSvr GetCache(string CacheName)
         {
-            if (!_dic.TryGetValue(CacheName, out ICacheMgeSvr cacheMgeSvr))
+            object synRoot = _synRoot;
+            lock (synRoot)
             {
-                object synRoot = _synRoot;
-                lock (synRoot)
+                if (!_dic.TryGetValue(CacheName, out ICacheMgeSvr cacheMgeSvr))
                 {
+
                     if (ConfigurationManager.Configuration["Caches:" + CacheName + ":Type"] == "Redis")
                     {
                         string IP = ConfigurationManager.Configuration["Caches:" + CacheName + ":Host"];
@@ -50,8 +51,8 @@ namespace service.core
                         _dic.Add(CacheName, cacheMgeSvr);
                     }
                 }
+                return cacheMgeSvr;
             }
-            return cacheMgeSvr;
         }
         #endregion
 

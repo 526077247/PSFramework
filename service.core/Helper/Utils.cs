@@ -2,13 +2,19 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace service.core
 {
     public static class Utils
     {
-        public static HttpRequest request;
+        internal static IHttpContextAccessor Accessor { get; private set; }
+        internal static void StandBy(IHttpContextAccessor accessor)
+        {
+            Accessor = accessor;
+        }
+        public static HttpRequest request { get { return Accessor.HttpContext.Request; } }
         private static char[] constant =
       {
         '0','1','2','3','4','5','6','7','8','9',
@@ -17,7 +23,7 @@ namespace service.core
       };
         public static string GenerateRandomNumber(int Length)
         {
-            System.Text.StringBuilder newRandom = new System.Text.StringBuilder(62);
+            StringBuilder newRandom = new StringBuilder(62);
             Random rd = new Random();
             for (int i = 0; i < Length; i++)
             {

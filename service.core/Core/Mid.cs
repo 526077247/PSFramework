@@ -12,6 +12,11 @@ namespace service.core
 
     public static class HttpManagerMiddlewareExtension
     {
+        public static void UseHttpManager(this IApplicationBuilder app,IHttpContextAccessor accessor)
+        {
+            Utils.StandBy(accessor);
+            app.UseMiddleware<HttpManagerMiddleware>();
+        }
         public static void UseHttpManager(this IApplicationBuilder app)
         {
             app.UseMiddleware<HttpManagerMiddleware>();
@@ -33,7 +38,7 @@ namespace service.core
 
         public async Task Invoke(HttpContext context)
         {
-            Utils.request = context.Request;
+            
             string path = context.Request.Path;
             path = path.EndsWith("/") ? path.Substring(0, path.Length - 1) : path;
             string[] paths = path.Split("/");

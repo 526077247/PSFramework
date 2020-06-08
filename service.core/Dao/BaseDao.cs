@@ -12,17 +12,29 @@ namespace service.core
     public class BaseDao : IDao
     {
         #region 服务描述
-        protected SqlMapper sqlMapper;
-        protected SqlMapper GetLocalSqlMap()
+        private SqlMapper _sqlMapper;
+        private object _synRoot = new object();
+        protected SqlMapper sqlMapper
         {
-            if (sqlMapper == null)
+            get
             {
-                IDaoManager daoManager = DaoManager.GetInstance("SqlMapDao");
-                SqlMapDaoSession sqlMapDaoSession = (SqlMapDaoSession)daoManager.LocalDaoSession;
-                sqlMapper = (SqlMapper)sqlMapDaoSession.SqlMap;
+                if (_sqlMapper != null)
+                {
+                    return _sqlMapper;
+                }
+                lock (_synRoot)
+                {
+                    if (_sqlMapper == null)
+                    {
+                        IDaoManager daoManager = ServiceConfig.GetInstance().DaoManager;
+                        SqlMapDaoSession sqlMapDaoSession = (SqlMapDaoSession)daoManager.LocalDaoSession;
+                        _sqlMapper = (SqlMapper)sqlMapDaoSession.SqlMap;
+                    }
+                }
+                return _sqlMapper;
             }
-            return sqlMapper;
         }
+
         #endregion
         #region IBaseDao函数
 
@@ -34,11 +46,10 @@ namespace service.core
         /// <returns></returns>
         protected object Insert(object obj, string sqlmap)
         {
-            ISqlMapper localSqlMap = GetLocalSqlMap();
             object result;
             try
             {
-                result = localSqlMap.Insert(sqlmap, obj);
+                result = sqlMapper.Insert(sqlmap, obj);
             }
             catch (Exception ex)
             {
@@ -54,11 +65,10 @@ namespace service.core
         /// <returns></returns>
         protected int Delete(object obj, string sqlmap)
         {
-            ISqlMapper localSqlMap = GetLocalSqlMap();
             int result;
             try
             {
-                result = localSqlMap.Delete(sqlmap, obj);
+                result = sqlMapper.Delete(sqlmap, obj);
             }
             catch (Exception ex)
             {
@@ -75,11 +85,10 @@ namespace service.core
         /// <returns></returns>
         protected object Update(object obj, string sqlmap)
         {
-            ISqlMapper localSqlMap = GetLocalSqlMap();
             int result;
             try
             {
-                result = localSqlMap.Update(sqlmap, obj);
+                result = sqlMapper.Update(sqlmap, obj);
             }
             catch (Exception ex)
             {
@@ -96,11 +105,10 @@ namespace service.core
         /// <returns></returns>
         protected object Get(object para, string sqlmap)
         {
-            ISqlMapper localSqlMap = GetLocalSqlMap();
             object result;
             try
             {
-                result = localSqlMap.QueryForObject(sqlmap, para);
+                result = sqlMapper.QueryForObject(sqlmap, para);
             }
             catch (Exception ex)
             {
@@ -131,11 +139,10 @@ namespace service.core
         /// <returns></returns>
         protected IList QueryList(object para, string sqlmap, int satrt, int pageSize)
         {
-            ISqlMapper localSqlMap = GetLocalSqlMap();
             IList result;
             try
             {
-                result = localSqlMap.QueryForList(sqlmap, para, satrt, pageSize);
+                result = sqlMapper.QueryForList(sqlmap, para, satrt, pageSize);
             }
             catch (Exception ex)
             {

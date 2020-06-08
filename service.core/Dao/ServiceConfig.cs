@@ -1,10 +1,15 @@
-﻿using IBatisNet.Common.Logging;
+﻿using Castle.DynamicProxy;
+using IBatisNet.Common;
+using IBatisNet.Common.Logging;
 using IBatisNet.Common.Utilities;
 using IBatisNet.DataAccess;
 using IBatisNet.DataAccess.Configuration;
 using IBatisNet.DataAccess.DaoSessionHandlers;
+using IBatisNet.DataAccess.Interfaces;
+using IBatisNet.DataAccess.SessionStore;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Data;
 using System.IO;
 using System.Text;
 
@@ -13,7 +18,7 @@ namespace service.core
     public class ServiceConfig
     {
 		private static object _synRoot = new object();
-
+		
 		private static ServiceConfig _instance;
 
 		private static readonly ILog _logger = IBatisNet.Common.Logging.LogManager.GetLogger(typeof(ServiceConfig));
@@ -129,7 +134,7 @@ namespace service.core
 		/// </summary>
 		/// <param name="daoID"></param>
 		/// <returns></returns>
-		public IDaoManager GetDaoManager(string daoID)
+		public static IDaoManager GetDaoManager(string daoID)
 		{
 			IDaoManager daoManager = IBatisNet.DataAccess.DaoManager.GetInstance(daoID);
 			ModifyConnectString(daoManager, daoID);

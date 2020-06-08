@@ -6,11 +6,11 @@ using System.Text;
 using Newtonsoft.Json;
 namespace service.core
 {
-    public class DynamicProxySvrInvocation : IInterceptor
+    internal class DynamicProxySvrInvocation : IInterceptor
     {
         private string _url;
         private string _type;
-        public DynamicProxySvrInvocation(string url, string type)
+        internal DynamicProxySvrInvocation(string url, string type)
         {
             _url = url;
             if (_url.EndsWith("/"))
