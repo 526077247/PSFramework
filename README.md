@@ -10,8 +10,21 @@
 ### sso
     web发布配置项目
 ### web-app
-    web前端实例项目
+    web前端示例项目
 ## 2.配置方法
+    1. Nuget上搜索Service.Core-PsFramework可安装框架
+    2. appsettings.json中添加如下
+```
+  {
+   "serviceCore": {
+    "daoFile": "config/dao.config",
+    "servicesFile": "config/Components.xml"
+   },
+   ...
+  }
+```
+    3. 在web项目中添加文件夹config和文件config/Components.xml(castle配置文件)，config/dao.config、config/providers.config、config/SqlMap.config(ibatis配置文件)并设置生成时复制到输出目录。配置内容参考本项目。
+    
 ## 3.服务类
 ## 4.使用缓存
 ## 5.使用动态代理远程服务
