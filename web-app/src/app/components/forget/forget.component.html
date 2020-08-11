@@ -1,0 +1,11 @@
+<div class="body">
+    <div class="space d-inline-block text-center">
+        <div class="mt-5 needle">
+            <span class="form-label ">输入用户名:</span>
+            <input class="form-control d-inline-block" [(ngModel)]="name">
+        </div>
+        <div class="my-4">请选择找回方式</div>
+        <button class="btn btn-outline-success mx-5" (click)="showEmail()">邮箱找回</button>
+        <button class="btn btn-outline-success mx-5 " disabled>手机找回</button>
+    </div>
+</div>

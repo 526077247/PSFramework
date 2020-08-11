@@ -16,5 +16,12 @@
     <component id="LoginMgeSvr"  type="sso.service.LoginMgeSvr, sso.service" service="sso.service.ILoginMgeSvr, sso.service"/>
     <!--测试服务-->
     <component id="TestSvr"  type="sso.service.TestSvr, sso.service" service="sso.service.ITestSvr, sso.service"/>
+    <!--邮件管理-->
+    <component id="EMailMgeSvr" type="service.core.ProxyService, service.core" service="service.core.IProxyService, service.core">
+      <parameters>
+        <service>sso.service.IEMailMgeSvr, sso.service</service>
+        <url>http://127.0.0.1:8083/api/EMailMgeSvr.assx</url>
+      </parameters>
+    </component>
   </components>
 </configuration>

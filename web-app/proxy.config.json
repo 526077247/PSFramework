@@ -1,0 +1,6 @@
+{
+  "/Service": {
+    "target": "http://47.98.50.215",
+    "changeOrigin": true
+  }
+}

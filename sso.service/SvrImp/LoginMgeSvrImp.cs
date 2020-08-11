@@ -17,8 +17,9 @@ namespace sso.service
         public LoginMgeSvr() : base()
         {
             daoManager = ServiceConfig.GetInstance().DaoManager;
-            cacheManager = (ICacheManager)ServiceManager.GetService(typeof(ICacheManager));
             _UserInfoDao = (IUserInfoDao)daoManager.GetDao(typeof(IUserInfoDao));
+
+            cacheManager = (ICacheManager)ServiceManager.GetService(typeof(ICacheManager));
             _CacheMgeSvr = cacheManager.GetCache("LoginResult");
         }
 

@@ -484,9 +484,19 @@
             json序列化与反序列化
             </summary>
         </member>
+        <member name="P:service.core.DataBase.XMLText">
+            <summary>
+            XML序列化与反序列化
+            </summary>
+        </member>
         <member name="P:service.core.DataList`1.JsonText">
             <summary>
             json序列化与反序列化
+            </summary>
+        </member>
+        <member name="P:service.core.DataList`1.XMLText">
+            <summary>
+            XML序列化与反序列化
             </summary>
         </member>
         <member name="P:service.core.Result.code">

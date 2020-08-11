@@ -1,10 +1,11 @@
-﻿using System;
+﻿using service.core;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace sso.service
 {
-    public class LoginResult
+    public class LoginResult : DataBase
     {
         /// <summary>
         /// 会话标识

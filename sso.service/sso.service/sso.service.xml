@@ -232,6 +232,40 @@
             <param name="mail"></param>
             <returns></returns>
         </member>
+        <member name="M:sso.service.UserInfoMgeSvr.ForgetPswForEMail(System.String,System.Int32)">
+            <summary>
+            忘记密码通过邮箱找回
+            </summary>
+            <param name="name"></param>
+            <param name="type">0邮箱找回</param>
+            <returns></returns>
+        </member>
+        <member name="M:sso.service.UserInfoMgeSvr.ChangePswByTicket(System.String,System.String)">
+            <summary>
+            通过ticket找回密码
+            </summary>
+            <param name="ticket"></param>
+            <param name="newPsw"></param>
+            <returns></returns>
+        </member>
+        <member name="T:sso.service.IEMailMgeSvr">
+            <summary>
+            邮件管理服务
+            </summary>
+        </member>
+        <member name="M:sso.service.IEMailMgeSvr.SendMail(System.String,System.String,System.String,System.String,System.String,System.Int32,System.Boolean)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="address">地址</param>
+            <param name="content">内容</param>
+            <param name="subject">标题</param>
+            <param name="fromAlias">发送方称呼</param>
+            <param name="accountName">发送方地址</param>
+            <param name="addressType">发送方地址类型</param>
+            <param name="replyToAddress">使用默认回信地址</param>
+            <returns></returns>
+        </member>
         <member name="M:sso.service.ILoginMgeSvr.Login(System.String,System.String)">
             <summary>
             登录
@@ -320,8 +354,25 @@
             修改昵称电话邮箱信息
             </summary>
             <param name="token"></param>
+            <param name="nickName"></param>
             <param name="tel"></param>
             <param name="mail"></param>
+            <returns></returns>
+        </member>
+        <member name="M:sso.service.IUserInfoMgeSvr.ForgetPswForEMail(System.String,System.Int32)">
+            <summary>
+            忘记密码通过邮箱找回
+            </summary>
+            <param name="name"></param>
+            <param name="type">0邮箱找回</param>
+            <returns></returns>
+        </member>
+        <member name="M:sso.service.IUserInfoMgeSvr.ChangePswByTicket(System.String,System.String)">
+            <summary>
+            通过ticket找回密码
+            </summary>
+            <param name="ticket"></param>
+            <param name="newPsw"></param>
             <returns></returns>
         </member>
     </members>

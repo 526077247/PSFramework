@@ -1,12 +1,18 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using ServiceStack;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.Serialization;
 
 namespace service.core
 {
+    
     public class DataBase
     {
         /// <summary>
@@ -21,22 +27,34 @@ namespace service.core
             }
             set
             {
-                var jObject = JsonConvert.DeserializeObject<Hashtable>(value);
+                var jObject = JsonConvert.DeserializeObject(value, GetType());
                 foreach (var item in GetType().GetRuntimeProperties())
-                    if (item.Name != "JsonText" && jObject[item.Name] != null)
+                {
+                    if (!item.HasAttribute<JsonIgnoreAttribute>())
                     {
-                        object newvalue;
-                        try
-                        {
-                            newvalue = Convert.ChangeType(jObject[item.Name], item.PropertyType);
-                            item.SetValue(this, newvalue);
-                        }
-                        catch
-                        {
-                            newvalue = JsonConvert.DeserializeObject(jObject[item.Name].ToString(), item.PropertyType);
-                            item.SetValue(this, newvalue);
-                        }
+                        var itemValue = item.GetValue(jObject);
+                        if (itemValue != null)
+                            item.SetValue(this, itemValue);
                     }
+                }
+            }
+        }
+        /// <summary>
+        /// XML序列化与反序列化
+        /// </summary>
+        [JsonIgnore]
+        public string XMLText
+        {
+
+            get
+            {
+                return JsonConvert.DeserializeXNode(JsonText, "DataPacket", true).ToString();
+            }
+            set
+            {
+                XNode doc = XElement.Parse(value);
+                var newvalue = JsonConvert.DeserializeObject<JObject>(JsonConvert.SerializeXNode(doc));
+                JsonText = newvalue.First.Value<JToken>().First.ToString();
             }
         }
     }

@@ -6,9 +6,9 @@
     <Product>Service.Core-PsFramework</Product>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>Service.Core-PsFramework</PackageId>
-    <Version>1.0.14</Version>
+    <Version>1.0.15</Version>
     <AssemblyName>Service.Core</AssemblyName>
-    <AssemblyVersion>1.0.14.0</AssemblyVersion>
+    <AssemblyVersion>1.0.15.0</AssemblyVersion>
     <Description>e.g.  https://github.com/526077247/myt-blog
 src  https://github.com/526077247/sso-.net-core-3.0/tree/master/service.core</Description>
   </PropertyGroup>

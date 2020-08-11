@@ -17,11 +17,18 @@ namespace sso.service
         private readonly IDaoManager daoManager = null;
         private readonly IUserInfoDao _UserInfoDao = null;
         private readonly ILoginMgeSvr _LoginMgeSvr = null;
+        private readonly IEMailMgeSvr _EMailMgeSvr = null;
+        private readonly ICacheManager cacheManager = null;
+        private readonly ICacheMgeSvr _CacheMgeSvr = null;
         public UserInfoMgeSvr() : base()
         {
             daoManager = ServiceConfig.GetInstance().DaoManager;
             _UserInfoDao = (IUserInfoDao)daoManager.GetDao(typeof(IUserInfoDao));
             _LoginMgeSvr = ServiceManager.GetService<ILoginMgeSvr>("LoginMgeSvr");
+            _EMailMgeSvr = ServiceManager.GetService<IEMailMgeSvr>("EMailMgeSvr");
+
+            cacheManager = (ICacheManager)ServiceManager.GetService(typeof(ICacheManager));
+            _CacheMgeSvr = cacheManager.GetCache("LoginResult");
         }
         #endregion
 
@@ -191,6 +198,72 @@ namespace sso.service
                 }
             }
             return result;
+        }
+
+        /// <summary>
+        /// 忘记密码通过邮箱找回
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="type">0邮箱找回</param>
+        /// <returns></returns>
+        [PublishMethod]
+        public bool ForgetPswForEMail(string name, int type = 0)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new Exception("用户名为空");
+            }
+            Hashtable para = new Hashtable();
+            para.Add("Name", name);
+            object obj = _UserInfoDao.GetByPara(para);
+            if (obj != null)
+            {
+                UserInfo userInfo = obj as UserInfo;
+                if (!string.IsNullOrEmpty(userInfo.Mail))
+                {
+                    string ticket = Utils.GuidToString(6);
+                    if( _EMailMgeSvr.SendMail(userInfo.Mail, $"您好，您正在通过邮箱重置密码，若非本人操作请不必理会。点击下方链接进行下一步以重置密码。\r\nhttps://account.mayuntao.xyz/reset?ticket={ticket}&name={name}" , "密码找回", "Myt", "admin@mayuntao.xyz"))
+                    {
+                        _CacheMgeSvr.Put(ticket, name, 300);
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    throw new Exception("没有绑定邮箱");
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 通过ticket找回密码
+        /// </summary>
+        /// <param name="ticket"></param>
+        /// <param name="newPsw"></param>
+        /// <returns></returns>
+        [PublishMethod]
+        public bool ChangePswByTicket(string ticket, string newPsw)
+        {
+            string oName = _CacheMgeSvr.Get<string>(ticket);
+            if (!string.IsNullOrEmpty(oName))
+            {
+                Hashtable para = new Hashtable();
+                para.Add("Name", oName);
+                object obj = _UserInfoDao.GetByPara(para);
+                if (obj != null)
+                {
+                    UserInfo userInfo = obj as UserInfo;
+                    userInfo.Psw = MD5Helper.GetMD5HashString(newPsw);
+                    _CacheMgeSvr.Delete(ticket);
+                    return _UserInfoDao.Update(userInfo) != null;
+                }    
+            }
+            return false;
         }
         #endregion
     }

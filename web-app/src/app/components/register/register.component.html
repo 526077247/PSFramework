@@ -1,0 +1,83 @@
+<div class="page" (mouseup)="startCheck()">
+    <div class="page-content">
+      <mat-card class="my-5 card">
+        <h2>用户注册</h2>
+        <div class="needle">带<span></span>为必填项</div>
+        <div class="mt-5 needle">
+          <span class="form-label ">用户名:</span>
+          <input class="form-control d-inline-block" autocomplete="off"  placeholder="输入字母开头的不包含特殊字符长度最长15位且不小于9位的字符串"
+                 [(ngModel)]="userInfo.Name" (focusout)="checkUserName()" maxlength="15">
+        </div>
+        <div *ngIf="isCheckUserName!==1" class="text-danger">
+          {{userNameErr}}
+        </div>
+        <div *ngIf="isCheckUserName===1" class="text-success">
+          <span class="ionicons ion-ios-checkmark-circle-outline">验证通过</span>
+        </div>
+        <div class="mt-5 needle">
+          <span class="form-label ">输入密码:</span>
+          <input class="form-control d-inline-block" type="password" autocomplete="new-password"  placeholder="输入至少包含字母和数字的长度最长15位且不小于6位的字符串"
+                 [(ngModel)]="userInfo.Psw" (focusout)="checkPsw()">
+        </div>
+        <div *ngIf="isCheckPsw!==1" class="text-danger">
+          {{userPswErr}}
+        </div>
+        <div *ngIf="isCheckPsw===1" class="text-success">
+          <span class="ionicons ion-ios-checkmark-circle-outline">验证通过</span>
+        </div>
+        <div class="mt-5 needle">
+          <span class="form-label ">再次输入密码:</span>
+          <input class="form-control d-inline-block" placeholder="再次输入密码" autocomplete="new-password"  [(ngModel)]="psw2" type="password"
+                 (focusout)="checkPsw2()">
+        </div>
+        <div *ngIf="isCheckPsw2===2" class="text-danger">
+          两次输入密码不一致
+        </div>
+        <div *ngIf="isCheckPsw2===1" class="text-success">
+          <span class="ionicons ion-ios-checkmark-circle-outline">验证通过</span>
+        </div>
+        <div class="mt-5 needle">
+          <span class="form-label ">昵称:</span>
+          <input class="form-control d-inline-block" [(ngModel)]="userInfo.NickName" (focusout)="checkNickName()"
+                 placeholder="输入不包含特殊字符的长度最长10位且不小于2位的字符串" maxlength="10">
+        </div>
+        <div *ngIf="isCheckNickName!==1" class="text-danger">
+          {{isCheckNickName === 3 ? '长度不足2位' : (isCheckNickName === 2 ? '昵称不能包含特殊字符' : '')}}
+        </div>
+        <div *ngIf="isCheckNickName===1" class="text-success">
+          <span class="ionicons ion-ios-checkmark-circle-outline">验证通过</span>
+        </div>
+  
+        <div class="mt-5 needle">
+          <span class="form-label ">邮箱:</span>
+          <input class="form-control d-inline-block" [(ngModel)]="userInfo.Mail" (focusout)="checkEmail()"
+           placeholder="用于密码找回" maxlength="20">
+        </div>
+        <div *ngIf="isCheckEmail!==1" class="text-danger">
+          {{isCheckEmail === 3 ? '邮箱不能为空'  : ''}}
+        </div>
+        <div *ngIf="isCheckEmail===1" class="text-success">
+          <span class="ionicons ion-ios-checkmark-circle-outline">验证通过</span>
+        </div>
+        <div class="mt-5 ">
+          <span class="form-label ">手机:</span>
+          <input class="form-control d-inline-block" [(ngModel)]="userInfo.Tel" placeholder="用于密码找回" maxlength="18">
+        </div>
+        <!-- <div class="form-label mt-5 needle">
+          <span>拖动下方滑竿到右侧完成验证</span>
+        </div>
+        <mat-slider class="w-100" min="1" max="100" step="0.5" value="0" [(ngModel)]="step"
+                    (mousedown)="isCheck=true" [disabled]="isCheckPass===1"></mat-slider>
+        <div *ngIf="isCheckPass===2" class="text-danger">
+        </div>
+        <div *ngIf="isCheckPass===1" class="text-success">
+          <span class="ionicons ion-ios-checkmark-circle-outline">验证通过</span>
+        </div> -->
+        <div class="text-center mt-5">
+          <button class="btn btn-lg btn-outline-primary " (click)="registe()">立即注册</button>
+        </div>
+        <div class="text-center mt-5" ><a routerLink="/login">Already Have One?</a></div>
+      </mat-card>
+    </div>
+  </div>
+  

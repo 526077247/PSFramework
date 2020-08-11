@@ -6,6 +6,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>D:\GitProject\sso\sso\../publish</_PublishTargetUrl>
+    <_PublishTargetUrl>D:\Git\sso-.net-core-3.0\sso\../publish</_PublishTargetUrl>
   </PropertyGroup>
 </Project>

@@ -1,0 +1,90 @@
+/* You can add global styles to this file, and also import other style files */
+//@import "../node_modules/ng-zorro-antd/ng-zorro-antd.less";
+@import "./color.less";
+// The prefix to use on all css classes from ant.
+
+
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-size: 14px;
+  line-height: 1.5;
+  background: #f8f8f8;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
+
+img {
+  max-width: 100%;
+}
+
+button {
+  outline: none !important;
+}
+
+label {
+  margin-bottom: 0;
+}
+
+.ant-dropdown {
+  top: 0 !important;
+}
+
+// 滚动条设置
+::-webkit-scrollbar {
+  width: 10px; //y轴上的滚动条宽度
+  height: 10px; //x轴上滚动条高度
+  cursor: pointer;
+
+  &-track {
+    border-radius: 3px; /*滚动条的背景区域的圆角*/
+    background-color: #ffffff; /*滚动条的背景颜色*/
+  }
+
+  &-thumb {
+    border-radius: 3px; /*滚动条的圆角*/
+    background-color: #ccc; /*滚动条的背景颜色*/
+
+    &:hover {
+      background-color: #bbb;
+    }
+
+    &:active {
+      background-color: #bbb;
+    }
+  }
+}
+
+
+.page {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+
+  &-header {
+    position: absolute;
+    width: 100%;
+    background-color: @mainColor;
+    height: 100px;
+    padding: 2rem 2rem;
+
+  }
+
+  &-body {
+    position: absolute;
+    width: 100%;
+    top: 100px;
+    bottom: 0;
+  }
+}
+

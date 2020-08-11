@@ -58,11 +58,31 @@ namespace sso.service
         /// 修改昵称电话邮箱信息
         /// </summary>
         /// <param name="token"></param>
+        /// <param name="nickName"></param>
         /// <param name="tel"></param>
         /// <param name="mail"></param>
         /// <returns></returns>
         [CheckLogin]
         [PublishMethod]
         UserDetails UpdateUser(string token,string nickName="", string tel = "", string mail = "");
+
+        /// <summary>
+        /// 忘记密码通过邮箱找回
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="type">0邮箱找回</param>
+        /// <returns></returns>
+        [PublishMethod]
+        bool ForgetPswForEMail(string name, int type = 0);
+
+        /// <summary>
+        /// 通过ticket找回密码
+        /// </summary>
+        /// <param name="ticket"></param>
+        /// <param name="newPsw"></param>
+        /// <returns></returns>
+        [PublishMethod]
+        bool ChangePswByTicket(string ticket,string newPsw);
+
     }
 }

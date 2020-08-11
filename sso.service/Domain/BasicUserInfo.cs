@@ -1,10 +1,11 @@
-﻿using System;
+﻿using service.core;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace sso.service
 {
-    public class BasicUserInfo
+    public class BasicUserInfo:DataBase
     {
         
         /// <summary>

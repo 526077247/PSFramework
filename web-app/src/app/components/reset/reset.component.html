@@ -1,0 +1,13 @@
+<div class="body">
+    <div class="space d-inline-block text-center">
+        <div class="mt-5 needle">
+            <span class="form-label ">请输入新密码:</span>
+            <input type="password" class="form-control d-inline-block" [(ngModel)]="newpsw">
+        </div>
+        <div class="mt-5 needle">
+            <span class="form-label ">再次确认输入:</span>
+            <input type="password" class="form-control d-inline-block" [(ngModel)]="newpsw2">
+        </div>
+        <button class="btn btn-outline-success mx-5" (click)="resetPsw()">确定</button>
+    </div>
+</div>
