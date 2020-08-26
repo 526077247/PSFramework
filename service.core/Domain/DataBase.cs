@@ -12,8 +12,37 @@ using System.Xml.Serialization;
 
 namespace service.core
 {
-    
+    [Obsolete("请使用DataObject")]
     public class DataBase
+    {
+        /// <summary>
+        /// json序列化与反序列化
+        /// </summary>
+        [JsonIgnore]
+        public string JsonText
+        {
+            get
+            {
+                return JsonConvert.SerializeObject(this);
+            }
+            set
+            {
+                var jObject = JsonConvert.DeserializeObject(value, GetType());
+                foreach (var item in GetType().GetRuntimeProperties())
+                {
+                    if (!item.HasAttribute<JsonIgnoreAttribute>())
+                    {
+                        var itemValue = item.GetValue(jObject);
+                        if (itemValue != null)
+                            item.SetValue(this, itemValue);
+                    }
+                }
+            }
+        }
+        
+    }
+
+    public class DataObject
     {
         /// <summary>
         /// json序列化与反序列化

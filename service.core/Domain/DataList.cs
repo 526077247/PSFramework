@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace service.core
 {
-    class Packet:DataBase
+    class Packet:DataObject
     {
         public object DataPacket { get; set; }
     }

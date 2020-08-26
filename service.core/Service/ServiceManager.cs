@@ -22,20 +22,31 @@ namespace service.core
             if (!string.IsNullOrEmpty(path))
                 container = new WindsorContainer(new XmlInterpreter(path));
         }
-        private async static void GetInstance()
+
+        private static IWindsorContainer Container
         {
-            await Task.Run(new Action(StandBy));
-        }
-        private static void StandBy()
-        {
-            if (container==null)
+            get
             {
-                string path = ConfigurationManager.Configuration.GetSection("serviceCore:servicesFile").Value;
-                if (!string.IsNullOrEmpty(path))
-                    container = new WindsorContainer(new XmlInterpreter(path));
-                else
-                    throw new Exception("servicesFile未配置");
+                if (container == null)
+                {
+                    string path = ConfigurationManager.Configuration.GetSection("serviceCore:servicesFile").Value;
+                    if (!string.IsNullOrEmpty(path))
+                        container = new WindsorContainer(new XmlInterpreter(path));
+                    else
+                        throw new Exception("servicesFile未配置");
+                }
+                return container;
             }
+        }
+
+        /// <summary>
+        /// 取Service实例
+        /// </summary>
+        /// <typeparam name="TService"></typeparam>
+        /// <returns></returns>
+        public static TService GetService<TService>() where TService : class
+        {
+            return Container.Resolve<TService>();
         }
         /// <summary>
         /// 取Service实例
@@ -45,24 +56,21 @@ namespace service.core
         /// <returns></returns>
         public static TService GetService<TService>(string SvrID) where TService : class
         {
-            if (container == null)
-            {
-                GetInstance();   
-            }
+            
             try
             {
-                IProxyService proxy = container.Resolve<IProxyService>(SvrID);
+                IProxyService proxy = Container.Resolve<IProxyService>(SvrID);
                 if (proxy != null)
                 {
                     try
                     {
-                        TService service = container.Resolve<TService>(SvrID + "Proxy");
+                        TService service = Container.Resolve<TService>(SvrID + "Proxy");
                         return service;
                     }
                     catch
                     {
                         TService svr = proxy.GetService<TService>();
-                        container.Register(
+                        Container.Register(
                            Component.For<TService>()
                            .Instance(svr)
                            .Named(SvrID + "Proxy")
@@ -74,7 +82,7 @@ namespace service.core
                 }
             }
             catch { }
-            return container.Resolve<TService>(SvrID);
+            return Container.Resolve<TService>(SvrID);
         }
         /// <summary>
         /// 取Service实例
@@ -84,24 +92,20 @@ namespace service.core
         /// <returns></returns>
         public static object GetService(string SvrID, Type serviceType)
         {
-            if (container == null)
-            {
-                GetInstance();
-            }
             try
             {
-                IProxyService proxy = container.Resolve<IProxyService>(SvrID);
+                IProxyService proxy = Container.Resolve<IProxyService>(SvrID);
                 if (proxy != null)
                 {
                     try
                     {
-                        var service = container.Resolve(SvrID + "Proxy", serviceType);
+                        var service = Container.Resolve(SvrID + "Proxy", serviceType);
                         return service;
                     }
                     catch
                     {
                         var svr = proxy.GetService();
-                        container.Register(
+                        Container.Register(
                            Component.For(serviceType)
                            .Instance(svr)
                            .Named(SvrID + "Proxy")
@@ -112,7 +116,7 @@ namespace service.core
                 }
             }
             catch { }
-            return container.Resolve(SvrID, serviceType);
+            return Container.Resolve(SvrID, serviceType);
         }
         /// <summary>
         /// 取Service实例
@@ -121,11 +125,7 @@ namespace service.core
         /// <returns></returns>
         public static object GetService(Type serviceType)
         {
-            if (container == null)
-            {
-                GetInstance();
-            }
-            return container.Resolve(serviceType);
+            return Container.Resolve(serviceType);
         }
         /// <summary>
         /// 根据类名取类
