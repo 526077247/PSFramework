@@ -24,7 +24,7 @@ namespace service.core
         public static string GenerateRandomNumber(int Length)
         {
             StringBuilder newRandom = new StringBuilder(62);
-            Random rd = new Random();
+            Random rd = new Random(DateTime.Now.Millisecond);
             for (int i = 0; i < Length; i++)
             {
                 newRandom.Append(constant[rd.Next(62)]);
