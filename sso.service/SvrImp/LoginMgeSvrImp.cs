@@ -148,6 +148,7 @@ namespace sso.service
                 else
                 {
                     result.LoginTime = DateTime.Now;
+                    result.Effective = 3600 * 12;
                     if (!_CacheMgeSvr.Put(result.Token, result))
                         throw new Exception("服务器繁忙请稍后再试");
                 }

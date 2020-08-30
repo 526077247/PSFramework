@@ -3,6 +3,7 @@ import {LoginAuthorService} from '../../service/login-author.service';
 import {Title} from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { LoginMgeSvr } from 'src/app/service/login-mge.service';
+import {Util} from 'src/app/share/class/util';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -52,7 +53,9 @@ export class LoginComponent implements OnInit {
     this.loginMgeSvr.GetAuthorizationCode(this.username, this.password).then(res=>{
       if(!!res){
         this.redirectUrl=this.redirectUrl.replace('code=','code='+res);
-        location.href=this.redirectUrl;
+        let vs = this.redirectUrl.split('&redirectUrl=');
+        this.redirectUrl= Util.addUrlParam(vs[0],'redirectUrl='+encodeURIComponent(vs[1]));
+        location.href= this.redirectUrl;
       }else{
 
       }
