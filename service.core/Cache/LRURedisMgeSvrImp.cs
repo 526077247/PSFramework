@@ -17,7 +17,7 @@ namespace service.core
         private readonly string[] redisHosts = null;
         public int RedisMaxReadPool = 3;
         public int RedisMaxWritePool = 1;
-
+        public ILogger log;
         public LRURedisMgeSvrImp(string REDIS_IP, int REDIS_PORT, TimeSpan lifeTime, int LRUSize)
         {
             var redisHostStr = $"{REDIS_IP}:{REDIS_PORT}";
@@ -38,7 +38,7 @@ namespace service.core
                 }
             }
             _lifeTime = lifeTime;
-
+            log = LogManager.GetLog("LRURedis");
             _locker = new ReaderWriterLockSlim();
             _capacity = LRUSize > 0 ? LRUSize : DEFAULT_CAPACITY;
             _dictionary = new Dictionary<string, object>();
@@ -50,9 +50,29 @@ namespace service.core
                 while (true)
                 {
                     Thread.Sleep(1);
-                    if (_timeList.Count > 0&&_timeDictionary[_timeList.Last.Value].Add(_lifeTime) < DateTime.Now)
+                    try
+                    {          
+                        if (Count > 0 )
+                        {
+                            _locker.EnterReadLock();
+                            var key = _timeList.Last.Value ;
+                            var date = _timeDictionary[key];
+                            _locker.ExitReadLock();
+                            if (date < DateTime.Now)
+                            {
+                                _locker.EnterWriteLock();
+                                _timeDictionary.Remove(key);
+                                _dictionary.Remove(key);
+                                _linkedList.Remove(key);
+                                _timeList.Remove(key);
+                                _locker.ExitWriteLock();
+                            }
+                        }
+                        
+                    }
+                    catch(Exception ex)
                     {
-                        Remove(_timeList.Last.Value);
+                        log.Error(ex);
                     }
                 }
             });
@@ -69,14 +89,17 @@ namespace service.core
         LinkedList<string> _linkedList;
         LinkedList<string> _timeList;
         IDictionary<string, DateTime> _timeDictionary;
-        public void Set(string key, object value)
+        public void Set(string key, object value,DateTime lifeTime)
         {
             _locker.EnterWriteLock();
             try
             {
-                _timeList.Remove(key);
-                _timeList.AddFirst(key);
-                _timeDictionary[key] = DateTime.Now;
+                if (DateTime.MinValue != lifeTime)
+                {
+                    _timeDictionary[key] = lifeTime;
+                    _timeList.Remove(key);
+                    _timeList.AddFirst(key);
+                }
                 _dictionary[key] = value;
                 _linkedList.Remove(key);
                 _linkedList.AddFirst(key);
@@ -97,7 +120,7 @@ namespace service.core
             _locker.EnterWriteLock();
             try
             {
-                _timeDictionary.Remove(_linkedList.Last.Value);
+                _timeDictionary.Remove(key);
                 _timeList.Remove(key);
                 _dictionary.Remove(key);
                 _linkedList.Remove(key);
@@ -210,9 +233,9 @@ namespace service.core
         }
         #endregion
         #region Redis
-        private bool PutToRedis(string key, object value, int timeSpanSeconds = 0)
+        private bool PutToRedis(string key, object value, TimeSpan timeSpan)
         {
-            TimeSpan timeSpan = timeSpanSeconds == 0 ? _lifeTime : new TimeSpan(0, 0, timeSpanSeconds);
+           
             if (value == null)
             {
                 return false;
@@ -253,8 +276,9 @@ namespace service.core
         /// <returns></returns>
         public bool Put(string key, object value, int timeSpanSeconds = 0)
         {
-            Set(key, value);
-            PutToRedis(key, value, timeSpanSeconds);
+            TimeSpan timeSpan = timeSpanSeconds == 0 ? _lifeTime : new TimeSpan(0, 0, timeSpanSeconds);
+            Set(key, value,DateTime.Now.Add(timeSpan));
+            PutToRedis(key, value, timeSpan);
             return true;
         }
         /// <summary>
@@ -293,7 +317,7 @@ namespace service.core
                     throw new Exception(string.Format("{0}:{1}发生异常!{2}", "cache", "查询", key));
                 }
                 if(obj!=null)
-                    Set(key, obj);
+                    Set(key, obj,DateTime.MinValue);
                 return obj;
             }
 
