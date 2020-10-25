@@ -1,15 +1,15 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using Newtonsoft.Json;
 using ServiceStack.Redis;
-
+using System.Linq;
 namespace service.core
 {
-
-    public class RedisMgeSvr : ICacheMgeSvr
+    public class LRURedisMgeSvrImp: ICacheMgeSvr
     {
+
         #region 服务描述
 
         private TimeSpan _lifeTime;
@@ -18,7 +18,7 @@ namespace service.core
         public int RedisMaxReadPool = 3;
         public int RedisMaxWritePool = 1;
 
-        public RedisMgeSvr(string REDIS_IP, int REDIS_PORT, TimeSpan lifeTime)
+        public LRURedisMgeSvrImp(string REDIS_IP, int REDIS_PORT, TimeSpan lifeTime, int LRUSize)
         {
             var redisHostStr = $"{REDIS_IP}:{REDIS_PORT}";
 
@@ -38,17 +38,179 @@ namespace service.core
                 }
             }
             _lifeTime = lifeTime;
+
+            _locker = new ReaderWriterLockSlim();
+            _capacity = LRUSize > 0 ? LRUSize : DEFAULT_CAPACITY;
+            _dictionary = new Dictionary<string, object>();
+            _linkedList = new LinkedList<string>();
+            _timeList = new LinkedList<string>();
+            _timeDictionary= new Dictionary<string, DateTime>();
+            Thread thread = new Thread(() =>
+            {
+                while (true)
+                {
+                    Thread.Sleep(1);
+                    if (_timeList.Count > 0&&_timeDictionary[_timeList.Last.Value].Add(_lifeTime) < DateTime.Now)
+                    {
+                        Remove(_timeList.Last.Value);
+                    }
+                }
+            });
+            thread.Start();
         }
         #endregion
 
-        #region ICacheMgeSvr函数
-        /// <summary>
-        /// 增加/修改
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public bool Put(string key, object value, int timeSpanSeconds = 0)
+        #region LRU
+        const int DEFAULT_CAPACITY = 255;
+
+        int _capacity;
+        ReaderWriterLockSlim _locker;
+        IDictionary<string, object> _dictionary;
+        LinkedList<string> _linkedList;
+        LinkedList<string> _timeList;
+        IDictionary<string, DateTime> _timeDictionary;
+        public void Set(string key, object value)
+        {
+            _locker.EnterWriteLock();
+            try
+            {
+                _timeList.Remove(key);
+                _timeList.AddFirst(key);
+                _timeDictionary[key] = DateTime.Now;
+                _dictionary[key] = value;
+                _linkedList.Remove(key);
+                _linkedList.AddFirst(key);
+                if (_linkedList.Count > _capacity)
+                {
+                    _timeDictionary.Remove(_linkedList.Last.Value);
+                    _dictionary.Remove(_linkedList.Last.Value);
+                    _timeList.Remove(_linkedList.Last.Value);
+                    _linkedList.RemoveLast();
+                    
+                }
+            }
+            finally { _locker.ExitWriteLock(); }
+        }
+
+        public void Remove(string key)
+        {
+            _locker.EnterWriteLock();
+            try
+            {
+                _timeDictionary.Remove(_linkedList.Last.Value);
+                _timeList.Remove(key);
+                _dictionary.Remove(key);
+                _linkedList.Remove(key);
+            }
+            finally { _locker.ExitWriteLock(); }
+        }
+        public bool TryGet(string key, out object value)
+        {
+            _locker.EnterUpgradeableReadLock();
+            try
+            {
+                bool b = _dictionary.TryGetValue(key, out value);
+                if (b)
+                {
+                    _locker.EnterWriteLock();
+                    try
+                    {
+                        _linkedList.Remove(key);
+                        _linkedList.AddFirst(key);
+                    }
+                    finally { _locker.ExitWriteLock(); }
+                }
+                return b;
+            }
+            catch { throw; }
+            finally { _locker.ExitUpgradeableReadLock(); }
+        }
+
+        public bool ContainsKey(string key)
+        {
+            _locker.EnterReadLock();
+            try
+            {
+                return _dictionary.ContainsKey(key);
+            }
+            finally { _locker.ExitReadLock(); }
+        }
+
+        public int Count
+        {
+            get
+            {
+                _locker.EnterReadLock();
+                try
+                {
+                    return _dictionary.Count;
+                }
+                finally { _locker.ExitReadLock(); }
+            }
+        }
+
+        public int Capacity
+        {
+            get
+            {
+                _locker.EnterReadLock();
+                try
+                {
+                    return _capacity;
+                }
+                finally { _locker.ExitReadLock(); }
+            }
+            set
+            {
+                _locker.EnterUpgradeableReadLock();
+                try
+                {
+                    if (value > 0 && _capacity != value)
+                    {
+                        _locker.EnterWriteLock();
+                        try
+                        {
+                            _capacity = value;
+                            while (_linkedList.Count > _capacity)
+                            {
+                                _linkedList.RemoveLast();
+                            }
+                        }
+                        finally { _locker.ExitWriteLock(); }
+                    }
+                }
+                finally { _locker.ExitUpgradeableReadLock(); }
+            }
+        }
+
+        public ICollection<string> AllKeys
+        {
+            get
+            {
+                _locker.EnterReadLock();
+                try
+                {
+                    return _dictionary.Keys;
+                }
+                finally { _locker.ExitReadLock(); }
+            }
+        }
+
+        public ICollection<object> Values
+        {
+            get
+            {
+                _locker.EnterReadLock();
+                try
+                {
+                    return _dictionary.Values;
+                }
+                finally { _locker.ExitReadLock(); }
+            }
+        }
+        #endregion
+        #region Redis
+        private bool PutToRedis(string key, object value, int timeSpanSeconds = 0)
         {
             TimeSpan timeSpan = timeSpanSeconds == 0 ? _lifeTime : new TimeSpan(0, 0, timeSpanSeconds);
             if (value == null)
@@ -80,6 +242,21 @@ namespace service.core
             }
             return true;
         }
+        #endregion
+
+        #region ICacheMgeSvr函数
+        /// <summary>
+        /// 增加/修改
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public bool Put(string key, object value, int timeSpanSeconds = 0)
+        {
+            Set(key, value);
+            PutToRedis(key, value, timeSpanSeconds);
+            return true;
+        }
         /// <summary>
         /// 查询
         /// </summary>
@@ -91,26 +268,36 @@ namespace service.core
             {
                 return default(T);
             }
-
-            T obj = default(T);
-
-            try
+            if (TryGet(key, out var res))
             {
-                if (pool != null)
+                return (T)res;
+            }
+            else
+            {
+                T obj = default(T);
+
+                try
                 {
-                    using var r = pool.GetClient();
-                    if (r != null)
+                    if (pool != null)
                     {
-                        r.SendTimeout = 1000;
-                        obj = r.Get<T>(key);
+                        using var r = pool.GetClient();
+                        if (r != null)
+                        {
+                            r.SendTimeout = 1000;
+                            obj = r.Get<T>(key);
+                        }
                     }
                 }
+                catch
+                {
+                    throw new Exception(string.Format("{0}:{1}发生异常!{2}", "cache", "查询", key));
+                }
+                if(obj!=null)
+                    Set(key, obj);
+                return obj;
             }
-            catch
-            {
-                throw new Exception(string.Format("{0}:{1}发生异常!{2}", "cache", "查询", key));
-            }
-            return obj;
+
+            
         }
 
         /// <summary>
@@ -122,6 +309,10 @@ namespace service.core
         {
             try
             {
+                if (AllKeys.Contains(key))
+                {
+                    Remove(key);
+                }
                 if (pool != null)
                 {
                     using var r = pool.GetClient();
@@ -147,6 +338,10 @@ namespace service.core
         {
             try
             {
+                if (AllKeys.Contains(key))
+                {
+                    return true;
+                }
                 if (pool != null)
                 {
                     using var r = pool.GetClient();
@@ -332,8 +527,10 @@ namespace service.core
             return result;
         }
         #endregion
-
     }
 
-}
 
+
+
+
+}

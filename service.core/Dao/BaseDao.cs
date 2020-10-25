@@ -6,7 +6,8 @@ using IBatisNet.Common.Exceptions;
 using IBatisNet.Common.Pagination;
 using IBatisNet.DataAccess.Interfaces;
 using IBatisNet.DataMapper;
-
+using System.Collections.Generic;
+using System.Linq;
 namespace service.core
 {
     public class BaseDao : IDao
@@ -128,7 +129,6 @@ namespace service.core
         {
             return (int)Get(para,sqlmap);
         }
-
         /// <summary>
         /// 查列表
         /// </summary>
@@ -149,6 +149,27 @@ namespace service.core
                 throw new IBatisNetException("Error executing query '" + sqlmap + "' for list.  Cause: " + ex.Message, ex);
             }
             return result;
+        }
+        /// <summary>
+        /// 查列表
+        /// </summary>
+        /// <param name="para"></param>
+        /// <param name="sqlmap"></param>
+        /// <param name="satrt"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        protected List<T> QueryList<T>(object para, string sqlmap, int satrt, int pageSize)
+        {
+            IList<T> result;
+            try
+            {
+                result = sqlMapper.QueryForList<T>(sqlmap, para, satrt, pageSize);
+            }
+            catch (Exception ex)
+            {
+                throw new IBatisNetException("Error executing query '" + sqlmap + "' for list.  Cause: " + ex.Message, ex);
+            }
+            return result.ToList();
         }
 
 

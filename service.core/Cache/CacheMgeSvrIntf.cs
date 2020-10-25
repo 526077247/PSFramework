@@ -46,6 +46,24 @@ namespace service.core
         /// <returns></returns>
         bool HGet(out Dictionary<string, object> dic);
         /// <summary>
+        /// 批量取
+        /// </summary>
+        /// <param name="dic"></param>
+        /// <returns></returns>
+        bool HGet(List<string> keys, out Dictionary<string, object> dic);
+        /// <summary>
+        /// 批量取
+        /// </summary>
+        /// <param name="dic"></param>
+        /// <returns></returns>
+        bool HGet<T>(out Dictionary<string, T> dic);
+        /// <summary>
+        /// 批量取
+        /// </summary>
+        /// <param name="dic"></param>
+        /// <returns></returns>
+        bool HGet<T>(List<string> keys, out Dictionary<string, T> dic);
+        /// <summary>
         /// 查询匹配所有Key
         /// </summary>
         /// <param name="pattern"></param>

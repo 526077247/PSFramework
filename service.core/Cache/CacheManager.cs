@@ -50,6 +50,26 @@ namespace service.core
                         cacheMgeSvr = new RedisMgeSvr(IP, Port, timeSpan);
                         _dic.Add(CacheName, cacheMgeSvr);
                     }
+                    else if(ConfigurationManager.Configuration["Caches:" + CacheName + ":Type"] == "LRU")
+                    {
+                        int size = int.Parse(ConfigurationManager.Configuration["Caches:" + CacheName + ":Size"]);
+                        cacheMgeSvr = new LRUMgeSvrImp(size);
+                        _dic.Add(CacheName, cacheMgeSvr);
+                    }
+                    else if (ConfigurationManager.Configuration["Caches:" + CacheName + ":Type"] == "LRURedis")
+                    {
+                        string IP = ConfigurationManager.Configuration["Caches:" + CacheName + ":Host"];
+                        int Port = int.Parse(ConfigurationManager.Configuration["Caches:" + CacheName + ":Port"]);
+                        TimeSpan timeSpan = new TimeSpan(
+                            int.Parse(ConfigurationManager.Configuration["Caches:" + CacheName + ":lifeTime:hours"]),
+                            int.Parse(ConfigurationManager.Configuration["Caches:" + CacheName + ":lifeTime:min"]),
+                            int.Parse(ConfigurationManager.Configuration["Caches:" + CacheName + ":lifeTime:seconds"])
+                            );
+                        int size = int.Parse(ConfigurationManager.Configuration["Caches:" + CacheName + ":Size"]);
+                        cacheMgeSvr = new LRURedisMgeSvrImp(IP, Port, timeSpan,size);
+                        _dic.Add(CacheName, cacheMgeSvr);
+                    }
+                        
                 }
                 return cacheMgeSvr;
             }

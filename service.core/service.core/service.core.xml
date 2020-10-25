@@ -61,7 +61,99 @@
             <param name="dic"></param>
             <returns></returns>
         </member>
+        <member name="M:service.core.ICacheMgeSvr.HGet(System.Collections.Generic.List{System.String},System.Collections.Generic.Dictionary{System.String,System.Object}@)">
+            <summary>
+            批量取
+            </summary>
+            <param name="dic"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.ICacheMgeSvr.HGet``1(System.Collections.Generic.Dictionary{System.String,``0}@)">
+            <summary>
+            批量取
+            </summary>
+            <param name="dic"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.ICacheMgeSvr.HGet``1(System.Collections.Generic.List{System.String},System.Collections.Generic.Dictionary{System.String,``0}@)">
+            <summary>
+            批量取
+            </summary>
+            <param name="dic"></param>
+            <returns></returns>
+        </member>
         <member name="M:service.core.ICacheMgeSvr.Keys(System.String)">
+            <summary>
+            查询匹配所有Key
+            </summary>
+            <param name="pattern"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.LRURedisMgeSvrImp.Put(System.String,System.Object,System.Int32)">
+            <summary>
+            增加/修改
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.LRURedisMgeSvrImp.Get``1(System.String)">
+            <summary>
+            查询
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.LRURedisMgeSvrImp.Delete(System.String)">
+            <summary>
+            删除
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.LRURedisMgeSvrImp.Exists(System.String)">
+            <summary>
+            是否存在key
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.LRURedisMgeSvrImp.HPut(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            批量存
+            </summary>
+            <param name="dic"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.LRURedisMgeSvrImp.HGet(System.Collections.Generic.Dictionary{System.String,System.Object}@)">
+            <summary>
+            批量取
+            </summary>
+            <param name="dic"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.LRURedisMgeSvrImp.HGet(System.Collections.Generic.List{System.String},System.Collections.Generic.Dictionary{System.String,System.Object}@)">
+            <summary>
+            批量取
+            </summary>
+            <param name="dic"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.LRURedisMgeSvrImp.HGet``1(System.Collections.Generic.Dictionary{System.String,``0}@)">
+            <summary>
+            批量取
+            </summary>
+            <param name="dic"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.LRURedisMgeSvrImp.HGet``1(System.Collections.Generic.List{System.String},System.Collections.Generic.Dictionary{System.String,``0}@)">
+            <summary>
+            批量取
+            </summary>
+            <param name="dic"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.LRURedisMgeSvrImp.Keys(System.String)">
             <summary>
             查询匹配所有Key
             </summary>
@@ -105,6 +197,27 @@
             <returns></returns>
         </member>
         <member name="M:service.core.RedisMgeSvr.HGet(System.Collections.Generic.Dictionary{System.String,System.Object}@)">
+            <summary>
+            批量取
+            </summary>
+            <param name="dic"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.RedisMgeSvr.HGet(System.Collections.Generic.List{System.String},System.Collections.Generic.Dictionary{System.String,System.Object}@)">
+            <summary>
+            批量取
+            </summary>
+            <param name="dic"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.RedisMgeSvr.HGet``1(System.Collections.Generic.Dictionary{System.String,``0}@)">
+            <summary>
+            批量取
+            </summary>
+            <param name="dic"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.RedisMgeSvr.HGet``1(System.Collections.Generic.List{System.String},System.Collections.Generic.Dictionary{System.String,``0}@)">
             <summary>
             批量取
             </summary>
@@ -392,6 +505,16 @@
             <param name="pageSize"></param>
             <returns></returns>
         </member>
+        <member name="M:service.core.BaseDao.QueryList``1(System.Object,System.String,System.Int32,System.Int32)">
+            <summary>
+            查列表
+            </summary>
+            <param name="para"></param>
+            <param name="sqlmap"></param>
+            <param name="satrt"></param>
+            <param name="pageSize"></param>
+            <returns></returns>
+        </member>
         <member name="M:service.core.IBaseDao.Insert(System.Object)">
             <summary>
             添加
@@ -484,7 +607,12 @@
             json序列化与反序列化
             </summary>
         </member>
-        <member name="P:service.core.DataBase.XMLText">
+        <member name="P:service.core.DataObject.JsonText">
+            <summary>
+            json序列化与反序列化
+            </summary>
+        </member>
+        <member name="P:service.core.DataObject.XMLText">
             <summary>
             XML序列化与反序列化
             </summary>
@@ -638,6 +766,13 @@
             <summary>
             取版本号
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.ServiceManager.GetService``1">
+            <summary>
+            取Service实例
+            </summary>
+            <typeparam name="TService"></typeparam>
             <returns></returns>
         </member>
         <member name="M:service.core.ServiceManager.GetService``1(System.String)">
