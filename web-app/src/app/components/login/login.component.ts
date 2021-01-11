@@ -4,6 +4,7 @@ import {Title} from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { LoginMgeSvr } from 'src/app/service/login-mge.service';
 import {Util} from 'src/app/share/class/util';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -19,6 +20,7 @@ export class LoginComponent implements OnInit {
     private loginMgeSvr:LoginMgeSvr,
     private titleService: Title,
     private activatedRoute: ActivatedRoute,
+    private snackBar: MatSnackBar,
   ) {
   }
 
@@ -57,7 +59,7 @@ export class LoginComponent implements OnInit {
         this.redirectUrl= Util.addUrlParam(vs[0],'redirectUrl='+encodeURIComponent(vs[1]));
         location.href= this.redirectUrl;
       }else{
-
+        this.snackBar.open('用户名或密码错误', '', {duration: 2000});
       }
     });
   }
