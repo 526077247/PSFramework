@@ -28,18 +28,182 @@
     3. 在web项目中添加文件夹config和文件config/Components.xml(castle配置文件)，config/dao.config、config/providers.config、config/SqlMap.config(ibatis配置文件)并设置生成时复制到输出目录。配置内容参考本项目。
     
 ## 3.服务类
-## 4.使用缓存
-## 5.使用动态代理远程服务
+### 3.1 定义服务接口
 ```
-[PublishMethod]
-public string Post()
+using service.core;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace 命名空间
 {
-    IUserInfoMgeSvr p = DynServerFactory.CreateServer<IUserInfoMgeSvr>("http://127.0.0.1:8081/api/UserInfoMgeSvr.proxy", "stream");
+    /// <summary>
+    /// 测试服务
+    /// </summary>
+    public interface ITestSvr : IAppServiceBase 
+    {
 
-    //执行方法看效果   
+        /// <summary>
+        /// 获取数值
+        /// </summary>
+        /// <param name="i">数值</param>
+        /// <returns>数值</returns>
+        [PublishMethod]//发布web指定可访问
+        int GetNum(int i);
 
-    //string result = HttpPostHelper.PostStream<string>("http://127.0.0.1:8081/api/UserInfoMgeSvr.proxy/GetVersion", "");
-    string result = p.GetVersion();
-    return result;
+    }
 }
 ```
+### 3.2 定义服务实现类
+
+```
+
+using IBatisNet.DataAccess;
+using service.core;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
+
+namespace 命名空间
+{
+    /// <summary>
+    /// 测试服务
+    /// </summary>
+    public class TestSvr : AppServiceBase, ITestSvr 
+    {
+        #region 服务描述：测试服务
+
+        public TestSvr() : base()
+        {
+
+        }
+
+        #endregion
+
+
+        #region ITestSvr函数
+
+        /// <summary>
+        /// 获取数值
+        /// </summary>
+        /// <param name="i">数值</param>
+        /// <returns>数值</returns>
+        public int GetNum(int i){
+          return i;
+        }
+        
+        #endregion
+    }
+}
+```
+### 3.3 配置文件添加组件
+
+在 "/你的web发布配置项目/config/Components.xml" 文件中添加如下组件
+
+```
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <components>
+   ...
+    <component id="自定义服务名" type="service.core.ProxyService, service.core" service="service.core.IProxyService, service.core">
+      <parameters>
+        <service>命名空间.接口名, 程序集</service>
+        <url>url地址</url>
+      </parameters>
+    </component>
+   ...
+ </components>
+</configuration>
+```
+### 3.4 发布web服务
+如果要发布web服务可访问，添加配置文件
+
+在"/你的web发布配置项目/wwwroot/xx路径"下添加"自定义服务名.json"
+
+```
+{
+  "SvrID": "自定义服务名",
+  "IntfName": "命名空间.接口类型名称",
+  "IntfAssembly": "程序集"
+}
+```
+
+### 3.5 在其他服务中使用
+```
+private readonly ITestSvr svr = null;
+public TestSvr2()
+{
+    svr = ServiceManager.GetService<ITestSvr>("接口名称");
+}
+```
+
+## 4.使用缓存
+### 4.1 在配置文件中添加
+```
+{
+ ...
+  "Caches": {
+    "LoginResult": {
+      "CacheID": "LoginResult",
+      "Type": "Redis",
+      "Host": "127.0.0.1",
+      "Port": 6379,
+      "lifeTime": {
+        "hours": 12,
+        "min": 0,
+        "seconds": 0
+      },
+      "Size": 256
+    }
+  },
+ ...
+}
+```
+
+### 4.2 使用方式
+```
+private readonly ICacheManager cacheManager = null;
+private readonly ICacheMgeSvr _CacheMgeSvr = null;
+public TestSvr()
+{
+    cacheManager = (ICacheManager)ServiceManager.GetService(typeof(ICacheManager));
+    _CacheMgeSvr = cacheManager.GetCache("LoginResult");
+}
+```
+
+## 5.使用动态代理远程服务
+
+### 5.1 在配置文件中创建 (推荐使用)
+* 定义和远程服务一样的接口
+
+* 配置文件添加组件
+在 "/你的web发布配置项目/config/Components.xml" 文件中添加如下组件
+```
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <components>
+   ...
+    <component id="自定义服务名" type="service.core.ProxyService, service.core" service="service.core.IProxyService, service.core">
+      <parameters>
+        <service>命名空间.接口名, 程序集</service>
+        <url>url地址</url>
+      </parameters>
+    </component>
+   ...
+ </components>
+</configuration>
+```
+
+* 在其他服务中使用方法同3.5
+
+* 然后就可以像调用本地服务一样调用远程接口了
+
+### 5.2 在代码中创建
+
+```
+    T p = DynServerFactory.CreateServer<T>("服务url", "json");
+```
+
+
