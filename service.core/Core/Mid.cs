@@ -50,14 +50,6 @@ namespace service.core
                 context.Response.ContentType = "text/plain; charset=utf-8";
                 await context.Response.WriteAsync(result);
             }
-            else if (paths.Length == 3 && paths[2].EndsWith(".proxy"))
-            {
-                string SvrID = paths[2].Replace(".proxy", "");
-
-                string result = AssxHelper.GetSvrIntfInfo(context, SvrID);
-                context.Response.ContentType = "text/plain; charset=utf-8";
-                await context.Response.WriteAsync(result);
-            }
             else if (paths.Length == 3 && paths[2].EndsWith(".assx"))
             {
                 string SvrID = paths[2].Replace(".assx", "");
@@ -65,16 +57,6 @@ namespace service.core
                 string result = AssxHelper.GetSvrIntfInfo(context, SvrID);
                 context.Response.ContentType = "text/plain; charset=utf-8";
                 await context.Response.WriteAsync(result);
-            }
-            else if (paths.Length == 4 && paths[2].EndsWith(".proxy"))
-            {
-                string SvrID = paths[2].Replace(".proxy", "");
-                string method = paths[3];
-                object result = HttpResultHelper.GetProxyHttpResult(context, SvrID, method);
-                var stream = ByteConvertHelper.Object2Bytes(result);
-                context.Response.ContentType = "application/octet-stream";
-                context.Response.ContentLength = stream.Length;
-                await context.Response.Body.WriteAsync(stream);
             }
             else if (paths.Length == 4 && paths[2].EndsWith(".rsfs"))
             {

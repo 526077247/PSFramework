@@ -281,15 +281,6 @@
             <param name="method"></param>
             <returns></returns>
         </member>
-        <member name="M:service.core.HttpResultHelper.GetProxyHttpResult(Microsoft.AspNetCore.Http.HttpContext,System.String,System.String)">
-            <summary>
-            调用接口(比特流)
-            </summary>
-            <param name="context"></param>
-            <param name="SvrID"></param>
-            <param name="method"></param>
-            <returns></returns>
-        </member>
         <member name="M:service.core.HttpResultHelper.GetServiceResult(Microsoft.AspNetCore.Http.HttpContext,System.Type,service.core.ServiceDefine,System.String)">
             <summary>
             反射调用方法获取执行结果
@@ -366,6 +357,25 @@
             <summary>
             当页面为404时跳到主页
             </summary>
+        </member>
+        <member name="T:service.core.ServiceDefineCache">
+            <summary>
+            服务定义缓存
+            </summary>
+        </member>
+        <member name="M:service.core.ServiceDefineCache.GetServiceDefineByPath(System.String)">
+            <summary>
+            通过路径找指定接口类型
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="M:service.core.ServiceDefineCache.GetTypeByPath(System.String)">
+            <summary>
+            通过路径找指定接口类型
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
         </member>
         <member name="M:service.core.TsHelper.GeTsScriptsClient(Microsoft.AspNetCore.Http.HttpContext,System.String)">
             <summary>

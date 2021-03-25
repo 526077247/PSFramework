@@ -13,6 +13,7 @@ namespace service.core
 {
     internal class AssxHelper
     {
+        private static Dictionary<string, string> cache = new Dictionary<string, string>();
         /// <summary>
         /// 取服务列表
         /// </summary>
@@ -31,25 +32,26 @@ namespace service.core
             }
             else
             {
-                string jstr = File.ReadAllText(path);
-                ServiceDefine serviceDefine = JsonConvert.DeserializeObject<ServiceDefine>(jstr);
-                Type intf = ServiceManager.GetTypeFromAssembly(serviceDefine.IntfName, Assembly.Load(serviceDefine.IntfAssembly));
-                string notePath = AppDomain.CurrentDomain.BaseDirectory + "/" + serviceDefine.IntfAssembly + ".xml";
-                List<XElement> elements = new List<XElement>();
-                if (File.Exists(notePath))
-                {
-                    XElement xe = XElement.Load(notePath);
-                    elements.AddRange(xe.Elements("members").Elements("member"));
-                              
-                }
-                if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + "/service.core.xml"))
-                {
-                    XElement xe = XElement.Load(AppDomain.CurrentDomain.BaseDirectory + "/service.core.xml");
-                    elements.AddRange(xe.Elements("members").Elements("member"));
-
-                }
+                if (cache.ContainsKey(path))
+                    return cache[path];
+                ServiceDefine serviceDefine = ServiceDefineCache.GetServiceDefineByPath(path);
+                Type intf = ServiceDefineCache.GetTypeByPath(path);
                 if (intf != null)
                 {
+                    string notePath = AppDomain.CurrentDomain.BaseDirectory + "/" + serviceDefine.IntfAssembly + ".xml";
+                    List<XElement> elements = new List<XElement>();
+                    if (File.Exists(notePath))
+                    {
+                        XElement xe = XElement.Load(notePath);
+                        elements.AddRange(xe.Elements("members").Elements("member"));
+
+                    }
+                    if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + "/service.core.xml"))
+                    {
+                        XElement xe = XElement.Load(AppDomain.CurrentDomain.BaseDirectory + "/service.core.xml");
+                        elements.AddRange(xe.Elements("members").Elements("member"));
+
+                    }
                     StringBuilder builder = new StringBuilder();
                     builder.AppendLine("服务接口定义：");
                     builder.Append(GetSvrStr(intf, elements));
@@ -60,6 +62,7 @@ namespace service.core
                     return "未找到接口定义" + serviceDefine.IntfName;
                 }
             }
+            cache[path] = result;
             return result;
         }
         /// <summary>

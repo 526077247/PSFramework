@@ -15,6 +15,7 @@ namespace service.core
     internal class HttpResultHelper
     {
         private static ILogger logger = LogManager.GetLog("System");
+        
         /// <summary>
         /// 调用接口(restful封装)
         /// </summary>
@@ -25,7 +26,7 @@ namespace service.core
         internal static Result GetRestfulHttpResult(HttpContext context, string SvrID, string method)
         {
 
-            Result result = CreateFailResult("");
+            Result result;
             try
             {
                 var path = Directory.GetParent("wwwroot" + context.Request.Path.ToString().Replace(".rsfs", ".json")).ToString();
@@ -35,15 +36,17 @@ namespace service.core
                 }
                 else
                 {
-                    string jstr = File.ReadAllText(path);
-                    ServiceDefine serviceDefine = JsonConvert.DeserializeObject<ServiceDefine>(jstr);
-                    Type intf = ServiceManager.GetTypeFromAssembly(serviceDefine.IntfName, Assembly.Load(serviceDefine.IntfAssembly));
+                    ServiceDefine serviceDefine = ServiceDefineCache.GetServiceDefineByPath(path);
+                    Type intf = ServiceDefineCache.GetTypeByPath(path);
 
                     if (intf != null)
                     {
-                        result.data = GetServiceResult(context, intf, serviceDefine, method);
-                        result.code = (int)TYPE_OF_RESULT_TYPE.success;
-                        result.msg = "Success";
+                        result = new Result
+                        {
+                            data = GetServiceResult(context, intf, serviceDefine, method),
+                            code = (int)TYPE_OF_RESULT_TYPE.success,
+                            msg = "Success"
+                        };
                     }
                     else
                     {
@@ -74,7 +77,7 @@ namespace service.core
         /// <returns></returns>
         internal static object GetHttpResult(HttpContext context, string SvrID, string method)
         {
-            ErrorResponse result = CreateFailResult2("");
+            ErrorResponse result;
             try
             {
                 var path = Directory.GetParent("wwwroot" + context.Request.Path.ToString().Replace(".assx", ".json")).ToString();
@@ -84,52 +87,8 @@ namespace service.core
                 }
                 else
                 {
-                    string jstr = File.ReadAllText(path);
-                    ServiceDefine serviceDefine = JsonConvert.DeserializeObject<ServiceDefine>(jstr);
-                    Type intf = ServiceManager.GetTypeFromAssembly(serviceDefine.IntfName, Assembly.Load(serviceDefine.IntfAssembly));
-                    if (intf != null)
-                    {
-                        return GetServiceResult(context, intf, serviceDefine, method);
-                    }
-                    else
-                    {
-                        result = CreateFailResult2("未找到接口定义" + serviceDefine.IntfName + "  ;");
-                    }
-                }
-
-            }
-            catch (ServiceException ex)
-            {
-                result = CreateFailResult2(ex.code, ex.msg);
-            }
-            catch (Exception ex)
-            {
-                result = CreateFailResult2(ex.Message + ex.InnerException?.Message != null ? ex.InnerException.Message.ToString() : "");
-            }
-            return result;
-        }
-        /// <summary>
-        /// 调用接口(比特流)
-        /// </summary>
-        /// <param name="context"></param>
-        /// <param name="SvrID"></param>
-        /// <param name="method"></param>
-        /// <returns></returns>
-        internal static object GetProxyHttpResult(HttpContext context, string SvrID, string method)
-        {
-            ErrorResponse result = CreateFailResult2("");
-            try
-            {
-                var path = Directory.GetParent("wwwroot" + context.Request.Path.ToString().Replace(".proxy", ".json")).ToString();
-                if (!File.Exists(path))
-                {
-                    result = CreateFailResult2("服务未定义" + SvrID);
-                }
-                else
-                {
-                    string jstr = File.ReadAllText(path);
-                    ServiceDefine serviceDefine = JsonConvert.DeserializeObject<ServiceDefine>(jstr);
-                    Type intf = ServiceManager.GetTypeFromAssembly(serviceDefine.IntfName, Assembly.Load(serviceDefine.IntfAssembly));
+                    ServiceDefine serviceDefine = ServiceDefineCache.GetServiceDefineByPath(path);
+                    Type intf = ServiceDefineCache.GetTypeByPath(path);
                     if (intf != null)
                     {
                         return GetServiceResult(context, intf, serviceDefine, method);

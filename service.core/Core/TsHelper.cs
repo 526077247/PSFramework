@@ -15,8 +15,7 @@ namespace service.core
 {
     internal class TsHelper
     {
-
-
+        private static Dictionary<string, string> cache = new Dictionary<string, string>();
         /// <summary>
         /// 获取ts工具服务
         /// </summary>
@@ -34,12 +33,12 @@ namespace service.core
             }
             else
             {
-                string jstr = File.ReadAllText(path);
-                ServiceDefine serviceDefine = JsonConvert.DeserializeObject<ServiceDefine>(jstr);
-                Type intf = ServiceManager.GetTypeFromAssembly(serviceDefine.IntfName, Assembly.Load(serviceDefine.IntfAssembly));
+                if (cache.ContainsKey(path))
+                    return cache[path];
+                ServiceDefine serviceDefine = ServiceDefineCache.GetServiceDefineByPath(path);
+                Type intf = ServiceDefineCache.GetTypeByPath(path);
                 if (intf != null)
                 {
-
                     string text = "";
                     string svrName = SvrID;
                     string responsetype = context.Request.Query["res"];
@@ -65,6 +64,7 @@ namespace service.core
                         {
                             text2 = text + "(" + JsonConvert.SerializeObject(text2) + ");";
                         }
+                        cache[path] = text2;
                         return text2;
                     }
 
