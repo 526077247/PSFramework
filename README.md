@@ -12,10 +12,10 @@
 ### web-app
     web前端示例项目
 ## 2.配置方法
-    1. Nuget上搜索Service.Core-PsFramework可安装框架
+1. Nuget上搜索Service.Core-PsFramework可安装框架
      dotnet add package Service.Core-PsFramework --version 1.0.15
      Install-Package Service.Core-PsFramework -Version 1.0.15
-    2. appsettings.json中添加如下
+2. appsettings.json中添加如下
 ```
   {
    "serviceCore": {
@@ -25,7 +25,7 @@
    ...
   }
 ```
-    3. 在发布web服务项目中添加文件夹config和文件config/Components.xml(castle配置文件)，config/dao.config、config/providers.config、config/SqlMap.config(ibatis配置文件)并设置生成时复制到输出目录。配置内容参考本项目。
+3. 在发布web服务项目中添加文件夹config和文件config/Components.xml(castle配置文件)，config/dao.config、config/providers.config、config/SqlMap.config(ibatis配置文件)并设置生成时复制到输出目录。配置内容参考本项目。
     
 ## 3.服务类
 ### 3.1 定义服务接口
@@ -139,7 +139,7 @@ public TestSvr2()
 }
 ```
 
-## 4.使用缓存
+## 4.使用缓存（如redis）
 ### 4.1 在配置文件中添加
 ```
 {
@@ -205,5 +205,4 @@ public TestSvr()
 ```
     T p = DynServerFactory.CreateServer<T>("服务url", "json");
 ```
-
 
