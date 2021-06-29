@@ -63,7 +63,7 @@
           Id = #Id#
         </isNotEmpty>
         <isNotEmpty prepend="AND" property="Name" >
-          ( Name = #Name# or Id = #Name# )
+          ( Name = #Name# or Id = #Name# or Mail = #Name#)
         </isNotEmpty>
         <isNotEmpty prepend="AND" property="NickName" >
           NickName =  #NickName#
