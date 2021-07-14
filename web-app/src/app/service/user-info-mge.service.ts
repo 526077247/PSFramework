@@ -54,6 +54,22 @@ export class UserInfoMgeSvr {
     });
   }
 
+  CheckEMail(mail: string): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      const httpParams = new HttpParams()
+        .append('mail', mail.toString());
+      this.httpClient.post<Result<boolean>>(this.baseurl + 'CheckEMail', httpParams, {headers: this.header}).subscribe(res => {
+        if (res.code !== 0){
+          reject(res.msg);
+        } else {
+          resolve(res.data as boolean);
+        }
+      }, err => {
+        reject(err);
+      });
+    });
+  }
+
   RegisterUserDetails(userInfo: UserInfo): Promise<LoginResult> {
     return new Promise((resolve, reject) => {
       const httpParams = new HttpParams()

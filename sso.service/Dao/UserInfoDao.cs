@@ -17,6 +17,13 @@ namespace sso.service
         /// <param name="name"></param>
         /// <returns></returns>
         int CheckUser(string name);
+
+        /// <summary>
+        /// 检测Mail相同的用户个数
+        /// </summary>
+        /// <param name="Mail"></param>
+        /// <returns></returns>
+        int CheckMail(string Mail);
     }
 
     public class UserInfoDao : BaseDao, IUserInfoDao
@@ -32,6 +39,17 @@ namespace sso.service
             Hashtable para = new Hashtable();
             para.Add("Name", name);
             return QueryCount(para, "CheckUser");
+        }
+        /// <summary>
+        /// 检测Mail相同的用户个数
+        /// </summary>
+        /// <param name="Mail"></param>
+        /// <returns></returns>
+        public int CheckMail(string Mail)
+        {
+            Hashtable para = new Hashtable();
+            para.Add("Mail", Mail);
+            return QueryCount(para, "CheckMail");
         }
         #endregion
 

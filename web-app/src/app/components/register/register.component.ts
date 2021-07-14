@@ -43,6 +43,8 @@ export class RegisterComponent implements OnInit {
         return '不能包含特殊字符';
       case 5:
         return '必须字母开头';
+      case 6:
+        return '邮箱已被注册';
     }
   }
 
@@ -128,10 +130,13 @@ export class RegisterComponent implements OnInit {
   }
   public checkEmail():void{
     if (!!this.userInfo.Mail && this.userInfo.Mail.length < 20) {
-      this.isCheckEmail = 1;
+      this.userInfoMgeSvr.CheckEMail(this.userInfo.Mail).then(res => {
+        this.isCheckEmail = res ? 1 : 6;
+      });
     } else {
       this.isCheckEmail = 3;
     }
+    
   }
   public checkPsw2(): void {
     this.isCheckPsw2 = this.userInfo.Psw === this.psw2 ? 1 : 2;

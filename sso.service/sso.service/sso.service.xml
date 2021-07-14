@@ -11,11 +11,25 @@
             <param name="name"></param>
             <returns></returns>
         </member>
+        <member name="M:sso.service.IUserInfoDao.CheckMail(System.String)">
+            <summary>
+            检测Mail相同的用户个数
+            </summary>
+            <param name="Mail"></param>
+            <returns></returns>
+        </member>
         <member name="M:sso.service.UserInfoDao.CheckUser(System.String)">
             <summary>
             检测Id和Name相同的用户个数
             </summary>
             <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:sso.service.UserInfoDao.CheckMail(System.String)">
+            <summary>
+            检测Mail相同的用户个数
+            </summary>
+            <param name="Mail"></param>
             <returns></returns>
         </member>
         <member name="M:sso.service.UserInfoDao.Delete(System.Object)">
@@ -190,6 +204,13 @@
             <param name="name"></param>
             <returns></returns>
         </member>
+        <member name="M:sso.service.UserInfoMgeSvr.CheckEMail(System.String)">
+            <summary>
+            检测邮箱是否存在
+            </summary>
+            <param name="mail"></param>
+            <returns></returns>
+        </member>
         <member name="M:sso.service.UserInfoMgeSvr.RegisterUser(System.String,System.String,System.String)">
             <summary>
             注册用户
@@ -324,6 +345,13 @@
             检测用户名是否存在
             </summary>
             <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:sso.service.IUserInfoMgeSvr.CheckEMail(System.String)">
+            <summary>
+            检测邮箱是否存在
+            </summary>
+            <param name="mail"></param>
             <returns></returns>
         </member>
         <member name="M:sso.service.IUserInfoMgeSvr.RegisterUserDetails(sso.service.UserInfo)">

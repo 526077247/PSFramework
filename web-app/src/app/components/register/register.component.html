@@ -54,7 +54,7 @@
            placeholder="用于密码找回" maxlength="20">
         </div>
         <div *ngIf="isCheckEmail!==1" class="text-danger">
-          {{isCheckEmail === 3 ? '邮箱不能为空'  : ''}}
+          {{isCheckEmail === 3 ? '邮箱不能为空'  : (isCheckEmail === 6 ? '邮箱已被注册'  : '')}}
         </div>
         <div *ngIf="isCheckEmail===1" class="text-success">
           <span class="ionicons ion-ios-checkmark-circle-outline">验证通过</span>

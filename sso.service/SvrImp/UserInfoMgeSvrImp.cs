@@ -43,6 +43,16 @@ namespace sso.service
         {
             return _UserInfoDao.CheckUser(name) <= 0;
         }
+        /// <summary>
+        /// 检测邮箱是否存在
+        /// </summary>
+        /// <param name="mail"></param>
+        /// <returns></returns>
+        [PublishMethod]
+        public bool CheckEMail(string mail)
+        {
+            return _UserInfoDao.CheckMail(mail) <= 0;
+        }
 
         /// <summary>
         /// 注册用户

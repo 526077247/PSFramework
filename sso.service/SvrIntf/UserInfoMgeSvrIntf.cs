@@ -26,7 +26,13 @@ namespace sso.service
         /// <returns></returns>
         [PublishMethod]
         bool CheckUserName(string name);
-
+        /// <summary>
+        /// 检测邮箱是否存在
+        /// </summary>
+        /// <param name="mail"></param>
+        /// <returns></returns>
+        [PublishMethod]
+        bool CheckEMail(string mail);
         /// <summary>
         /// 注册用户
         /// </summary>

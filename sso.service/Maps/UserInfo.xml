@@ -137,11 +137,21 @@
       FROM UserInfo
       <dynamic prepend="WHERE" >
         <isNotEmpty prepend="AND" property="Name" >
-          Name = #Name# or Id = #Name#
+          Name = #Name# or Id = #Name# or Mail = #Name#
         </isNotEmpty>
       </dynamic>
     </select>
-
+    
+    <select id="CheckMail" parameterClass="Hashtable" resultClass="int">
+      SELECT count(*)
+      FROM UserInfo
+      <dynamic prepend="WHERE" >
+        <isNotEmpty prepend="AND" property="Mail" >
+          Mail = #Mail#
+        </isNotEmpty>
+      </dynamic>
+    </select>
+    
     <select id="QueryUserInfoList" parameterClass="Hashtable" resultMap="UserInfoResult">
       SELECT *
       FROM UserInfo
