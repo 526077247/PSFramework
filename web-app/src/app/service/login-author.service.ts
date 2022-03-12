@@ -54,8 +54,10 @@ export class LoginAuthorService {
             } else {
               this.router.navigateByUrl('/');
             }
-            this.snackBar.open('登录成功', '', {duration: 2000});
+          }else{
+            location.href= 'https://mayuntao.xyz/';
           }
+          this.snackBar.open('登录成功', '', {duration: 2000});
         });
       } else {
         this.snackBar.open('登录失败', '', {duration: 2000});

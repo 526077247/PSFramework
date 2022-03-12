@@ -1,6 +1,6 @@
 {
   "/Service": {
-    "target": "http://47.98.50.215",
+    "target": "http://account.mayuntao.xyz",
     "changeOrigin": true
   }
 }
