@@ -16,6 +16,7 @@ namespace service.core
     public static class ServiceManager
     {
         private static IWindsorContainer container = null;
+        private static readonly Dictionary<string, Assembly> assemblies = new Dictionary<string, Assembly>();
         static ServiceManager()
         {
             string path = ConfigurationManager.Configuration.GetSection("serviceCore:servicesFile").Value;
@@ -131,10 +132,24 @@ namespace service.core
         /// 根据类名取类
         /// </summary>
         /// <param name="typeName"></param>
-        /// <param name="assembly"></param>
+        /// <param name="assemblyName"></param>
         /// <returns></returns>
-        public static Type GetTypeFromAssembly(string typeName, Assembly assembly)
+        public static Type GetTypeFromAssembly(string typeName, string assemblyName)
         {
+            if (assemblies.Count == 0)
+            {
+                Assembly[] assemblys = AppDomain.CurrentDomain.GetAssemblies();
+                for (int i = 0; i < assemblys.Length; i++)
+                {
+                    assemblies.Add(assemblys[i].GetName().Name,assemblys[i]);
+                }
+            }
+
+            if (!assemblies.TryGetValue(assemblyName, out Assembly assembly))
+            {
+                throw new ServiceException((int) TYPE_OF_RESULT_TYPE.failure, "程序集未找到" + assemblyName);
+            }
+            
             Type[] types = assembly.GetTypes();
             foreach (var t in types)
             {

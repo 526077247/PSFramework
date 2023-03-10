@@ -44,7 +44,7 @@ namespace service.core
             }
             ServiceDefine serviceDefine = GetServiceDefineByPath(path);
             if (serviceDefine == null) return null;
-            Type type = ServiceManager.GetTypeFromAssembly(serviceDefine.IntfName, Assembly.Load(serviceDefine.IntfAssembly));
+            Type type = ServiceManager.GetTypeFromAssembly(serviceDefine.IntfName, serviceDefine.IntfAssembly);
             typeCache[path] = type;
             return type;
         }
