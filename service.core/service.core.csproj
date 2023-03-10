@@ -10,18 +10,18 @@
     <AssemblyName>Service.Core</AssemblyName>
     <AssemblyVersion>1.0.24.0</AssemblyVersion>
     <Description>e.g.  https://github.com/526077247/myt-blog
-src  https://github.com/526077247/sso-.net-core-3.0/tree/master/service.core</Description>
+src  https://github.com/526077247/sso-.net-core-3.0/tree/master/Service.Core</Description>
     <PackageVersion>1.0.25</PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>.\service.core\service.core.xml</DocumentationFile>
+    <DocumentationFile>.\Service.Core\Service.Core.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="service.core\**" />
-    <EmbeddedResource Remove="service.core\**" />
-    <None Remove="service.core\**" />
+    <Compile Remove="Service.Core\**" />
+    <EmbeddedResource Remove="Service.Core\**" />
+    <None Remove="Service.Core\**" />
   </ItemGroup>
 
   <ItemGroup>

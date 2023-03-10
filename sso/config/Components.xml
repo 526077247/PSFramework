@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <configuration>
   <components>
-    <component type="service.core.CacheManager, service.core" service="service.core.ICacheManager, service.core"/>
+    <component type="Service.Core.CacheManager, Service.Core" service="Service.Core.ICacheManager, Service.Core"/>
     
     <!--用户管理-->
     <component id="UserInfoMgeSvr"  type="sso.service.UserInfoMgeSvr, sso.service" service="sso.service.IUserInfoMgeSvr, sso.service"/>
     <!--用户管理-->
-    <component id="UserInfoMgeSvrProxy" type="service.core.ProxyService, service.core" service="service.core.IProxyService, service.core">
+    <component id="UserInfoMgeSvrProxy" type="Service.Core.ProxyService, Service.Core" service="Service.Core.IProxyService, Service.Core">
       <parameters>
         <service>sso.service.IUserInfoMgeSvr, sso.service</service>
         <url>http://127.0.0.1:8080/api/UserInfoMgeSvr.assx</url>
@@ -17,7 +17,7 @@
     <!--测试服务-->
     <component id="TestSvr"  type="sso.service.TestSvr, sso.service" service="sso.service.ITestSvr, sso.service"/>
     <!--邮件管理-->
-    <component id="EMailMgeSvr" type="service.core.ProxyService, service.core" service="service.core.IProxyService, service.core">
+    <component id="EMailMgeSvr" type="Service.Core.ProxyService, Service.Core" service="Service.Core.IProxyService, Service.Core">
       <parameters>
         <service>sso.service.IEMailMgeSvr, sso.service</service>
         <url>http://127.0.0.1:8083/api/EMailMgeSvr.assx</url>

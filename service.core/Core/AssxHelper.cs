@@ -46,9 +46,9 @@ namespace Service.Core
                         elements.AddRange(xe.Elements("members").Elements("member"));
 
                     }
-                    if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + "/service.core.xml"))
+                    if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + "/Service.Core.xml"))
                     {
-                        XElement xe = XElement.Load(AppDomain.CurrentDomain.BaseDirectory + "/service.core.xml");
+                        XElement xe = XElement.Load(AppDomain.CurrentDomain.BaseDirectory + "/Service.Core.xml");
                         elements.AddRange(xe.Elements("members").Elements("member"));
 
                     }
