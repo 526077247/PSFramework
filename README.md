@@ -13,8 +13,8 @@
     web前端示例项目
 ## 2.配置方法
 1. Nuget上搜索Service.Core-PsFramework可安装框架
-     dotnet add package Service.Core-PsFramework --version 1.0.15
-     Install-Package Service.Core-PsFramework -Version 1.0.15
+     dotnet add package Service.Core-PsFramework --version 1.0.25
+     Install-Package Service.Core-PsFramework -Version 1.0.25
 2. appsettings.json中添加如下
 ```
   {

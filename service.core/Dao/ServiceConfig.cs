@@ -13,7 +13,7 @@ using System.Data;
 using System.IO;
 using System.Text;
 
-namespace service.core
+namespace Service.Core
 {
     public class ServiceConfig
     {

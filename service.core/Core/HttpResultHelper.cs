@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Threading;
 
-namespace service.core
+namespace Service.Core
 {
     internal class HttpResultHelper
     {

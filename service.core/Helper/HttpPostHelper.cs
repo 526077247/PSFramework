@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-namespace service.core
+namespace Service.Core
 {
     public class HttpPostHelper
     {

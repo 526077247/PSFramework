@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace service.core
+namespace Service.Core
 {
     public enum TYPE_OF_RESULT_TYPE
     {

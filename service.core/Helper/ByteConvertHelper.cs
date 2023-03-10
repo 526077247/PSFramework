@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 
-namespace service.core
+namespace Service.Core
 {
     /// <summary>
     /// 工具类：对象与二进制流间的转换

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using service.core;
+using Service.Core;
 namespace sso.service
 {
     public interface ILoginMgeSvr:IAppServiceBase

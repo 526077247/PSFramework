@@ -9,7 +9,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace service.core
+namespace Service.Core
 {
     internal class AssxHelper
     {

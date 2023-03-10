@@ -1,6 +1,6 @@
 ﻿
 using IBatisNet.DataAccess.Interfaces;
-using service.core;
+using Service.Core;
 using System;
 using System.Collections;
 using System.Collections.Generic;

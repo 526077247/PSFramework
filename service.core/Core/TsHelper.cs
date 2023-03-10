@@ -11,7 +11,7 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace service.core
+namespace Service.Core
 {
     internal class TsHelper
     {

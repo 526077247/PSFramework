@@ -7,7 +7,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace service.core
+namespace Service.Core
 {
 
     public static class HttpManagerMiddlewareExtension

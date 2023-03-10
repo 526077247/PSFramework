@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using service.core;
+using Service.Core;
 namespace sso
 {
     public class Startup
@@ -21,11 +21,11 @@ namespace sso
             {
                 options.AddPolicy("any", builder =>
                 {
-                    builder.AllowAnyOrigin() //ÔÊĞíÈÎºÎÀ´Ô´µÄÖ÷»ú·ÃÎÊ
-                    //builder.WithOrigins("http://localhost:8080") ////ÔÊĞíhttp://localhost:8080µÄÖ÷»ú·ÃÎÊ
+                    builder.AllowAnyOrigin() //å…è®¸ä»»ä½•æ¥æºçš„ä¸»æœºè®¿é—®
+                    //builder.WithOrigins("http://localhost:8080") ////å…è®¸http://localhost:8080çš„ä¸»æœºè®¿é—®
                     .AllowAnyMethod()
                     .AllowAnyHeader()
-                    .AllowCredentials();//Ö¸¶¨´¦Àícookie
+                    .AllowCredentials();//æŒ‡å®šå¤„ç†cookie
 
                 });
             });

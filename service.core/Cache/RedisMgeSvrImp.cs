@@ -5,7 +5,7 @@ using System.Text;
 using Newtonsoft.Json;
 using ServiceStack.Redis;
 
-namespace service.core
+namespace Service.Core
 {
 
     public class RedisMgeSvr : ICacheMgeSvr

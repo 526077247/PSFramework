@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
-namespace service.core
+namespace Service.Core
 {
     internal class ProxyService: IProxyService
     {

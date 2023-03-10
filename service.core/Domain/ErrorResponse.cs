@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace service.core
+namespace Service.Core
 {
     public class ErrorResponse
     {

@@ -5,7 +5,7 @@ using System.Threading;
 using Newtonsoft.Json;
 using ServiceStack.Redis;
 using System.Linq;
-namespace service.core
+namespace Service.Core
 {
     public class LRURedisMgeSvrImp: ICacheMgeSvr
     {

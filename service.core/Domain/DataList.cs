@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml.Linq;
 
-namespace service.core
+namespace Service.Core
 {
     class Packet:DataObject
     {

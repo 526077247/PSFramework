@@ -11,6 +11,7 @@
     <AssemblyVersion>1.0.24.0</AssemblyVersion>
     <Description>e.g.  https://github.com/526077247/myt-blog
 src  https://github.com/526077247/sso-.net-core-3.0/tree/master/service.core</Description>
+    <PackageVersion>1.0.25</PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

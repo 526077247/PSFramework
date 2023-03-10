@@ -11,7 +11,7 @@ using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace service.core
+namespace Service.Core
 {
     public static class ServiceManager
     {

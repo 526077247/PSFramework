@@ -10,7 +10,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
-namespace service.core
+namespace Service.Core
 {
     [Obsolete("请使用DataObject")]
     public class DataBase

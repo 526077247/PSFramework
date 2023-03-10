@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Castle.DynamicProxy;
-using service.core;
+using Service.Core;
 namespace sso.service
 {
     public  class TestSvr:AppServiceBase,ITestSvr

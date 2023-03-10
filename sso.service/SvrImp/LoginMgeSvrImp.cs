@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using IBatisNet.DataAccess;
-using service.core;
+using Service.Core;
 namespace sso.service
 {
     public class LoginMgeSvr:AppServiceBase,ILoginMgeSvr

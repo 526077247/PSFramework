@@ -8,7 +8,7 @@ using IBatisNet.DataAccess.Interfaces;
 using IBatisNet.DataMapper;
 using System.Collections.Generic;
 using System.Linq;
-namespace service.core
+namespace Service.Core
 {
     public class BaseDao : IDao
     {
