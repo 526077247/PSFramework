@@ -116,7 +116,8 @@ namespace Service.Core
                     }
                 }
             }
-            catch(ServiceException ex) { throw ex; }
+            catch (ServiceException ex) { throw ex; }
+            catch { }
             return Container.Resolve(SvrID, serviceType);
         }
         /// <summary>
