@@ -106,7 +106,7 @@ namespace Service.Core
             }
             catch (Exception ex)
             {
-                result = CreateFailResult2(ex.Message + ex.InnerException?.Message != null ? ex.InnerException.Message.ToString() : "");
+                result = CreateFailResult2(ex.Message + (ex.InnerException?.Message != null ? ex.InnerException.Message : ""));
             }
             return result;
         }
