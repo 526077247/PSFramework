@@ -19,8 +19,8 @@ namespace Service.Core
 
         public object GetService()
         {
-            string IntfName = _service.Trim().Split(",")[0];
-            string IntfAssembly = _service.Trim().Split(",")[1];
+            string IntfName = _service.Trim().Split(",")[0].Trim();
+            string IntfAssembly = _service.Trim().Split(",")[1].Trim();
             Type intf = ServiceManager.GetTypeFromAssembly(IntfName, IntfAssembly);
             object obj= DynServerFactory.CreateServer(_url, intf, _type);
             return obj;

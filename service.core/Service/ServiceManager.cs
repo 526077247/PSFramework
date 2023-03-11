@@ -116,7 +116,7 @@ namespace Service.Core
                     }
                 }
             }
-            catch { }
+            catch(ServiceException ex) { throw ex; }
             return Container.Resolve(SvrID, serviceType);
         }
         /// <summary>
@@ -147,7 +147,7 @@ namespace Service.Core
 
             if (!assemblies.TryGetValue(assemblyName, out Assembly assembly))
             {
-                throw new ServiceException((int) TYPE_OF_RESULT_TYPE.failure, "程序集未找到" + assemblyName);
+                throw new ServiceException((int) TYPE_OF_RESULT_TYPE.failure, "程序集未找到[" + assemblyName + "]");
             }
             
             Type[] types = assembly.GetTypes();
