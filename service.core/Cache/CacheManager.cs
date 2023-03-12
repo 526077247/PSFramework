@@ -69,7 +69,13 @@ namespace Service.Core
                         cacheMgeSvr = new LRURedisMgeSvrImp(IP, Port, timeSpan,size);
                         _dic.Add(CacheName, cacheMgeSvr);
                     }
-                        
+                    else if (ConfigurationManager.Configuration["Caches:" + CacheName + ":Type"] == "NoLifeTimeRedis")
+                    {
+                        string IP = ConfigurationManager.Configuration["Caches:" + CacheName + ":Host"];
+                        int Port = int.Parse(ConfigurationManager.Configuration["Caches:" + CacheName + ":Port"]);
+                        cacheMgeSvr = new RedisMgeSvr(IP, Port);
+                        _dic.Add(CacheName, cacheMgeSvr);
+                    }
                 }
                 return cacheMgeSvr;
             }

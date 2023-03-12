@@ -17,7 +17,28 @@ namespace Service.Core
         private readonly string[] redisHosts = null;
         public int RedisMaxReadPool = 3;
         public int RedisMaxWritePool = 1;
+        private readonly bool hasLifeTime;
+        public RedisMgeSvr(string REDIS_IP, int REDIS_PORT)
+        {
+            var redisHostStr = $"{REDIS_IP}:{REDIS_PORT}";
 
+            if (!string.IsNullOrEmpty(redisHostStr))
+            {
+                redisHosts = redisHostStr.Split(',');
+
+                if (redisHosts.Length > 0)
+                {
+                    pool = new PooledRedisClientManager(redisHosts, redisHosts,
+                        new RedisClientManagerConfig()
+                        {
+                            MaxWritePoolSize = RedisMaxWritePool,
+                            MaxReadPoolSize = RedisMaxReadPool,
+                            AutoStart = true
+                        });
+                }
+            }
+            hasLifeTime = false;
+        }
         public RedisMgeSvr(string REDIS_IP, int REDIS_PORT, TimeSpan lifeTime)
         {
             var redisHostStr = $"{REDIS_IP}:{REDIS_PORT}";
@@ -38,6 +59,7 @@ namespace Service.Core
                 }
             }
             _lifeTime = lifeTime;
+            hasLifeTime = true;
         }
         #endregion
 
@@ -56,7 +78,7 @@ namespace Service.Core
                 return false;
             }
 
-            if (timeSpan.TotalSeconds <= 0)
+            if (hasLifeTime && timeSpan.TotalSeconds <= 0)
             {
                 Delete(key);
 
@@ -70,7 +92,10 @@ namespace Service.Core
                     if (r != null)
                     {
                         r.SendTimeout = 1000;
-                        r.Set(key, value, timeSpan);
+                        if (hasLifeTime)
+                            r.Set(key, value, timeSpan);
+                        else
+                            r.Set(key, value);
                     }
                 }
             }
