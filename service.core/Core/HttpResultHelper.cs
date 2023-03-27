@@ -61,7 +61,7 @@ namespace Service.Core
             }
             catch (Exception ex)
             {
-                result = CreateFailResult(ex.Message + ex.InnerException?.Message != null ? ex.InnerException.Message.ToString() : "");
+                result = CreateFailResult(ex.Message + (ex.InnerException?.Message != null ? ex.InnerException.Message.ToString() : ""));
             }
             return result;
         }
@@ -247,11 +247,19 @@ namespace Service.Core
                         object res = realmethod.Invoke(obj, objs);
                         return res;
                     }
+                    catch (ServiceException sex)
+                    {
+                        throw sex;
+                    }
                     catch (Exception ex)
                     {
                         if (logconfig != null && (logconfig.Level == "ERROR" || logconfig.Level == "ALL"))
                         {
                             logger.Error(ex);
+                        }
+                        if (ex.InnerException is ServiceException se)
+                        {
+                            throw se;
                         }
                         throw ex;
                     }
