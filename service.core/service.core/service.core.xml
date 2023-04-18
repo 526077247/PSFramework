@@ -329,20 +329,6 @@
             <param name="Reason"></param>
             <returns></returns>
         </member>
-        <member name="M:Service.Core.HttpResultHelper.CreateOffLineResult(System.String)">
-            <summary>
-            创建未登录返回值
-            </summary>
-            <param name="Reason"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Service.Core.HttpResultHelper.CreateOffLineResult2(System.String)">
-            <summary>
-            创建未登录返回值
-            </summary>
-            <param name="Reason"></param>
-            <returns></returns>
-        </member>
         <member name="M:Service.Core.HttpResultHelper.GetFormData(System.String,System.Text.Encoding)">
             <summary>
             将获取的formData存入字典数组

@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -333,10 +334,19 @@ namespace Service.Core
         /// <returns></returns>
         private static Result CreateFailResult(string Reason)
         {
+            if (Debugger.IsAttached)
+            {
+                return new Result
+                {
+                    code = (int) TYPE_OF_RESULT_TYPE.failure,
+                    msg = Reason,
+                    data = null,
+                };
+            }
             return new Result
             {
-                code = (int)TYPE_OF_RESULT_TYPE.failure,
-                msg = Reason,
+                code = (int) TYPE_OF_RESULT_TYPE.failure,
+                msg = "Internal Server Error",
                 data = null,
             };
         }
@@ -347,10 +357,18 @@ namespace Service.Core
         /// <returns></returns>
         private static ErrorResponse CreateFailResult2(string Reason)
         {
+            if (Debugger.IsAttached)
+            {
+                return new ErrorResponse
+                {
+                    errCode = (int)TYPE_OF_RESULT_TYPE.failure,
+                    errMsg = Reason,
+                };
+            }
             return new ErrorResponse
             {
                 errCode = (int)TYPE_OF_RESULT_TYPE.failure,
-                errMsg = Reason,
+                errMsg = "Internal Server Error",
             };
         }
         /// <summary>
@@ -380,33 +398,6 @@ namespace Service.Core
             {
                 errCode = code,
                 errMsg = Reason,
-            };
-        }
-        /// <summary>
-        /// 创建未登录返回值
-        /// </summary>
-        /// <param name="Reason"></param>
-        /// <returns></returns>
-        private static Result CreateOffLineResult(string Reason)
-        {
-            return new Result
-            {
-                code = (int)TYPE_OF_RESULT_TYPE.offline,
-                msg = "用户未登录",
-                data = null,
-            };
-        }
-        /// <summary>
-        /// 创建未登录返回值
-        /// </summary>
-        /// <param name="Reason"></param>
-        /// <returns></returns>
-        private static ErrorResponse CreateOffLineResult2(string Reason)
-        {
-            return new ErrorResponse
-            {
-                errCode = (int)TYPE_OF_RESULT_TYPE.offline,
-                errMsg = "用户未登录",
             };
         }
 
