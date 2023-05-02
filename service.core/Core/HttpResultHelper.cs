@@ -343,6 +343,7 @@ namespace Service.Core
                     data = null,
                 };
             }
+            logger.Error(Reason);
             return new Result
             {
                 code = (int) TYPE_OF_RESULT_TYPE.failure,
@@ -365,6 +366,7 @@ namespace Service.Core
                     errMsg = Reason,
                 };
             }
+            logger.Error(Reason);
             return new ErrorResponse
             {
                 errCode = (int)TYPE_OF_RESULT_TYPE.failure,
